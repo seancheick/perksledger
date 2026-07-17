@@ -12,7 +12,7 @@
 [![PWA](https://img.shields.io/badge/PWA-installable%20%C2%B7%20offline-1c4f8f)](#-put-it-on-your-phone)
 [![Privacy](https://img.shields.io/badge/your%20data-never%20leaves%20your%20browser-5a2a63)](#-privacy)
 
-[**Live demo**](https://raw.githack.com/seancheick/perksledger/main/dist/index.html) · [Put it on your phone](#-put-it-on-your-phone) · [Deploy your own](#-deploy-your-own) · [Roadmap](#-roadmap)
+[**Live demo**](https://perksledger.vercel.app) · [Put it on your phone](#-put-it-on-your-phone) · [Deploy your own](#-deploy-your-own) · [Roadmap](#-roadmap)
 
 <br>
 
@@ -64,7 +64,7 @@ It totals what it finds (*"≈ $192/yr sitting in overlaps"*) and lists everythi
 
 ## 🚀 Getting started
 
-Open the [**live demo**](https://raw.githack.com/seancheick/perksledger/main/dist/index.html), hit **+ Add card**, and add your wallet. That's it — data persists in your browser.
+Open the [**live demo**](https://perksledger.vercel.app), hit **+ Add card**, and add your wallet. That's it — data persists in your browser.
 
 ### 📱 Put it on your phone
 
