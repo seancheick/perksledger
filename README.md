@@ -78,12 +78,11 @@ Inside the app: **Data → Download app + data** saves `perks-ledger.html` — t
 
 ## 🛠 Deploy your own
 
-The app is a single HTML file; `dist/` and `docs/` contain the installable PWA build (manifest + offline service worker + icons).
+The app is a single HTML file; `dist/` contains the installable PWA build (manifest + offline service worker + icons + social card).
 
 | Host | How |
 |---|---|
-| **GitHub Pages** | Repo **Settings → Pages → Deploy from branch → `main` / `docs`** → live at `https://<you>.github.io/perksledger/` |
-| **Vercel** | *Add New → Project → Import this repo* · Build command `node build-pwa.js --cdn-font` · Output directory `dist` |
+| **Vercel** (this repo's setup) | `vercel.json` sets everything — *Import repo → Deploy*. Every push to `main` auto-deploys to [perksledger.vercel.app](https://perksledger.vercel.app) |
 | **Netlify / Cloudflare / any static host** | Serve the `dist/` folder. Done. |
 
 Rebuild after editing `index.html`:
@@ -98,10 +97,11 @@ No `npm install`. No framework. No dependencies.
 ## 🧑‍💻 How it's built
 
 ```
-index.html      the entire app — data, logic, UI (vanilla JS, ~2,300 lines)
+index.html      the entire app — data, logic, UI (vanilla JS, ~2,400 lines)
 build-pwa.js    wraps it into an installable PWA in dist/ (zero-dep build script)
-icons/          app icons
-dist/ docs/     built PWA (docs/ exists so GitHub Pages can serve it directly)
+icons/          app icons + social preview card
+dist/           built PWA (what production serves)
+vercel.json     build config for Vercel's git integration
 ```
 
 Design notes: warm-paper + banker's-green "ledger" system with a wallet of gradient card plates; Fraunces for display type; period-keyed usage storage (`2026-07`, `2026-Q3`, `2026-H2`) so resets are free; the card/benefit database is plain JS objects — adding a card is a pull request, not a schema migration.

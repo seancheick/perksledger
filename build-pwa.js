@@ -42,6 +42,18 @@ const head = `<!doctype html>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Perks">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Perks Ledger">
+<meta property="og:title" content="Perks Ledger — stop leaving card perks on the table">
+<meta property="og:description" content="Track every credit, perk, and discount across your cards & memberships. See what resets soon, what you're double-paying for, and what your wallet already covers. Free, no signup, data never leaves your browser.">
+<meta property="og:url" content="https://perksledger.vercel.app">
+<meta property="og:image" content="https://perksledger.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Perks Ledger — stop leaving card perks on the table">
+<meta name="twitter:description" content="Every credit, perk, and discount across your cards & memberships — tracked in one place. Free, private, installable.">
+<meta name="twitter:image" content="https://perksledger.vercel.app/og.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -106,7 +118,7 @@ self.addEventListener('fetch', e => {
 });
 `);
 
-for (const f of ['icon-192.png', 'icon-512.png', 'apple-touch-icon.png']) {
+for (const f of ['icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'og.png']) {
   fs.copyFileSync(path.join(root, 'icons', f), path.join(dist, f));
 }
 console.log('built dist/ (cache perks-ledger-' + hash + ')');
