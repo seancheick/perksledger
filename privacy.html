@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy — Perks Ledger</title>
+<meta name="description" content="Perks Ledger privacy: no accounts, no server, no analytics. Your data stays in your browser.">
+<meta name="theme-color" content="#F6F4EE">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<style>
+  :root{ --paper:#F6F4EE; --ink:#1C221E; --muted:#5D675F; --line:#E3DFD3; --accent:#136147; }
+  @media (prefers-color-scheme: dark){
+    :root{ --paper:#121613; --ink:#EAECE4; --muted:#9DA89F; --line:#2A322B; --accent:#57C599; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:28px 20px calc(48px + env(safe-area-inset-bottom,0px))}
+  a{color:var(--accent)}
+  h1{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:28px;margin:12px 0 8px}
+  p,li{color:var(--muted)}
+  ul{padding-left:1.2em}
+  li{margin:8px 0}
+  .back{display:inline-block;margin-bottom:8px;font-size:14px;font-weight:600;text-decoration:none}
+  .back:hover{text-decoration:underline}
+  hr{border:none;border-top:1px solid var(--line);margin:28px 0}
+  .fine{font-size:13px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="./">← Back to Perks Ledger</a>
+    <h1>Privacy</h1>
+    <p><strong style="color:var(--ink)">Perks Ledger collects nothing.</strong></p>
+    <ul>
+      <li><strong style="color:var(--ink)">No accounts.</strong> There is no signup, login, or user database.</li>
+      <li><strong style="color:var(--ink)">No server.</strong> The app is a static page; your cards, check-offs, and subscriptions live in your browser’s <code>localStorage</code> on your device and are never transmitted anywhere.</li>
+      <li><strong style="color:var(--ink)">No analytics or trackers.</strong> The production build makes zero third-party requests.</li>
+      <li><strong style="color:var(--ink)">Backups are yours.</strong> Export/Import and “Download app + data” produce files on your device that only you hold.</li>
+      <li><strong style="color:var(--ink)">Email is opt-in.</strong> Feedback / wrong-data / card-request flows open your mail app or copy a report you control; nothing is sent unless you send it. Emails go to mybbrllc@gmail.com and are used only to fix data and improve the app.</li>
+      <li><strong style="color:var(--ink)">Caveat:</strong> because data is browser-local, clearing site data (or a browser deciding to purge unused sites) deletes your wallet — the app reminds you to keep a backup.</li>
+    </ul>
+    <hr>
+    <p class="fine">Questions: <a href="mailto:mybbrllc@gmail.com">mybbrllc@gmail.com</a></p>
+  </div>
+</body>
+</html>

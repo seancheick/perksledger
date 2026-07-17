@@ -64,26 +64,43 @@ ${fontLinks}</head>
 <body>
 `;
 
+/* Update toast: catch waiting worker on load, updatefound, and activated;
+   no auto-dismiss so slow readers don't miss it. */
 const swRegister = `
 <script>
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      reg.addEventListener('updatefound', () => {
-        const w = reg.installing;
-        if (!w) return;
-        w.addEventListener('statechange', () => {
-          if (w.state === 'activated' && navigator.serviceWorker.controller) {
-            const d = document.createElement('div');
-            d.style.cssText = 'position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1C221E;color:#F6F4EE;padding:10px 20px;border-radius:999px;font:600 14px -apple-system,sans-serif;z-index:99;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)';
-            d.textContent = 'New version ready — tap to reload';
-            d.onclick = () => location.reload();
-            document.body.appendChild(d);
-            setTimeout(() => d.remove(), 20000);
-          }
-        });
+    function showUpdateToast() {
+      if (document.getElementById('swUpdateToast')) return;
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.id = 'swUpdateToast';
+      d.className = 'sw-update';
+      d.textContent = 'New version ready — tap to reload';
+      d.onclick = () => location.reload();
+      document.body.appendChild(d);
+    }
+    function watchWorker(w) {
+      if (!w) return;
+      w.addEventListener('statechange', () => {
+        if ((w.state === 'installed' || w.state === 'activated') && navigator.serviceWorker.controller) {
+          showUpdateToast();
+        }
       });
+    }
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      if (reg.waiting && navigator.serviceWorker.controller) showUpdateToast();
+      if (reg.installing) watchWorker(reg.installing);
+      reg.addEventListener('updatefound', () => watchWorker(reg.installing));
+      // Periodic check so long-lived tabs notice deploys
+      setInterval(() => { try { reg.update(); } catch (e) {} }, 60 * 60 * 1000);
     }).catch(()=>{});
+    // Only prompt on controller *replacement* (not first claim)
+    let hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (hadController) showUpdateToast();
+      hadController = true;
+    });
   });
 }
 </script>
@@ -95,6 +112,8 @@ fs.writeFileSync(path.join(dist, 'index.html'), head + frag + swRegister);
 
 if (fontFile) fs.writeFileSync(path.join(dist, 'fraunces.woff2'), fontFile);
 fs.writeFileSync(path.join(dist, 'robots.txt'), 'User-agent: *\nAllow: /\n');
+fs.copyFileSync(path.join(root, 'privacy.html'), path.join(dist, 'privacy.html'));
+fs.copyFileSync(path.join(root, 'PRIVACY.md'), path.join(dist, 'PRIVACY.md'));
 fs.writeFileSync(path.join(dist, 'manifest.webmanifest'), JSON.stringify({
   id: 'perksledger',
   name: 'Perks Ledger',
@@ -114,7 +133,7 @@ fs.writeFileSync(path.join(dist, 'manifest.webmanifest'), JSON.stringify({
   ]
 }, null, 2));
 
-const swAssets = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png']
+const swAssets = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'privacy.html']
   .concat(fontFile ? ['fraunces.woff2'] : []);
 fs.writeFileSync(path.join(dist, 'sw.js'), `/* Perks Ledger service worker — cache-first with background refresh */
 const CACHE = 'perks-ledger-${hash}';

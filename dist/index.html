@@ -156,10 +156,13 @@ input,select,textarea{font:inherit;color:inherit}
 .plate.ink-d .bar{background:rgba(30,36,30,.18)}
 .plate.ink-d .bar i{background:#20261F}
 .plate .x{
-  position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;
-  display:grid;place-items:center;font-size:15px;line-height:1;opacity:0;transition:opacity .12s;
+  position:absolute;top:4px;right:4px;width:36px;height:36px;border-radius:50%;
+  display:grid;place-items:center;font-size:18px;line-height:1;opacity:0;transition:opacity .12s;
 }
 .plate:hover .x,.plate .x:focus-visible{opacity:1}
+@media (hover:none){
+  .plate .x{width:44px;height:44px;opacity:.7;font-size:20px}
+}
 .plate.ink-l .x{background:rgba(0,0,0,.28);color:#fff}
 .plate.ink-d .x{background:rgba(255,255,255,.5);color:#20261F}
 .plate .confirm{
@@ -395,7 +398,6 @@ input,select,textarea{font:inherit;color:inherit}
 .dsec .rowbtns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 
 /* ---------- toast & footer ---------- */
-@media (hover:none){ .plate .x{opacity:.65} }
 .nudge{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
 .nudge .nact{display:flex;gap:8px;align-items:center;flex:none}
 .toast{
@@ -404,8 +406,14 @@ input,select,textarea{font:inherit;color:inherit}
   opacity:0;pointer-events:none;transition:all .18s;z-index:60;box-shadow:0 8px 24px rgba(10,14,10,.3);
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-footer{border-top:1px solid var(--line);margin-top:14px;padding:20px 0 44px;color:var(--faint);font-size:12.5px}
+footer{border-top:1px solid var(--line);margin-top:14px;padding:20px 0 calc(44px + env(safe-area-inset-bottom,0px));color:var(--faint);font-size:12.5px}
 footer p{max-width:74ch;margin:0 0 6px}
+footer a{color:var(--muted)}
+.sw-update{
+  position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);
+  background:var(--ink);color:var(--paper);padding:12px 20px;border-radius:999px;font-size:14px;font-weight:600;
+  z-index:99;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35);border:none;max-width:min(92vw,420px);
+}
 @media (max-width:640px){
   .perk .right{gap:2px}
   .perk .main{grid-template-columns:auto 1fr auto;padding:12px 13px}
@@ -448,7 +456,7 @@ footer p{max-width:74ch;margin:0 0 6px}
   <footer>
     <p><strong>About the numbers.</strong> Benefit values were verified in <span data-vdate>early July 2026</span> against issuer pages and card guides. Issuers change these constantly — treat this as your checklist and confirm in your card's app before you book. Perks marked <em>Enroll</em> need one-time activation with the issuer first.</p>
     <p>Estimated redemption totals divide each perk's annual value evenly across its reset periods. One-time and every-4-year credits aren't counted in annual totals. Your data stays in this browser — use <em>Data → Export</em> for a backup.</p>
-    <p>Perks Ledger v0.4 beta · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20feedback" style="color:var(--muted)">Feedback &amp; ideas</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A" style="color:var(--muted)">Report wrong benefit data</a></p>
+    <p>Perks Ledger v0.4 beta · <button type="button" class="btn quiet small" data-act="open-feedback" style="padding:0;vertical-align:baseline;color:var(--muted);font-weight:500;text-decoration:underline">Feedback &amp; ideas</button> · <a href="privacy.html">Privacy</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A">Report wrong benefit data</a></p>
   </footer>
 </div>
 
@@ -1916,6 +1924,25 @@ function buildICS(){
   ].join("\r\n"));
   return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Perks Ledger//EN","CALSCALE:GREGORIAN",...events,"END:VCALENDAR"].join("\r\n");
 }
+function diagBlob(){
+  return { app:"Perks Ledger v0.4 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
+    standalone:isStandalone(), cards:myCards().map(c=>c.name), perksChecked:Object.keys(state.usage).length,
+    subs:state.subs, storage:!!store };
+}
+function copyText(txt, okMsg){
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(()=>toast(okMsg||"Copied"));
+      return;
+    }
+  }catch(e){}
+  try{
+    const ta = document.createElement("textarea");
+    ta.value = txt; ta.style.position = "fixed"; ta.style.left = "-9999px";
+    document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
+    toast(okMsg||"Copied");
+  }catch(err){ toast("Copy failed — long-press to select instead"); }
+}
 function dataModal(){
   const json = JSON.stringify(state, null, 2);
   openModal(`
@@ -1931,18 +1958,18 @@ function dataModal(){
       <div class="rowbtns"><button class="btn small" data-act="download-ics">Download reminders (.ics)</button></div>
     </div>
     <div class="dsec">
-      <h3>Export</h3>
-      <p>Copy this or download it as a file. It's everything: cards, custom perks, and what you've redeemed.</p>
+      <h3>Export (backup)</h3>
+      <p>Copy this or download it as a file. It's everything: cards, custom perks, and what you've redeemed. <b>Safari and other browsers can clear site data</b> if you don't open the app for a while — keep a backup you control.</p>
       <textarea readonly id="exportTa">${esc(json)}</textarea>
       <div class="rowbtns">
         <button class="btn small" data-act="copy-export">Copy</button>
         <button class="btn small" data-act="download-export">Download .json</button>
-        <button class="btn small quiet" data-act="copy-diag">Copy diagnostics (for bug reports)</button>
+        <button class="btn small quiet" data-act="copy-diag">Copy diagnostics</button>
       </div>
     </div>
     <div class="dsec">
       <h3>Import</h3>
-      <p>Paste a previous export here — or pick a backup file (.json) or a downloaded copy of the app (.html) — to restore it. Replaces what's currently loaded.</p>
+      <p>Paste a previous export here — or pick a backup file (.json) or a downloaded copy of the app (.html) — to restore it. This <b>replaces</b> what's currently loaded (you'll confirm first if you already have cards).</p>
       <textarea id="importTa" placeholder='{"cards": …}'></textarea>
       <div class="rowbtns">
         <button class="btn small" data-act="do-import">Import</button>
@@ -1955,6 +1982,37 @@ function dataModal(){
       <div class="rowbtns"><button class="btn small danger" data-act="reset-all">Erase everything…</button></div>
     </div>
   `);
+}
+function feedbackModal(){
+  openModal(`
+    <div class="shd"><h2 class="serif">Feedback</h2><button class="xbtn" data-act="close">✕</button></div>
+    <div class="dsec" style="border:none;margin:0;padding:0">
+      <p>No mail app? No problem — write a note, copy the report, and paste it anywhere (text, email, Discord).</p>
+      <label style="display:block;font-size:12.5px;color:var(--muted);margin-bottom:6px">What kind of feedback?
+        <select id="fbKind" style="display:block;width:100%;margin-top:4px;padding:8px 10px;border-radius:9px;border:1px solid var(--line2);background:var(--inset)">
+          <option value="idea">Idea / feature</option>
+          <option value="bug">Bug</option>
+          <option value="data">Wrong benefit data</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+      <label style="display:block;font-size:12.5px;color:var(--muted);margin:12px 0 6px">Your note
+        <textarea id="fbNote" placeholder="What happened / what would help…" style="display:block;width:100%;height:110px;margin-top:4px;border:1px solid var(--line2);border-radius:9px;padding:9px 11px;background:var(--inset);color:var(--ink);font:inherit"></textarea>
+      </label>
+      <div class="rowbtns" style="margin-top:12px">
+        <button class="btn small primary" data-act="fb-copy">Copy full report</button>
+        <button class="btn small" data-act="fb-email">Open in email</button>
+        <button class="btn small quiet" data-act="close">Cancel</button>
+      </div>
+      <p style="margin-top:12px;font-size:12px;color:var(--faint)">Reports go to mybbrllc@gmail.com when you send email. Diagnostics (device, cards, version) are included so bugs are easier to fix — no account, nothing is uploaded automatically.</p>
+    </div>
+  `);
+  setTimeout(()=>$("#fbNote")?.focus(), 0);
+}
+function feedbackReport(){
+  const kind = $("#fbKind")?.value || "other";
+  const note = ($("#fbNote")?.value || "").trim();
+  return `Perks Ledger feedback (${kind})\n\n${note || "(no note)"}\n\n--- diagnostics ---\n${JSON.stringify(diagBlob(), null, 2)}`;
 }
 
 /* =============== sample wallet =============== */
@@ -2091,12 +2149,18 @@ document.addEventListener("click", e=>{
   }
   else if(act==="nudge-install-dismiss"){ state.installTipDone = true; save(); renderNudges(); }
   else if(act==="copy-diag"){
-    const diag = { app:"Perks Ledger v0.4 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
-      standalone:isStandalone(), cards:myCards().map(c=>c.name), perksChecked:Object.keys(state.usage).length,
-      subs:state.subs, storage:!!store };
-    const txt = JSON.stringify(diag, null, 2);
-    try{ navigator.clipboard.writeText(txt).then(()=>toast("Diagnostics copied — paste into your report")); }
-    catch(err){ toast("Copy failed — screenshot this instead"); }
+    copyText(JSON.stringify(diagBlob(), null, 2), "Diagnostics copied — paste into your report");
+  }
+  else if(act==="open-feedback") feedbackModal();
+  else if(act==="fb-copy"){
+    copyText(feedbackReport(), "Report copied — paste into email, text, or Discord");
+  }
+  else if(act==="fb-email"){
+    const body = feedbackReport();
+    const kind = $("#fbKind")?.value || "feedback";
+    const href = "mailto:mybbrllc@gmail.com?subject="+encodeURIComponent("Perks Ledger — "+kind)+"&body="+encodeURIComponent(body);
+    copyText(body, "Report also copied in case email doesn't open");
+    location.href = href;
   }
   else if(act==="demo-load") loadDemo();
   else if(act==="demo-clear"){
@@ -2303,7 +2367,17 @@ document.addEventListener("change", e=>{
       const m = txt.match(/<script type="application\/json" id="seedState">([\s\S]*?)<\/script>/);
       if(m) txt = m[1];
       const ta = $("#importTa"); if(ta) ta.value = txt.trim();
-      document.querySelector('[data-act="do-import"]')?.click();
+      el.value = "";
+      const btn = document.querySelector('[data-act="do-import"]');
+      if(!state.cards.length){
+        btn?.click();
+        return;
+      }
+      if(btn){
+        btn.dataset.armed = "1";
+        btn.textContent = "Replaces your current wallet — click to confirm";
+      }
+      toast("File loaded — tap Import to replace your wallet");
     };
     r.readAsText(f);
   }
@@ -2329,22 +2403,37 @@ else render();
 <script>
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      reg.addEventListener('updatefound', () => {
-        const w = reg.installing;
-        if (!w) return;
-        w.addEventListener('statechange', () => {
-          if (w.state === 'activated' && navigator.serviceWorker.controller) {
-            const d = document.createElement('div');
-            d.style.cssText = 'position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1C221E;color:#F6F4EE;padding:10px 20px;border-radius:999px;font:600 14px -apple-system,sans-serif;z-index:99;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)';
-            d.textContent = 'New version ready — tap to reload';
-            d.onclick = () => location.reload();
-            document.body.appendChild(d);
-            setTimeout(() => d.remove(), 20000);
-          }
-        });
+    function showUpdateToast() {
+      if (document.getElementById('swUpdateToast')) return;
+      const d = document.createElement('button');
+      d.type = 'button';
+      d.id = 'swUpdateToast';
+      d.className = 'sw-update';
+      d.textContent = 'New version ready — tap to reload';
+      d.onclick = () => location.reload();
+      document.body.appendChild(d);
+    }
+    function watchWorker(w) {
+      if (!w) return;
+      w.addEventListener('statechange', () => {
+        if ((w.state === 'installed' || w.state === 'activated') && navigator.serviceWorker.controller) {
+          showUpdateToast();
+        }
       });
+    }
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      if (reg.waiting && navigator.serviceWorker.controller) showUpdateToast();
+      if (reg.installing) watchWorker(reg.installing);
+      reg.addEventListener('updatefound', () => watchWorker(reg.installing));
+      // Periodic check so long-lived tabs notice deploys
+      setInterval(() => { try { reg.update(); } catch (e) {} }, 60 * 60 * 1000);
     }).catch(()=>{});
+    // Only prompt on controller *replacement* (not first claim)
+    let hadController = !!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (hadController) showUpdateToast();
+      hadController = true;
+    });
   });
 }
 </script>
