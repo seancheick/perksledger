@@ -193,21 +193,58 @@ input,select,textarea{font:inherit;color:inherit}
 .meter .cap{font-size:12.5px;color:var(--muted);margin-top:6px}
 .meter .cap b{color:var(--ink);font-weight:600}
 
-/* ---------- soon strip ---------- */
+/* ---------- today + soon ---------- */
+.today{
+  margin-top:6px;margin-bottom:4px;background:var(--surface);border:1px solid var(--line);
+  border-radius:16px;padding:14px 16px 15px;box-shadow:var(--card-shadow);
+}
+.today.at-risk{background:var(--amber-soft);border-color:var(--amber-line)}
+.today .thd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.today .thd h2{font-size:20px;margin:0;line-height:1.2}
+.today .thd .risk{font-size:13px;color:var(--muted);margin-top:3px}
+.today .thd .risk b{color:var(--amber);font-variant-numeric:tabular-nums}
+.today.clear .thd .risk b{color:var(--accent-ink)}
+.today .tact{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.today .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.todaychip{
+  display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;
+  background:var(--surface);border:1px solid var(--amber-line);font-size:12.5px;font-weight:600;text-align:left;
+}
+.today.clear .todaychip{border-color:var(--line)}
+.todaychip .d{color:var(--amber);font-weight:700;font-variant-numeric:tabular-nums;min-width:1.6em}
+.todaychip .v{color:var(--muted);font-weight:500}
 .soon{
-  margin-top:18px;background:var(--amber-soft);border:1px solid var(--amber-line);
+  margin-top:14px;background:var(--surface);border:1px solid var(--line);
   border-radius:14px;padding:12px 16px 13px;
 }
 .soon .hd{display:flex;align-items:baseline;gap:10px;margin-bottom:9px}
-.soon .hd .t{font-size:14.5px;color:var(--amber)}
-.soon .hd .s{font-size:12px;color:var(--muted)}
+.soon .hd .t{font-size:14.5px;color:var(--muted)}
+.soon .hd .s{font-size:12px;color:var(--faint)}
 .soon .chips{display:flex;flex-wrap:wrap;gap:8px}
 .soonchip{
   display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;
-  background:var(--surface);border:1px solid var(--amber-line);font-size:12.5px;font-weight:600;
+  background:var(--inset);border:1px solid var(--line);font-size:12.5px;font-weight:600;
 }
 .soonchip .d{color:var(--amber);font-weight:700;font-variant-numeric:tabular-nums}
 .soonchip .v{color:var(--muted);font-weight:500}
+/* best-card results */
+.bcr{display:flex;flex-direction:column;gap:0;margin-top:4px}
+.bcrow{
+  display:flex;gap:12px;align-items:flex-start;padding:12px 2px;border-top:1px solid var(--line);
+}
+.bcrow:first-child{border-top:none}
+.bcrank{
+  flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
+  font-size:13px;font-weight:700;background:var(--accent-soft);color:var(--accent-ink);
+}
+.bcrow.top .bcrank{background:var(--accent);color:#fff}
+:root[data-theme="dark"] .bcrow.top .bcrank,:root:not([data-theme="light"]) .bcrow.top .bcrank{color:#0d1410}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .bcrow.top .bcrank{color:#0d1410} }
+.bcbody{flex:1;min-width:0}
+.bcname{font-weight:650;font-size:15px}
+.bcreason{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.bcreason b{color:var(--ink);font-weight:600}
+.bcwhy{font-size:12px;color:var(--faint);margin-top:4px}
 
 /* ---------- perk graph ---------- */
 .graph{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px 15px;box-shadow:var(--card-shadow)}
@@ -437,6 +474,7 @@ footer a{color:var(--muted)}
       Perks Ledger
     </div>
     <div class="top-actions">
+      <button class="btn quiet" id="bestBtn" title="Which card for this purchase?">Which card?</button>
       <button class="btn quiet" id="dataBtn">Data</button>
       <button class="btn primary" id="addBtn">+ Add card</button>
     </div>
@@ -447,6 +485,7 @@ footer a{color:var(--muted)}
 
   <section id="empty"></section>
   <section id="walletSec"></section>
+  <section id="todaySec"></section>
   <section id="statsSec"></section>
   <section id="soonSec"></section>
   <section id="graphSec"></section>
@@ -456,7 +495,7 @@ footer a{color:var(--muted)}
   <footer>
     <p><strong>About the numbers.</strong> Benefit values were verified in <span data-vdate>early July 2026</span> against issuer pages and card guides. Issuers change these constantly — treat this as your checklist and confirm in your card's app before you book. Perks marked <em>Enroll</em> need one-time activation with the issuer first.</p>
     <p>Estimated redemption totals divide each perk's annual value evenly across its reset periods. One-time and every-4-year credits aren't counted in annual totals. Your data stays in this browser — use <em>Data → Export</em> for a backup.</p>
-    <p>Perks Ledger v0.4 beta · <button type="button" class="btn quiet small" data-act="open-feedback" style="padding:0;vertical-align:baseline;color:var(--muted);font-weight:500;text-decoration:underline">Feedback &amp; ideas</button> · <a href="privacy.html">Privacy</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A">Report wrong benefit data</a></p>
+    <p>Perks Ledger v0.5 beta · <button type="button" class="btn quiet small" data-act="open-feedback" style="padding:0;vertical-align:baseline;color:var(--muted);font-weight:500;text-decoration:underline">Feedback &amp; ideas</button> · <a href="privacy.html">Privacy</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A">Report wrong benefit data</a></p>
   </footer>
 </div>
 
@@ -1277,6 +1316,94 @@ function walletTotals(){
   }
   return {potential, redeemed, fees};
 }
+/** Unused dollar credits, sorted soonest-first. */
+function openDollarCredits(){
+  const items = [];
+  for(const c of myCards()){
+    for(const b of visibleBenefits(c)){
+      if(!PPY[b.f] || !(b.a>0) || isChecked(c.iid,b)) continue;
+      const dl = daysLeft(b.f);
+      items.push({ c, b, dl, v: b.a/PPY[b.f], row: c.iid+"--"+b.id });
+    }
+  }
+  items.sort((x,y)=> x.dl-y.dl || y.v-x.v);
+  return items;
+}
+function atRiskThisWeek(){
+  return openDollarCredits().filter(i=> i.dl!=null && i.dl<=7);
+}
+function monthLabel(d=new Date()){
+  return d.toLocaleString("en-US",{ month:"long", year:"numeric" });
+}
+/** Stats for monthly recap share (calendar-month dollar credits + period open). */
+function monthRecapStats(){
+  const open = openDollarCredits();
+  const week = open.filter(i=> i.dl!=null && i.dl<=7);
+  const month = open.filter(i=> i.b.f==="m");
+  let monthUsed = 0, monthAvail = 0;
+  for(const c of myCards()){
+    for(const b of visibleBenefits(c)){
+      if(b.f!=="m" || !(b.a>0)) continue;
+      const v = b.a/12;
+      monthAvail += v;
+      if(isChecked(c.iid,b)) monthUsed += v;
+    }
+  }
+  const leftTable = missedItems().total;
+  const t = walletTotals();
+  return {
+    monthUsed, monthAvail,
+    weekRisk: week.reduce((s,i)=>s+i.v,0), weekN: week.length,
+    openRisk: open.reduce((s,i)=>s+i.v,0), openN: open.length,
+    leftTable, yearRedeemed: t.redeemed, yearPotential: t.potential,
+    overlap: graphSavingsTotal()
+  };
+}
+function matchBenefitQuery(b, q, cat){
+  if(cat && b.c!==cat) return false;
+  if(!q) return true;
+  const hay = (b.n+" "+(b.d||"")+" "+(b.per||"")+" "+(CATS[b.c]||"")).toLowerCase();
+  return q.split(/\s+/).filter(Boolean).every(w=> hay.includes(w));
+}
+/** Rank cards in the wallet for a purchase intent (credits before earn rates). */
+function bestCardsFor(q, cat){
+  q = (q||"").trim().toLowerCase();
+  const results = [];
+  for(const c of myCards()){
+    if(c.kind==="svc" && !cat && !q) continue;
+    let score = 0;
+    const reasons = [];
+    for(const b of visibleBenefits(c)){
+      if(!matchBenefitQuery(b, q, cat)) continue;
+      if(b.a>0 && PPY[b.f] && !isChecked(c.iid,b)){
+        const v = b.a/PPY[b.f];
+        const dl = daysLeft(b.f);
+        score += 100 + v + (dl!=null && dl<=14? 40 : 0) + (b.e? 5 : 0);
+        reasons.push({ kind:"credit", b, v, dl });
+      } else if(b.f==="on"){
+        score += 18;
+        reasons.push({ kind:"always", b });
+      } else if(b.a>0 && PPY[b.f] && isChecked(c.iid,b)){
+        score += 6;
+        reasons.push({ kind:"used", b });
+      } else {
+        score += 12;
+        reasons.push({ kind:"perk", b });
+      }
+    }
+    if(c.rates){
+      const rates = c.rates.toLowerCase();
+      if(q && rates.includes(q)){ score += 22; reasons.push({ kind:"rate", text:c.rates }); }
+      else if(cat){
+        const catWord = (CATS[cat]||"").toLowerCase().split(/[^a-z]+/)[0];
+        if(catWord && rates.includes(catWord)){ score += 16; reasons.push({ kind:"rate", text:c.rates }); }
+      }
+    }
+    if(score>0) results.push({ c, score, reasons });
+  }
+  results.sort((a,b)=> b.score-a.score);
+  return results;
+}
 function fmt$(n){ return "$"+Math.round(n).toLocaleString("en-US"); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g, ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
 
@@ -1307,7 +1434,7 @@ function renderNudges(){
   el.innerHTML = out.join("");
 }
 function render(){
-  renderEmpty(); renderNudges(); renderWallet(); renderStats(); renderSoon(); renderGraph(); renderBonuses(); renderLedger();
+  renderEmpty(); renderNudges(); renderWallet(); renderToday(); renderStats(); renderSoon(); renderGraph(); renderBonuses(); renderLedger();
 }
 function renderEmpty(){
   const el = $("#empty");
@@ -1357,6 +1484,34 @@ function renderWallet(){
     <button class="plate add" data-act="open-add">+ Add card</button>
   </div>`;
 }
+function renderToday(){
+  const el = $("#todaySec");
+  if(!state.cards.length){ el.innerHTML=""; return; }
+  const week = atRiskThisWeek();
+  const risk$ = week.reduce((s,i)=>s+i.v,0);
+  const clear = !week.length;
+  const next = clear? openDollarCredits()[0] : null;
+  el.innerHTML = `
+  <div class="today ${clear?"clear":"at-risk"}">
+    <div class="thd">
+      <div>
+        <h2 class="serif">${clear? "This week is clear":"This week"}</h2>
+        <div class="risk">${clear
+          ? (next? `Next up: <b>${esc(next.b.n)}</b> in ${next.dl}d · ${fmt$(next.v)}` : "<b>Nothing open</b> — enjoy the quiet")
+          : `<b>${fmt$(risk$)}</b> at risk · ${week.length} unused credit${week.length>1?"s":""} reset${week.length>1?"":"s"} within 7 days`}</div>
+      </div>
+      <div class="tact">
+        <button class="btn small ${clear?"":"primary"}" data-act="open-best">Which card?</button>
+        <button class="btn small quiet" data-act="share-month">Share ${new Date().toLocaleString("en-US",{month:"short"})} recap ↗</button>
+      </div>
+    </div>
+    ${week.length? `<div class="chips">${week.slice(0,8).map(i=>`
+      <button class="todaychip" data-act="jump" data-row="${i.row}">
+        <span class="d">${i.dl}d</span> ${esc(i.b.n)}
+        <span class="v">${fmt$(i.v)} · ${esc(i.c.name)}${i.b.e?" · enroll":""}</span>
+      </button>`).join("")}</div>`:""}
+  </div>`;
+}
 function renderStats(){
   const el = $("#statsSec");
   if(!state.cards.length){ el.innerHTML=""; return; }
@@ -1375,28 +1530,20 @@ function renderStats(){
   </div>
   <div class="meter">
     <div class="bar"><i style="width:${Math.min(100,pct)}%"></i></div>
-    <div class="cap" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><span><b>${pct}%</b> of this year's trackable credits redeemed · <b>${fmt$(Math.max(0,t.potential-t.redeemed))}</b> still on the table</span><button class="btn small quiet" data-act="share-card" style="padding:2px 10px">Share my savings ↗</button></div>
+    <div class="cap" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><span><b>${pct}%</b> of this year's trackable credits redeemed · <b>${fmt$(Math.max(0,t.potential-t.redeemed))}</b> still on the table</span><span style="display:inline-flex;gap:6px;flex-wrap:wrap"><button class="btn small quiet" data-act="share-month" style="padding:2px 10px">Month recap ↗</button><button class="btn small quiet" data-act="share-card" style="padding:2px 10px">Share savings ↗</button></span></div>
   </div>
   ${missedHtml()}`;
 }
 function renderSoon(){
   const el = $("#soonSec");
-  const items = [];
-  for(const c of myCards()){
-    for(const b of visibleBenefits(c)){
-      if(!PPY[b.f] || b.a<=0) continue;
-      if(isChecked(c.iid,b)) continue;
-      const dl = daysLeft(b.f);
-      if(dueSoon(b.f, dl)) items.push({c, b, dl, v: b.a/PPY[b.f]});
-    }
-  }
+  /* Beyond this week — avoid duplicating the Today strip (≤7d). */
+  const items = openDollarCredits().filter(i=> i.dl>7 && dueSoon(i.b.f, i.dl));
   if(!items.length){ el.innerHTML=""; return; }
-  items.sort((x,y)=> x.dl-y.dl || y.v-x.v);
   el.innerHTML = `
   <div class="soon">
-    <div class="hd"><span class="t serif">Use it or lose it</span><span class="s">${items.length} unused credit${items.length>1?"s":""} reset${items.length>1?"":"s"} soon</span></div>
+    <div class="hd"><span class="t serif">Coming up</span><span class="s">${items.length} more credit${items.length>1?"s":""} reset soon after this week</span></div>
     <div class="chips">${items.slice(0,12).map(i=>`
-      <button class="soonchip" data-act="jump" data-row="${i.c.iid}--${i.b.id}">
+      <button class="soonchip" data-act="jump" data-row="${i.row}">
         <span class="d">${i.dl}d</span> ${esc(i.b.n)} <span class="v">${fmt$(i.v)} · ${esc(i.c.name)}</span>
       </button>`).join("")}</div>
   </div>`;
@@ -1925,7 +2072,7 @@ function buildICS(){
   return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Perks Ledger//EN","CALSCALE:GREGORIAN",...events,"END:VCALENDAR"].join("\r\n");
 }
 function diagBlob(){
-  return { app:"Perks Ledger v0.4 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
+  return { app:"Perks Ledger v0.5 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
     standalone:isStandalone(), cards:myCards().map(c=>c.name), perksChecked:Object.keys(state.usage).length,
     subs:state.subs, storage:!!store };
 }
@@ -2059,6 +2206,25 @@ function rr(x, px, py, w, h, r){
   if(x.roundRect) x.roundRect(px, py, w, h, r); else x.rect(px, py, w, h);
   x.fill();
 }
+async function exportSharePng(cv, filename, shareText){
+  return new Promise(resolve=>{
+    cv.toBlob(async blob=>{
+      if(!blob){ toast("Couldn't render the card"); resolve(); return; }
+      const file = new File([blob], filename, {type:"image/png"});
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        try{ await navigator.share({files:[file], title:"Perks Ledger", text:shareText}); resolve(); return; }
+        catch(e){ if(e && e.name==="AbortError"){ resolve(); return; } }
+      }
+      try{
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob); a.download = filename;
+        document.body.appendChild(a); a.click(); a.remove();
+        toast("Saved — post it!");
+      }catch(err){ toast("Download blocked here — screenshot instead"); }
+      resolve();
+    }, "image/png");
+  });
+}
 async function shareCard(){
   if(!state.cards.length){ toast("Add a card first"); return; }
   const t = walletTotals();
@@ -2093,20 +2259,112 @@ async function shareCard(){
   x.fillStyle = "#136147"; rr(x, 84, my, Math.max(18, mw*pct), 18, 9);
   x.fillStyle = "#8B948C"; x.font = "600 34px -apple-system, 'Segoe UI', sans-serif";
   x.fillText("perksledger.vercel.app  ·  free · no signup · data stays local", 84, 986);
-  cv.toBlob(async blob=>{
-    if(!blob){ toast("Couldn't render the card"); return; }
-    const file = new File([blob], "perks-ledger-savings.png", {type:"image/png"});
-    if(navigator.canShare && navigator.canShare({files:[file]})){
-      try{ await navigator.share({files:[file], title:"Perks Ledger", text:"Tracking every card perk in one place — perksledger.vercel.app"}); return; }
-      catch(e){ if(e && e.name==="AbortError") return; }
+  await exportSharePng(cv, "perks-ledger-savings.png", "Tracking every card perk in one place — perksledger.vercel.app");
+}
+async function shareMonthRecap(){
+  if(!state.cards.length){ toast("Add a card first"); return; }
+  const s = monthRecapStats();
+  const label = monthLabel();
+  try{ if(document.fonts && document.fonts.load) await document.fonts.load("600 66px Fraunces"); }catch(e){}
+  const W=1080, H=1080, cv = document.createElement("canvas");
+  cv.width = W; cv.height = H;
+  const x = cv.getContext("2d");
+  x.fillStyle = "#F6F4EE"; x.fillRect(0,0,W,H);
+  x.fillStyle = "#136147"; x.fillRect(0,0,W,14);
+  x.fillStyle = "#1C221E"; x.font = "600 56px Fraunces, Georgia, serif";
+  x.fillText("Perks Ledger", 84, 130);
+  x.fillStyle = "#8B948C"; x.font = "600 28px -apple-system, 'Segoe UI', sans-serif";
+  x.fillText(label.toUpperCase()+"  ·  MONTHLY RECAP", 84, 188);
+  const used = s.monthAvail? s.monthUsed : s.yearRedeemed;
+  const avail = s.monthAvail || s.yearPotential;
+  x.fillStyle = "#1C221E"; x.font = "700 120px -apple-system, 'Segoe UI', sans-serif";
+  x.fillText(fmt$(used), 84, 340);
+  x.fillStyle = "#5D675F"; x.font = "400 36px -apple-system, 'Segoe UI', sans-serif";
+  x.fillText(s.monthAvail? "of "+fmt$(avail)+" monthly credits used" : "redeemed of "+fmt$(avail)+" trackable this year", 84, 400);
+  function row(y, val, label, color){
+    x.font = "700 52px -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = color;
+    x.fillText(val, 84, y);
+    const w = x.measureText(val).width;
+    x.font = "400 32px -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = "#5D675F";
+    x.fillText("  "+label, 84+w, y);
+  }
+  row(520, s.leftTable>0? fmt$(s.leftTable):"$0", s.leftTable>0? "left on the table this year":"left on the table — clean sheet", s.leftTable>0? "#8F5600":"#0E4E39");
+  row(600, s.weekN? fmt$(s.weekRisk):"$0", s.weekN? "at risk in the next 7 days":"at risk this week — clear", s.weekN? "#8F5600":"#0E4E39");
+  if(s.overlap>0) row(680, "≈ "+fmt$(s.overlap)+"/yr", "in overlaps your wallet already covers", "#0E4E39");
+  const barY = 780, mw = W-168;
+  const pct = avail? Math.min(1, used/avail) : 0;
+  x.fillStyle = "#E3EEE7"; rr(x, 84, barY, mw, 18, 9);
+  x.fillStyle = "#136147"; rr(x, 84, barY, Math.max(18, mw*pct), 18, 9);
+  x.fillStyle = "#8B948C"; x.font = "600 32px -apple-system, 'Segoe UI', sans-serif";
+  x.fillText(Math.round(pct*100)+"% of trackable credits used  ·  perksledger.vercel.app", 84, 860);
+  x.fillStyle = "#A8AFA8"; x.font = "400 26px -apple-system, 'Segoe UI', sans-serif";
+  x.fillText("Free · no signup · data never left my browser", 84, 960);
+  const blurb = s.leftTable===0
+    ? `I left $0 on the table so far in ${new Date().getFullYear()} — tracking every card credit in Perks Ledger.`
+    : `Used ${fmt$(used)} in credits · ${fmt$(s.leftTable)} left on the table this year. Tracking with Perks Ledger.`;
+  await exportSharePng(cv, "perks-ledger-month-recap.png", blurb+" perksledger.vercel.app");
+}
+function bestCardModal(preCat){
+  if(!state.cards.length){ toast("Add a card first"); return; }
+  let cat = preCat||"";
+  let q = "";
+  const paint = ()=>{
+    const list = bestCardsFor(q, cat);
+    const box = $("#bcResults");
+    if(!box) return;
+    if(!q && !cat){
+      box.innerHTML = `<div class="nores" style="padding:18px 4px">Pick a category or type something like <b>Uber</b>, <b>dining</b>, or <b>hotel</b>. We rank <em>your</em> cards — unused credits first, then matching perks.</div>`;
+      return;
     }
-    try{
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob); a.download = "perks-ledger-savings.png";
-      document.body.appendChild(a); a.click(); a.remove();
-      toast("Saved — post it!");
-    }catch(err){ toast("Download blocked here — screenshot instead"); }
-  }, "image/png");
+    if(!list.length){
+      box.innerHTML = `<div class="nores" style="padding:18px 4px">No strong match in this wallet. Try another category, or add the card that should win.</div>`;
+      return;
+    }
+    box.innerHTML = `<div class="bcr">${list.slice(0,6).map((r,i)=>{
+      const credit = r.reasons.find(x=>x.kind==="credit");
+      const rate = r.reasons.find(x=>x.kind==="rate");
+      const always = r.reasons.find(x=>x.kind==="always"||x.kind==="perk");
+      let why = "";
+      if(credit) why = `<b>Use ${esc(credit.b.n)} first</b> — ${fmt$(credit.v)} left${credit.dl!=null? ` · ${credit.dl}d to reset`:""}${credit.b.e?" · enroll required":""}`;
+      else if(rate) why = `Earn rates: ${esc(rate.text)}`;
+      else if(always) why = `${esc(always.b.n)}${always.b.d? " — "+esc(always.b.d.slice(0,90)):""}`;
+      else why = r.reasons.slice(0,2).map(x=>esc(x.b? x.b.n : "")).filter(Boolean).join(" · ");
+      const extra = r.reasons.filter(x=>x.kind==="credit").slice(credit?1:0,3)
+        .map(x=>`${esc(x.b.n)} (${fmt$(x.v)})`).join(" · ");
+      return `<div class="bcrow ${i===0?"top":""}">
+        <div class="bcrank">${i+1}</div>
+        <div class="bcbody">
+          <div class="bcname">${esc(r.c.name)}</div>
+          <div class="bcreason">${why}</div>
+          ${extra? `<div class="bcwhy">Also: ${extra}</div>`:""}
+        </div>
+      </div>`;
+    }).join("")}</div>`;
+  };
+  openModal(`
+    <div class="shd"><h2 class="serif">Which card?</h2><button class="xbtn" data-act="close">✕</button></div>
+    <p style="margin:0 0 12px;font-size:13px;color:var(--muted)">We prioritize <b>unused statement credits</b> in your wallet over raw earn rates — so you stop leaving money on the table.</p>
+    <div class="pick-search">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.4 3.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="bcSearch" type="text" placeholder="Uber, Resy, groceries, hotel…" aria-label="What are you buying">
+    </div>
+    <div class="row2" style="margin:10px 0 4px;display:flex;flex-wrap:wrap;gap:6px" id="bcCats">
+      ${Object.entries(CATS).map(([k,v])=>`<button type="button" class="chip ${cat===k?"on":""}" data-act="bc-cat" data-v="${k}">${esc(v)}</button>`).join("")}
+      <button type="button" class="chip ${!cat?"on":""}" data-act="bc-cat" data-v="">Any</button>
+    </div>
+    <div id="bcResults"></div>
+  `);
+  const inp = $("#bcSearch");
+  inp.addEventListener("input", ()=>{ q = inp.value; paint(); });
+  $("#bcCats").addEventListener("click", e=>{
+    const b = e.target.closest("[data-act='bc-cat']");
+    if(!b) return;
+    cat = b.dataset.v||"";
+    $("#bcCats").querySelectorAll(".chip").forEach(c=> c.classList.toggle("on", (c.dataset.v||"")===cat));
+    paint();
+  });
+  paint();
+  setTimeout(()=>inp?.focus(), 0);
 }
 /* =============== toast =============== */
 let toastTimer = null;
@@ -2123,6 +2381,9 @@ document.addEventListener("click", e=>{
   if(act==="check") return; /* handled on change */
   if(act==="open-add") addCardModal();
   else if(act==="close") closeModal();
+  else if(act==="open-best") bestCardModal();
+  else if(act==="share-month") shareMonthRecap();
+  else if(act==="bc-cat") return; /* handled inside bestCardModal */
   else if(act==="quick-add"||act==="add-card"){
     const id = el.dataset.id;
     const iid = "i"+(state.seq++);
@@ -2290,7 +2551,7 @@ document.addEventListener("click", e=>{
     if(el.classList.contains("future")) return;
     const kk = el.dataset.iid+"|"+el.dataset.bid+"|"+el.dataset.k;
     if(state.usage[kk]) delete state.usage[kk]; else state.usage[kk] = true;
-    save(); renderWallet(); renderStats(); renderSoon(); renderLedger();
+    save(); renderWallet(); renderToday(); renderStats(); renderSoon(); renderLedger();
   }
   else if(act==="download-ics"){
     try{
@@ -2355,7 +2616,7 @@ document.addEventListener("change", e=>{
   if(el.dataset.act==="check"){
     const key = ukey(el.dataset.iid, el.dataset.bid, el.dataset.f);
     if(el.checked) state.usage[key] = true; else delete state.usage[key];
-    save(); renderWallet(); renderStats(); renderSoon(); renderLedger();
+    save(); renderWallet(); renderToday(); renderStats(); renderSoon(); renderLedger();
   }
   else if(el.dataset.act==="tgl-done"){ state.ui.hideDone = el.checked; save(); renderLedger(); }
   else if(el.dataset.act==="tgl-dollar"){ state.ui.dollarOnly = el.checked; save(); renderLedger(); }
@@ -2391,6 +2652,7 @@ document.addEventListener("keydown", e=>{
 $("#overlay").addEventListener("mousedown", e=>{ if(e.target===e.currentTarget) closeModal(); });
 $("#addBtn").addEventListener("click", addCardModal);
 $("#dataBtn").addEventListener("click", dataModal);
+$("#bestBtn").addEventListener("click", ()=> bestCardModal());
 if(!store){
   $("#storageBanner").innerHTML = `<div class="banner">Heads up — this viewer doesn't keep data between visits. Before you close, use <b>Data → Download app + data</b> to get your own copy that saves itself, or <b>Data → Export → Copy</b> for a backup you can paste back in later.</div>`;
 }
