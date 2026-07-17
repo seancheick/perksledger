@@ -6,7 +6,7 @@
 
 **Every credit, perk, and discount across your cards & memberships — tracked in one place.**
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-136147.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-all%20rights%20reserved-8a2f3c.svg)](LICENSE)
 [![Single file](https://img.shields.io/badge/app-single%20HTML%20file-136147)](index.html)
 [![Zero dependencies](https://img.shields.io/badge/dependencies-zero-2e8a6d)](build-pwa.js)
 [![PWA](https://img.shields.io/badge/PWA-installable%20%C2%B7%20offline-1c4f8f)](#-put-it-on-your-phone)
@@ -104,7 +104,17 @@ dist/           built PWA (what production serves)
 vercel.json     build config for Vercel's git integration
 ```
 
-Design notes: warm-paper + banker's-green "ledger" system with a wallet of gradient card plates; Fraunces for display type; period-keyed usage storage (`2026-07`, `2026-Q3`, `2026-H2`) so resets are free; the card/benefit database is plain JS objects — adding a card is a pull request, not a schema migration.
+Design notes: warm-paper + banker's-green "ledger" system with a wallet of gradient card plates; Fraunces for display type; period-keyed usage storage (`2026-07`, `2026-Q3`, `2026-H2`) so resets are free; the card/benefit database is plain JS objects — adding a card is a small data edit, not a schema migration.
+
+## 🔁 Keeping the data fresh
+
+The benefit database is the product — here's how it stays current:
+
+- **`/add-card <name>`** — Claude Code slash command (`.claude/commands/add-card.md`): researches a requested card's *current* perks against issuer pages + guides, adds it following house conventions, tests, builds, and ships.
+- **`/refresh-benefits`** — the quarterly sweep: re-verifies all ~47 entries in parallel, produces a diff table, applies changes, bumps the `DATA_VERIFIED` stamp, and deploys.
+- **Scheduled reminder** — a GitHub Action opens a `data-refresh` issue every Jan/Apr/Jul/Oct 1 so the sweep never gets forgotten.
+- **User reports** — in-app "Report wrong benefit data" and "Request your card" links feed corrections between sweeps.
+- The app footer always shows when data was last verified (`DATA_VERIFIED` in `index.html`).
 
 ## 🔒 Privacy
 
@@ -126,4 +136,4 @@ Benefit values were verified against issuer pages and card guides in early **Jul
 
 ## 📄 License
 
-[MIT](LICENSE) © 2026 Sean Cheick Baradji
+All rights reserved © 2026 Sean Cheick Baradji — see [LICENSE](LICENSE). The hosted app is free for personal use.

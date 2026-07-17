@@ -1,0 +1,37 @@
+name: Quarterly benefits refresh reminder
+
+on:
+  schedule:
+    # 9am ET on Jan 1, Apr 1, Jul 1, Oct 1
+    - cron: "0 14 1 1,4,7,10 *"
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+
+jobs:
+  remind:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const quarter = "Q" + (Math.floor(new Date().getMonth() / 3) + 1) + " " + new Date().getFullYear();
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Quarterly benefits refresh due — ${quarter}`,
+              body: [
+                "Time to re-verify the benefit database. Issuers have had 3 months to move things around.",
+                "",
+                "**How:** open this repo in Claude Code and run `/refresh-benefits`.",
+                "It researches every card in parallel, produces a diff table, applies the",
+                "changes, bumps `DATA_VERIFIED`, tests, builds, and pushes (auto-deploys).",
+                "",
+                "Also triage any user emails from the in-app **Report wrong benefit data** link",
+                "and any `/add-card` requests since last quarter.",
+                "",
+                "Close this issue with a link to the refresh commit."
+              ].join("\n"),
+              labels: ["data-refresh"]
+            });
