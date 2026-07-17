@@ -89,7 +89,7 @@ Rebuild after editing `index.html`:
 
 ```bash
 node build-pwa.js            # inline-font build (fully self-contained, works offline-first)
-node build-pwa.js --cdn-font # smaller build that loads Fraunces from Google Fonts
+node build-pwa.js --cdn-font # production build: extracts the font to a self-hosted file (smaller HTML, zero third-party)
 ```
 
 No `npm install`. No framework. No dependencies.
