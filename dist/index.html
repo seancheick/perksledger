@@ -1605,7 +1605,7 @@ function perkRow(r){
       ${punch}
       <div class="actions">
         ${isCustom? `<button data-act="del-perk" data-iid="${c.iid}" data-bid="${b.id}" class="del">Delete this custom perk</button>`
-                  : `<button data-act="hide-perk" data-iid="${c.iid}" data-bid="${b.id}">Hide — my card doesn't have this</button>
+                  : `<button data-act="hide-perk" data-iid="${c.iid}" data-bid="${b.id}">Hide — not using, or not on my card</button>
         <a href="mailto:mybbrllc@gmail.com?subject=${encodeURIComponent("Perks Ledger — wrong data: "+c.name+" / "+b.n)}&body=${encodeURIComponent("Card: "+c.name+"\nPerk: "+b.n+"\nShown as: "+(b.per||fmt$(b.a)+"/yr")+"\nWhat's wrong: \n\n(app data verified "+DATA_VERIFIED+")")}" style="color:var(--faint);font-size:12.5px;font-weight:600;text-decoration:none">Report wrong data</a>`}
       </div>
     </div>
@@ -1634,6 +1634,40 @@ function renderLedger(){
   for(const g of groups) g.rows.sort((a,b2)=> (forder[a.b.f]-forder[b2.b.f]) || (b2.b.a-a.b.a));
   groups = groups.filter(g=> g.rows.length);
 
+  /* hidden (parked) benefits */
+  const hiddenRows = [];
+  for(const c of myCards()){
+    if(ui.focus && c.iid!==ui.focus) continue;
+    for(const bid of c.hidden){
+      const b = c.benefits.find(x=>x.id===bid);
+      if(b) hiddenRows.push({c, b});
+    }
+  }
+  hiddenRows.sort((x,y)=>(y.b.a||0)-(x.b.a||0));
+  const parked = hiddenRows.reduce((s,r)=> s + ((r.b.a>0 && PPY[r.b.f])? r.b.a : 0), 0);
+  const hiddenHtml = !hiddenRows.length? "" : `
+  <section class="group" id="hiddenSec">
+    <div class="ghd"><h3 class="serif" style="color:var(--muted)">Hidden</h3>
+      <span class="gsum">not using · or not on my card${parked? ` · <b style="color:var(--amber)">${fmt$(parked)}/yr parked</b>`:""} · <button class="chip" data-act="restore-hidden" style="padding:2px 10px">Restore all</button></span>
+    </div>
+    <div class="glist" style="opacity:.85">${hiddenRows.map(r=>`
+      <div class="perk">
+        <div class="main" style="cursor:default">
+          <span class="ck ongoing"><span></span></span>
+          <div>
+            <div class="nm" style="color:var(--muted)">${esc(r.b.n)}</div>
+            <div class="meta">
+              <span class="cardtag"><i style="background:linear-gradient(118deg,${r.c.art[0]},${r.c.art[1]})"></i>${esc(r.c.name)}</span>
+              <span class="mtag">${esc(CATS[r.b.c]||"Other")}</span>
+            </div>
+          </div>
+          <div class="right">
+            <span class="valchip" style="color:var(--faint)">${r.b.a>0? fmt$(r.b.a)+"/yr" : (r.b.per? esc(r.b.per):"")}</span>
+            <button class="btn small" data-act="unhide" data-iid="${r.c.iid}" data-bid="${r.b.id}">Unhide</button>
+          </div>
+        </div>
+      </div>`).join("")}</div>
+  </section>`;
   const gHtml = groups.map(g=>{
     let avail=0, red=0;
     for(const r of g.rows) if(r.b.a>0 && PPY[r.b.f]){ avail+=r.b.a; red+=yearStats(r.c.iid,r.b).dollars; }
@@ -1668,11 +1702,12 @@ function renderLedger(){
     <div class="row2">
       ${focusCard? `<button class="chip focuschip" data-act="focus" data-iid="${focusCard.iid}">Only: ${esc(focusCard.name)} ✕</button>`:""}
       ${Object.entries(CATS).map(([k,v])=>`<button class="chip ${ui.cats.includes(k)?"on":""}" data-act="cat" data-v="${k}">${esc(v)}</button>`).join("")}
-      ${hiddenCount? `<button class="chip" data-act="restore-hidden" title="Restore perks you hid">Restore ${hiddenCount} hidden</button>`:""}
+      ${hiddenCount? `<button class="chip" data-act="jump-hidden" title="See perks you've hidden">Hidden (${hiddenCount})</button>`:""}
     </div>
   </div>
   <div class="ledger">
     ${gHtml || `<div class="nores">Nothing matches these filters. Clear a filter or two above.</div>`}
+    ${hiddenHtml}
   </div>`;
   const si = $("#searchInput");
   si.addEventListener("input", e=>{ state.ui.q = e.target.value; save(); rerenderLedgerOnly(); });
@@ -2118,11 +2153,30 @@ document.addEventListener("click", e=>{
   }
   else if(act==="hide-perk"){
     const entry = state.cards.find(c=>c.iid===el.dataset.iid);
-    if(entry){ entry.hidden = entry.hidden||[]; entry.hidden.push(el.dataset.bid); save(); render(); toast("Hidden — restore anytime from the filter row"); }
+    if(!entry) return;
+    const card = resolveCard(entry);
+    const b = card.benefits.find(x=>x.id===el.dataset.bid);
+    const per = (b && b.a>0 && PPY[b.f])? b.a/PPY[b.f] : 0;
+    const soon = b && PPY[b.f] && dueSoon(b.f, daysLeft(b.f)) && !isChecked(entry.iid, b);
+    if(per>0 && soon && !el.dataset.armed){
+      el.dataset.armed = "1";
+      el.style.color = "var(--amber)";
+      el.textContent = `Still worth ~${fmt$(per)} this period — hide anyway?`;
+      return;
+    }
+    entry.hidden = entry.hidden||[]; entry.hidden.push(el.dataset.bid);
+    save(); render(); toast("Parked in Hidden — unhide anytime at the bottom");
+  }
+  else if(act==="unhide"){
+    const entry = state.cards.find(c=>c.iid===el.dataset.iid);
+    if(entry){ entry.hidden = (entry.hidden||[]).filter(id=>id!==el.dataset.bid); save(); render(); toast("Back on your checklist"); }
+  }
+  else if(act==="jump-hidden"){
+    document.getElementById("hiddenSec")?.scrollIntoView({behavior:"smooth", block:"start"});
   }
   else if(act==="restore-hidden"){
     for(const c of state.cards) c.hidden = [];
-    save(); render(); toast("Hidden perks restored");
+    save(); render(); toast("All hidden perks restored");
   }
   else if(act==="del-perk"){
     const entry = state.cards.find(c=>c.iid===el.dataset.iid);
