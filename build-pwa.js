@@ -6,9 +6,10 @@
  * service-worker cache name with a content hash so deploys roll cleanly.
  *
  * Usage: node build-pwa.js [--cdn-font]   (icons are copied from ./icons)
- *   --cdn-font  strip the embedded Fraunces data-URI and load it from Google
- *               Fonts instead — smaller output for hosted deploys (artifacts
- *               can't use font CDNs, so the default build keeps it inline).
+ *   --cdn-font  extract the embedded Fraunces data-URI into a separate
+ *               fraunces.woff2 file (smaller HTML, service-worker cached,
+ *               zero third-party requests). The default build keeps the font
+ *               inline for fully self-contained single-file use.
  */
 const fs = require('fs');
 const path = require('path');
@@ -18,13 +19,15 @@ const cdnFont = process.argv.includes('--cdn-font');
 const root = __dirname;
 const dist = path.join(root, 'dist');
 let frag = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+let fontFile = null;
 if (cdnFont) {
-  frag = frag.replace(/@font-face\{[\s\S]*?\}\n/, '');
+  const m = frag.match(/src:url\(data:font\/woff2;base64,([^)]+)\) format\('woff2'\)/);
+  if (m) {
+    fontFile = Buffer.from(m[1], 'base64');
+    frag = frag.replace(m[0], "src:url(fraunces.woff2) format('woff2')");
+  }
 }
-const fontLinks = cdnFont ? `<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&display=swap">
-` : '';
+const fontLinks = '';
 const hash = crypto.createHash('sha256').update(frag).digest('hex').slice(0, 10);
 
 fs.rmSync(dist, { recursive: true, force: true });
@@ -64,7 +67,24 @@ ${fontLinks}</head>
 const swRegister = `
 <script>
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+  addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const w = reg.installing;
+        if (!w) return;
+        w.addEventListener('statechange', () => {
+          if (w.state === 'activated' && navigator.serviceWorker.controller) {
+            const d = document.createElement('div');
+            d.style.cssText = 'position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#1C221E;color:#F6F4EE;padding:10px 20px;border-radius:999px;font:600 14px -apple-system,sans-serif;z-index:99;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.35)';
+            d.textContent = 'New version ready — tap to reload';
+            d.onclick = () => location.reload();
+            document.body.appendChild(d);
+            setTimeout(() => d.remove(), 20000);
+          }
+        });
+      });
+    }).catch(()=>{});
+  });
 }
 </script>
 </body>
@@ -73,11 +93,16 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 
 fs.writeFileSync(path.join(dist, 'index.html'), head + frag + swRegister);
 
+if (fontFile) fs.writeFileSync(path.join(dist, 'fraunces.woff2'), fontFile);
+fs.writeFileSync(path.join(dist, 'robots.txt'), 'User-agent: *\nAllow: /\n');
 fs.writeFileSync(path.join(dist, 'manifest.webmanifest'), JSON.stringify({
+  id: 'perksledger',
   name: 'Perks Ledger',
   short_name: 'Perks',
   description: 'Every credit, perk, and discount across your cards & memberships — tracked in one place.',
-  start_url: './index.html',
+  lang: 'en',
+  categories: ['finance', 'utilities'],
+  start_url: './',
   scope: './',
   display: 'standalone',
   background_color: '#F6F4EE',
@@ -89,9 +114,11 @@ fs.writeFileSync(path.join(dist, 'manifest.webmanifest'), JSON.stringify({
   ]
 }, null, 2));
 
+const swAssets = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png']
+  .concat(fontFile ? ['fraunces.woff2'] : []);
 fs.writeFileSync(path.join(dist, 'sw.js'), `/* Perks Ledger service worker — cache-first with background refresh */
 const CACHE = 'perks-ledger-${hash}';
-const ASSETS = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
+const ASSETS = ${JSON.stringify(swAssets)};
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });

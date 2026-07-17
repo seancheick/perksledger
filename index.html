@@ -1,5 +1,5 @@
 <title>Perks Ledger</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <style>
 @font-face{
   font-family:'Fraunces';
@@ -366,8 +366,11 @@ input,select,textarea{font:inherit;color:inherit}
 .dsec .rowbtns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
 
 /* ---------- toast & footer ---------- */
+@media (hover:none){ .plate .x{opacity:.65} }
+.nudge{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.nudge .nact{display:flex;gap:8px;align-items:center;flex:none}
 .toast{
-  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(8px);
+  position:fixed;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(8px);
   background:var(--ink);color:var(--paper);padding:9px 18px;border-radius:999px;font-size:13.5px;font-weight:600;
   opacity:0;pointer-events:none;transition:all .18s;z-index:60;box-shadow:0 8px 24px rgba(10,14,10,.3);
 }
@@ -403,6 +406,7 @@ footer p{max-width:74ch;margin:0 0 6px}
   </header>
   <p class="tagline">Every credit, perk, and discount across your cards & memberships — tracked in one place.</p>
   <div id="storageBanner"></div>
+  <div id="nudges"></div>
 
   <section id="empty"></section>
   <section id="walletSec"></section>
@@ -415,7 +419,7 @@ footer p{max-width:74ch;margin:0 0 6px}
   <footer>
     <p><strong>About the numbers.</strong> Benefit values were verified in <span data-vdate>early July 2026</span> against issuer pages and card guides. Issuers change these constantly — treat this as your checklist and confirm in your card's app before you book. Perks marked <em>Enroll</em> need one-time activation with the issuer first.</p>
     <p>Estimated redemption totals divide each perk's annual value evenly across its reset periods. One-time and every-4-year credits aren't counted in annual totals. Your data stays in this browser — use <em>Data → Export</em> for a backup.</p>
-    <p>Perks Ledger v0.3 · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20feedback" style="color:var(--muted)">Feedback &amp; ideas</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A" style="color:var(--muted)">Report wrong benefit data</a></p>
+    <p>Perks Ledger v0.4 beta · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20feedback" style="color:var(--muted)">Feedback &amp; ideas</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A" style="color:var(--muted)">Report wrong benefit data</a></p>
   </footer>
 </div>
 
@@ -1154,7 +1158,14 @@ function load(){
   if(!store) return null;
   try{ return JSON.parse(store.getItem(LS_KEY)) || null; }catch(e){ return null; }
 }
-function save(){ if(store){ try{ store.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} } }
+let saveFailed = false;
+function save(){
+  if(!store) return;
+  try{ store.setItem(LS_KEY, JSON.stringify(state)); saveFailed = false; }
+  catch(e){
+    if(!saveFailed){ saveFailed = true; toast("⚠ Couldn't save — storage is full or blocked. Export a backup now."); }
+  }
+}
 
 /* =============== period math =============== */
 function periodKey(f, d=new Date()){
@@ -1234,8 +1245,32 @@ function esc(s){ return String(s??"").replace(/[&<>"']/g, ch=>({"&":"&amp;","<":
 
 /* =============== rendering =============== */
 const $ = sel => document.querySelector(sel);
+let deferredInstall = null;
+window.addEventListener("beforeinstallprompt", e=>{ e.preventDefault(); deferredInstall = e; renderNudges(); });
+function isStandalone(){
+  return (window.matchMedia && matchMedia("(display-mode: standalone)").matches) || navigator.standalone === true;
+}
+function renderNudges(){
+  const el = $("#nudges"); if(!el) return;
+  const out = [];
+  const usageN = Object.keys(state.usage).length;
+  const exportedRecently = state.lastExport && (Date.now()-state.lastExport) < 30*864e5;
+  const backupSnoozed = state.backupSnooze && (Date.now()-state.backupSnooze) < 30*864e5;
+  if((state.cards.length>=2 || usageN>=3) && !state.demo && !exportedRecently && !backupSnoozed){
+    out.push(`<div class="banner nudge"><span><b>Your data lives only in this browser.</b> Safari and friends can clear it — keep a backup.</span>
+      <span class="nact"><button class="btn small" data-act="nudge-backup-export">Export backup</button>
+      <button class="btn small quiet" data-act="nudge-backup-dismiss" aria-label="Dismiss">Later</button></span></div>`);
+  }
+  if(state.cards.length>=1 && !isStandalone() && !state.installTipDone){
+    const ios = /iPhone|iPad|iPod/.test(navigator.userAgent);
+    out.push(`<div class="banner nudge"><span><b>Make it an app:</b> ${ios? "tap Share → <b>Add to Home Screen</b>" : deferredInstall? "install it for one-tap access" : "browser menu → <b>Install app / Add to Home screen</b>"} — works offline, keeps your data on-device.</span>
+      <span class="nact">${deferredInstall? `<button class="btn small" data-act="nudge-install-go">Install</button>`:""}
+      <button class="btn small quiet" data-act="nudge-install-dismiss" aria-label="Dismiss">Got it</button></span></div>`);
+  }
+  el.innerHTML = out.join("");
+}
 function render(){
-  renderEmpty(); renderWallet(); renderStats(); renderSoon(); renderGraph(); renderBonuses(); renderLedger();
+  renderEmpty(); renderNudges(); renderWallet(); renderStats(); renderSoon(); renderGraph(); renderBonuses(); renderLedger();
 }
 function renderEmpty(){
   const el = $("#empty");
@@ -1394,11 +1429,12 @@ function renderGraph(){
     .map(sid => SUBS[sid].n);
   const subChips = paid.length
     ? paid.map(sid=>`<span class="chip on" style="cursor:default">${esc(SUBS[sid].n)}</span>`).join("")
-    : `<span>Tell it what you pay for and it finds what's already covered.</span>`;
+    : `<span><b>Unlock this:</b> tell it what you pay for and it finds what's already covered.</span>`;
+  const editBtnClass = paid.length? "chip" : "btn small primary";
   el.innerHTML = `
   <div class="graph">
     <div class="hd"><h3 class="serif">Perk connections</h3>${savings? `<span class="save">≈ ${fmt$(savings)}/yr sitting in overlaps</span>`:""}</div>
-    <div class="subrow">${subChips}<button class="chip" data-act="open-subs">✎ What do you pay for?</button></div>
+    <div class="subrow">${subChips}<button class="${editBtnClass}" data-act="open-subs">✎ What do you pay for?</button></div>
     ${findings.map(f=>`<div class="finding ${f.kind}"><span class="fmark"></span><div style="flex:1">${f.html}</div></div>`).join("")}
     ${(!findings.length && paid.length)? `<div class="finding watch"><span class="fmark"></span><div class="ft">No overlaps found between what you pay for and this wallet — as you add cards and memberships, matches show up here.</div></div>`:""}
     ${freebies.length? `<div class="freebies">Also free with your wallet (you're not paying for these — nice): ${esc(freebies.join(" · "))}</div>`:""}
@@ -1540,7 +1576,8 @@ function perkRow(r){
       ${punch}
       <div class="actions">
         ${isCustom? `<button data-act="del-perk" data-iid="${c.iid}" data-bid="${b.id}" class="del">Delete this custom perk</button>`
-                  : `<button data-act="hide-perk" data-iid="${c.iid}" data-bid="${b.id}">Hide — my card doesn't have this</button>`}
+                  : `<button data-act="hide-perk" data-iid="${c.iid}" data-bid="${b.id}">Hide — my card doesn't have this</button>
+        <a href="mailto:mybbrllc@gmail.com?subject=${encodeURIComponent("Perks Ledger — wrong data: "+c.name+" / "+b.n)}&body=${encodeURIComponent("Card: "+c.name+"\nPerk: "+b.n+"\nShown as: "+(b.per||fmt$(b.a)+"/yr")+"\nWhat's wrong: \n\n(app data verified "+DATA_VERIFIED+")")}" style="color:var(--faint);font-size:12.5px;font-weight:600;text-decoration:none">Report wrong data</a>`}
       </div>
     </div>
   </div>`;
@@ -1836,6 +1873,7 @@ function dataModal(){
       <div class="rowbtns">
         <button class="btn small" data-act="copy-export">Copy</button>
         <button class="btn small" data-act="download-export">Download .json</button>
+        <button class="btn small quiet" data-act="copy-diag">Copy diagnostics (for bug reports)</button>
       </div>
     </div>
     <div class="dsec">
@@ -1973,6 +2011,29 @@ document.addEventListener("click", e=>{
   }
   else if(act==="open-custom-card") customCardModal();
   else if(act==="open-custom-perk") customPerkModal();
+  else if(act==="nudge-backup-export"){
+    try{
+      const blob = new Blob([JSON.stringify(state)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob); a.download = "perks-ledger-backup.json";
+      document.body.appendChild(a); a.click(); a.remove();
+      state.lastExport = Date.now(); save(); renderNudges(); toast("Backup saved");
+    }catch(err){ dataModal(); }
+  }
+  else if(act==="nudge-backup-dismiss"){ state.backupSnooze = Date.now(); save(); renderNudges(); }
+  else if(act==="nudge-install-go"){
+    if(deferredInstall){ deferredInstall.prompt(); deferredInstall = null; }
+    state.installTipDone = true; save(); renderNudges();
+  }
+  else if(act==="nudge-install-dismiss"){ state.installTipDone = true; save(); renderNudges(); }
+  else if(act==="copy-diag"){
+    const diag = { app:"Perks Ledger v0.4 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
+      standalone:isStandalone(), cards:myCards().map(c=>c.name), perksChecked:Object.keys(state.usage).length,
+      subs:state.subs, storage:!!store };
+    const txt = JSON.stringify(diag, null, 2);
+    try{ navigator.clipboard.writeText(txt).then(()=>toast("Diagnostics copied — paste into your report")); }
+    catch(err){ toast("Copy failed — screenshot this instead"); }
+  }
   else if(act==="demo-load") loadDemo();
   else if(act==="demo-clear"){
     state = { cards:[], usage:{}, seq:1, subs:[], bonuses:[],
@@ -2043,8 +2104,10 @@ document.addEventListener("click", e=>{
     const ta = $("#exportTa"); ta.select();
     try{ navigator.clipboard.writeText(ta.value).then(()=>toast("Copied")); }
     catch(err){ document.execCommand("copy"); toast("Copied"); }
+    state.lastExport = Date.now(); save(); renderNudges();
   }
   else if(act==="download-export"){
+    state.lastExport = Date.now(); save(); renderNudges();
     try{
       const blob = new Blob([$("#exportTa").value], {type:"application/json"});
       const a = document.createElement("a");
@@ -2107,10 +2170,15 @@ document.addEventListener("click", e=>{
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob); a.download = "perks-ledger.html";
       document.body.appendChild(a); a.click(); a.remove();
+      state.lastExport = Date.now(); save(); renderNudges();
       toast("Saved — open perks-ledger.html anytime");
     }catch(err){ toast("Download blocked here — use Export → Copy instead"); }
   }
   else if(act==="do-import"){
+    if(state.cards.length && !el.dataset.armed){
+      el.dataset.armed = "1"; el.textContent = "Replaces your current wallet — click again";
+      return;
+    }
     try{
       const obj = JSON.parse($("#importTa").value);
       if(!obj || !Array.isArray(obj.cards)) throw new Error("bad");
@@ -2171,5 +2239,6 @@ if(!store){
 }
 document.querySelectorAll("[data-vdate]").forEach(el=>{ el.textContent = DATA_VERIFIED; });
 save();
-render();
+if(!state.cards.length && /[?&]demo=1/.test(location.search)) loadDemo();
+else render();
 </script>

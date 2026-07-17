@@ -118,7 +118,7 @@ The benefit database is the product — here's how it stays current:
 
 ## 🔒 Privacy
 
-Everything lives in `localStorage` in *your* browser. No sign-up, no backend, no analytics, no network calls at runtime (the CDN-font build fetches one font file — that's it). Export/import is a JSON blob you control.
+Everything lives in `localStorage` in *your* browser. No sign-up, no backend, no analytics, and zero third-party requests — the production build self-hosts everything, including the font. Export/import is a JSON blob you control.
 
 ## 🗺 Roadmap
 
