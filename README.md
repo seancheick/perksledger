@@ -33,7 +33,7 @@ Perks Ledger is the antidote: add what's in your wallet, and every credit, perk,
 
 | | |
 |---|---|
-| 💳 **Built-in database** | 60 U.S. credit cards (personal + business, airline and hotel co-brands) + 8 memberships (Verizon, T-Mobile, Xfinity Rewards, Amazon Prime, Walmart+, Costco, Sam's Club Plus, AAA) — benefit values verified **November 2026** |
+| 💳 **Built-in database** | 61 U.S. credit cards (personal + business, airline and hotel co-brands) + 8 memberships (Verizon, T-Mobile, Xfinity Rewards, Amazon Prime, Walmart+, Costco, Sam's Club Plus, AAA) — benefit values verified **November 2026** |
 | 🧭 **Which card?** | Type a merchant or pick a category → your cards ranked by live offers, unused credits, then real return (points × your own point values), with rotating 5% quarters, network acceptance (Costco = Visa) and per-category pins |
 | 🏷 **Card offers** | Log Amex/Chase/Citi offers (spend $X get $Y), track progress, get nudged before they expire |
 | 🗓 **Anniversary-aware** | Set the month you opened a card → cardmember-year credits reset on your anniversary, fee reminders, and a keep / ask for retention / downgrade verdict |
@@ -115,7 +115,7 @@ Design notes: warm-paper + banker's-green "ledger" system with a wallet of gradi
 The benefit database is the product — here's how it stays current:
 
 - **`/add-card <name>`** — Claude Code slash command (`.claude/commands/add-card.md`): researches a requested card's *current* perks against issuer pages + guides, adds it following house conventions, tests, builds, and ships.
-- **`/refresh-benefits`** — the quarterly sweep: re-verifies all ~68 entries in parallel, produces a diff table, applies changes, bumps the `DATA_VERIFIED` stamp, and deploys.
+- **`/refresh-benefits`** — the quarterly sweep: re-verifies all ~69 entries in parallel, produces a diff table, applies changes, bumps the `DATA_VERIFIED` stamp, and deploys.
 - **Scheduled reminder** — a GitHub Action opens a `data-refresh` issue every Jan/Apr/Jul/Oct 1 so the sweep never gets forgotten.
 - **User reports** — in-app "Report wrong benefit data" and "Request your card" links feed corrections between sweeps.
 - The app footer always shows when data was last verified (`DATA_VERIFIED` in `index.html`).

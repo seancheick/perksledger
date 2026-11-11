@@ -8,7 +8,7 @@ current issuer data, then ship the corrections. Run this every quarter
 
 ## Process
 
-1. **Inventory.** Extract every entry from the `DB` array (~68 cards &
+1. **Inventory.** Extract every entry from the `DB` array (~69 cards &
    memberships). Group by issuer.
 
 2. **Research in parallel.** For each issuer group, web-search current

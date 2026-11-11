@@ -934,7 +934,7 @@ const DB = [
    d:"Deposited automatically after account opening and every anniversary — spend it on United flights."},
   {id:"renowned", n:"Renowned Hotels credit", c:"trv", f:"y", yr:"cm", a:150, per:"$150 / yr",
    d:"Statement credits each anniversary year on prepaid bookings made directly through Renowned Hotels and Resorts (also earns 5x miles)."},
-  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:100, pv:{12:20}, per:"$8 / mo (+$12 Dec)",
+  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:100, pv:{12:12}, per:"$8 / mo ($12 Dec)",
    d:"U.S. rideshare purchases — $8/month Jan–Nov, up to $12 in December.", e:1},
   {id:"insta", n:"Instacart credits", c:"shp", f:"m", a:180, per:"$15 / mo",
    d:"One $10 and one $5 statement credit monthly on purchases made directly through Instacart.", thru:"12/31/27"},
@@ -1075,19 +1075,25 @@ const DB = [
   earn:[{k:"flights",x:5,m:"united"},{k:"travel",x:2},{k:"dining",x:2},{k:"other",x:1}],
   b:[
   {id:"club", n:"United Club membership", c:"air", f:"on", a:0, per:"",
-   d:"Full membership with 1 guest + kids under 18."},
+   d:"Full United Club membership for you plus one guest (or your children under 18). All Access at Premier Gold or $50k spend."},
   {id:"insta", n:"Instacart credit", c:"shp", f:"m", a:240, per:"$20 / mo",
    d:"Two $10 Instacart credits each month.", thru:"12/31/27"},
+  {id:"instaplus", n:"Instacart+ membership", c:"shp", f:"on", a:0, per:"",
+   d:"Complimentary Instacart+ — $0 delivery fees on eligible orders.", thru:"12/31/27", e:1},
+  {id:"avis", n:"Avis / Budget credit", c:"trv", f:"y", yr:"cm", a:100, per:"2 × $50 / yr",
+   d:"$50 United TravelBank cash on each of your first two Avis or Budget rentals booked at mileageplustravel.united.com, per anniversary year."},
   {id:"renowned", n:"Renowned Hotels credit", c:"trv", f:"y", yr:"cm", a:200, per:"$200 / yr",
    d:"Prepaid Renowned Hotels and Resorts bookings, per anniversary year."},
   {id:"jsx", n:"JSX credit", c:"air", f:"y", yr:"cm", a:200, per:"$200 / yr",
    d:"JSX purchases with the card, per anniversary year."},
-  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:150, pv:{12:30}, per:"$12 / mo (+$18 Dec)",
-   d:"Rideshare credit each month. Opt in annually.", e:1},
+  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:150, pv:{12:18}, per:"$12 / mo ($18 Dec)",
+   d:"U.S. rideshare purchases — up to $12/month Jan–Nov and $18 in December. Opt in each year.", e:1},
   {id:"bags", n:"2 free checked bags", c:"air", f:"on", a:0, per:"",
    d:"First and second bags free for you and one companion."},
   {id:"access", n:"Premier Access + 25% inflight back", c:"air", f:"on", a:0, per:"",
    d:"Priority check-in, security and boarding, plus 25% back on inflight purchases."},
+  {id:"status", n:"IHG Platinum + Avis President's Club", c:"sts", f:"on", a:0, per:"",
+   d:"IHG One Rewards Platinum Elite status and Avis President's Club (enroll at united.com/AvisChaseBenefit).", e:1},
   {id:"ge", n:"Global Entry / TSA PreCheck / NEXUS credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
    d:"Application-fee credit when paid with the card."}
 ]},
@@ -1410,11 +1416,15 @@ const DB = [
   {id:"gca", n:"25k Global Companion Award", c:"air", f:"y", yr:"cm", a:0, per:"1 / yr",
    d:"25,000-point Global Companion Award each anniversary, any cabin."},
   {id:"lounge", n:"Alaska Lounge passes", c:"air", f:"q", a:0, per:"2 / quarter",
-   d:"Two Alaska Lounge day passes each quarter."},
-  {id:"wifi", n:"Inflight Wi-Fi passes", c:"air", f:"q", a:0, per:"2 / quarter",
-   d:"Two Wi-Fi passes each quarter on Alaska flights."},
+   d:"Two Alaska Lounge passes each quarter (8 per calendar year)."},
+  {id:"gca100", n:"100k Global Companion Award at $60k", c:"air", f:"y", a:0, per:"after $60k spend",
+   d:"A second, 100,000-point Global Companion Award after $60,000 in purchases in a year."},
+  {id:"status", n:"10,000 status points", c:"sts", f:"y", yr:"cm", a:0, per:"each anniversary",
+   d:"10,000 Atmos Rewards status points on every account anniversary."},
   {id:"bag", n:"Free checked bag + preferred boarding", c:"air", f:"on", a:0, per:"",
-   d:"First bag free for you + up to 6 on the reservation. 20% back on inflight purchases."},
+   d:"First bag free and preferred boarding for you + up to 6 on the reservation when you pay with the card."},
+  {id:"delay", n:"$50 Instant Travel Delay Credit", c:"prt", f:"on", a:0, per:"",
+   d:"$50 credit when your flight is cancelled or departure is delayed 2+ hours."},
   {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
    d:"Application-fee credit when paid with the card."}
 ]},
@@ -1476,7 +1486,7 @@ const DB = [
    d:"Cash back lands daily. No annual, foreign-transaction, or late fees. 3% at Apple, Uber, Nike, T-Mobile, Walgreens and more with Apple Pay."}
 ]},
 /* src: robinhood.com/creditcard (live) */
-{ id:"robinhood-gold", name:"Robinhood Gold Card", issuer:"Robinhood", fee:0, feeNote:"requires Robinhood Gold membership", net:"visa", cur:"cash",
+{ id:"robinhood-gold", name:"Robinhood Gold Card", issuer:"Robinhood", fee:0, feeNote:"requires an annual Robinhood Gold subscription", net:"visa", cur:"cash",
   art:["#b8923e","#e2c47d"], ink:"d",
   rates:"3% on everything",
   earn:[{k:"other",x:3}],
@@ -1484,7 +1494,38 @@ const DB = [
   {id:"family", n:"Free family cards", c:"oth", f:"on", a:0, per:"",
    d:"Family cardholders of any age with no authorized-user fee, with spending limits and tracking."},
   {id:"prot", n:"Trip interruption protection", c:"prt", f:"on", a:0, per:"",
-   d:"Trip interruption protection plus Visa Signature benefits. No foreign transaction fees."}
+   d:"Trip interruption protection, purchase security, rental-car CDW, extended warranty and return protection."}
+]},
+/* src: robinhood.com/us/en/creditcard/platinum + api.robinhood.com/creditcard/legal/platinum-benefits-overview (2026-11-11) */
+{ id:"robinhood-plat", name:"Robinhood Platinum Card", issuer:"Robinhood", fee:695, feeNote:"includes Robinhood Gold", net:"visa", cur:"cash",
+  art:["#8f9296","#dadcdf"], ink:"d", down:["robinhood-gold"],
+  rates:"10% hotels & 5% flights booked in the app · 5% dining · 1% everything else",
+  earn:[{k:"hotels",x:10,portal:1},{k:"flights",x:5,portal:1},{k:"dining",x:5},{k:"other",x:1}],
+  b:[
+  {id:"dining", n:"Dining credit", c:"din", f:"m", a:250, pv:{1:30}, per:"$20 / mo ($30 Jan)",
+   d:"Participating restaurants — up to $30 in January and $20 each month Feb–Dec."},
+  {id:"dd", n:"DoorDash $10 off monthly", c:"din", f:"m", a:120, per:"$10 / mo",
+   d:"One $10-off DoorDash delivery order each month once DashPass is activated through the card."},
+  {id:"dashpass", n:"DashPass membership", c:"din", f:"on", a:0, per:"",
+   d:"Complimentary DashPass — activate with the card saved in DoorDash.", e:1},
+  {id:"waymo", n:"Waymo credit", c:"rid", f:"m", a:250, pv:{12:30}, per:"$20 / mo ($30 Dec)",
+   d:"Rides booked in the Waymo app — up to $20/month Jan–Nov and $30 in December."},
+  {id:"flight", n:"Flight credit", c:"air", f:"h", a:300, per:"$150 / half",
+   d:"Flights booked directly with any airline or in the Robinhood app — $150 every six months."},
+  {id:"hotel", n:"Premium hotel credit", c:"trv", f:"h", a:500, per:"$250 / half",
+   d:"2+ night premium hotel stays booked in the Robinhood app, plus $100 on-property credit, breakfast for two and upgrades when available."},
+  {id:"pp", n:"Priority Pass — unlimited", c:"air", f:"on", a:0, per:"",
+   d:"Unlimited Priority Pass lounge visits. Enroll in the Robinhood app.", e:1},
+  {id:"whoop", n:"WHOOP credit", c:"wel", f:"y", a:239, per:"$239 / yr",
+   d:"WHOOP purchases on whoop.com (Peak membership incl. hardware).", thru:"12/31/27"},
+  {id:"function", n:"Function Health credit", c:"wel", f:"y", a:365, per:"$365 / yr",
+   d:"Annual Function Health membership — 160+ lab tests."},
+  {id:"onemed", n:"One Medical membership", c:"wel", f:"on", a:0, per:"",
+   d:"Sponsored Amazon One Medical membership. Activate in the Robinhood app.", e:1},
+  {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."},
+  {id:"prot", n:"Travel protections, no foreign fees", c:"prt", f:"on", a:0, per:"",
+   d:"Auto rental coverage, trip cancellation and travel accident insurance. No foreign transaction fees."}
 ]},
 
 /* ---- memberships & services (kind: svc) ---- */
@@ -1494,12 +1535,14 @@ const DB = [
   b:[
   {id:"gai", n:"Google AI Pro for $10/mo", c:"oth", f:"on", a:0, per:"",
    d:"Gemini app with advanced models, Deep Research, and 2TB of storage for $10/mo through Verizon vs $19.99 retail — about $120/yr in savings. Add it as a perk in the My Verizon app.", e:1},
-  {id:"stream", n:"Streaming perks — $10–13/mo each", c:"ent", f:"on", a:0, per:"",
-   d:"Disney Bundle (Disney+, Hulu, ESPN) or YouTube Premium for $10/mo, Netflix & HBO Max (with ads) for $13/mo — vs up to ~$25 retail.", e:1},
-  {id:"slots", n:"Walmart+, TravelPass & more slots", c:"trv", f:"on", a:0, per:"",
-   d:"Other $10 perk slots: Walmart+ membership, 3 international TravelPass days, 100GB mobile hotspot, cloud storage.", e:1},
-  {id:"access", n:"Verizon Access presales", c:"ent", f:"on", a:0, per:"",
-   d:"Presale tickets and member experiences for concerts, shows and games."}
+  {id:"stream", n:"Streaming perks — $12–17/mo each", c:"ent", f:"on", a:0, per:"",
+   d:"Disney+, Hulu & ESPN+ or YouTube Premium for $12/mo, Netflix & HBO Max (with ads) or Apple Music Family for $13/mo, FOX One $15/mo, Apple One $17/mo — each a few dollars under retail.", e:1},
+  {id:"slots", n:"TravelPass, hotspot & more slots", c:"trv", f:"on", a:0, per:"",
+   d:"Other $10 perk slots: 3 international TravelPass days, mobile hotspot, unlimited cloud storage, Verizon Family Plus, a second number.", e:1},
+  {id:"shine", n:"Verizon Shine drops", c:"ent", f:"m", a:0, per:"check weekly",
+   d:"Free loyalty program in the My Verizon app: daily ticket and product drops, plus a chance at once-in-a-lifetime experiences every Monday.", e:1},
+  {id:"vzdollars", n:"3% back in Verizon Dollars", c:"oth", f:"on", a:0, per:"",
+   d:"Opt in to the loyalty program to earn 3% back every month as Verizon Dollars (devices, accessories, offers) and skip activation and upgrade fees.", e:1}
 ]},
 { id:"svc-tmobile", name:"T-Mobile Experience plans", issuer:"T-Mobile", fee:0, feeNote:"perks vary by plan", kind:"svc",
   art:["#8d0f4f","#e20074"], ink:"l",
@@ -1516,14 +1559,16 @@ const DB = [
   {id:"wifi", n:"Free in-flight Wi-Fi", c:"trv", f:"on", a:0, per:"",
    d:"Streaming-capable Wi-Fi on major U.S. airlines with qualifying plans."}
 ]},
-{ id:"svc-xfinity", name:"Xfinity Rewards", issuer:"Xfinity", fee:0, feeNote:"free to join", kind:"svc",
+{ id:"svc-xfinity", name:"Xfinity Membership", issuer:"Xfinity", fee:0, feeNote:"included with Xfinity service", kind:"svc",
   art:["#1f1240","#5a2fd0"], ink:"l",
-  rates:"Free member program — perks upgrade with tenure (Silver → Diamond)",
+  rates:"Replaced Xfinity Rewards in 2026 — tier by tenure or number of services (Silver → Diamond)",
   b:[
-  {id:"drops", n:"New rewards every Thursday", c:"oth", f:"m", a:0, per:"check monthly",
-   d:"$1 movie rentals, sweepstakes, discounted theme-park and game tickets, streaming promos. Tech freebies rotate — a free year of Perplexity Pro was a 2025 drop."},
-  {id:"deals", n:"Member discounts & experiences", c:"ent", f:"on", a:0, per:"",
-   d:"Movie tickets, Universal and Six Flags discounts, Xfinity Mobile deals; richer perks the longer you're a customer."}
+  {id:"drops", n:"New perks every Thursday", c:"oth", f:"m", a:0, per:"check weekly",
+   d:"Movie tickets or digital gift cards, movie giveaways, special prices on rentals and limited-edition merch — in the Xfinity app."},
+  {id:"deals", n:"Member discounts & exclusives", c:"ent", f:"on", a:0, per:"",
+   d:"Universal Parks tickets, streaming and NBCU/Bravo shop discounts, Xfinity Mobile device savings; early screenings and VIP experiences. Higher tiers unlock more."},
+  {id:"mobile", n:"Free Unlimited mobile line for a year", c:"oth", f:"o", a:0, per:"",
+   d:"New Xfinity Mobile customers on a qualifying Internet plan get one Unlimited line included for a year ($25 activation)."}
 ]},
 { id:"svc-prime", name:"Amazon Prime", issuer:"Amazon", fee:139, kind:"svc",
   art:["#0e2233","#2196c9"], ink:"l",
@@ -1655,20 +1700,19 @@ const COVERS = {
   "ihg-premier.insta":["instacartplus"],
   "marriott-boundless.dash":["dashpass"],
   "sw-priority.dash":["dashpass"],
+  "robinhood-plat.dashpass":["dashpass"],
   "sw-priority.insta":["instacartplus"],
-  "united-club.insta":["instacartplus"],
+  "united-club.instaplus":["instacartplus"],
   "svc-samsplus.wplus":["walmartplus"],
   "svc-walmartplus.stream":["paramountplus","peacock"]
 };
 const DEALS = {
   "svc-verizon.gai":["googleaipro"],
   "svc-verizon.stream":["disneybundle","netflix","max","youtubepremium"],
-  "svc-verizon.slots":["walmartplus"],
-  "svc-tmobile.tuesdays":["perplexitypro","dashpass"],
-  "svc-xfinity.drops":["perplexitypro"]
+  "svc-tmobile.tuesdays":["perplexitypro","dashpass"]
 };
 /* $/mo through the deal — a number, or per-subscription when prices differ (Verizon: Netflix & HBO Max $13 since May 2026) */
-const DEAL_PM = { "svc-verizon.gai":10, "svc-verizon.stream":{disneybundle:10, youtubepremium:10, netflix:13, max:13}, "svc-verizon.slots":10 };
+const DEAL_PM = { "svc-verizon.gai":10, "svc-verizon.stream":{disneybundle:12, youtubepremium:12, netflix:13, max:13} };
 for(const c of DB) for(const b of c.b){
   const k = c.id+"."+b.id;
   if(COVERS[k]) b.covers = COVERS[k];
