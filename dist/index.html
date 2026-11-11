@@ -1851,7 +1851,12 @@ function normalizeState(raw){
   s.ui = { group: ["resets","card","cat"].includes(u.group)? u.group : "resets",
     cats: Array.isArray(u.cats)? u.cats.filter(c=>CATS[c]) : [], q: str(u.q,80),
     hideDone: !!u.hideDone, dollarOnly: !!u.dollarOnly, focus: isId(u.focus)? String(u.focus) : null };
-  if(s.ui.focus && !s.cards.some(c=>c.iid===s.ui.focus)) s.ui.focus = null;
+  /* bonuses, offers and pins belong to a card in the wallet; drop ones left behind by a removed card */
+  const live = new Set(s.cards.map(c=>c.iid));
+  s.bonuses = s.bonuses.filter(b=>live.has(b.iid));
+  s.offers = s.offers.filter(o=>live.has(o.iid));
+  for(const k of Object.keys(s.pins)) if(!live.has(s.pins[k])) delete s.pins[k];
+  if(s.ui.focus && !live.has(s.ui.focus)) s.ui.focus = null;
   for(const k of ["lastExport","backupSnooze"]) if(num(raw[k])>0) s[k] = num(raw[k]);
   if(raw.installTipDone) s.installTipDone = true;
   if(raw.demo) s.demo = true;
@@ -3528,6 +3533,9 @@ document.addEventListener("click", e=>{
     }
     state.cards = state.cards.filter(c=>c.iid!==iid);
     for(const k of Object.keys(state.usage)) if(k.startsWith(iid+"|")) delete state.usage[k];
+    state.bonuses = state.bonuses.filter(b=>b.iid!==iid);
+    state.offers = state.offers.filter(o=>o.iid!==iid);
+    for(const k of Object.keys(state.pins)) if(state.pins[k]===iid) delete state.pins[k];
     if(state.ui.focus===iid) state.ui.focus=null;
     save(); render(); toast(gone && gone.opened? "Card removed — kept in your application history for 5/24" : "Card removed");
   }

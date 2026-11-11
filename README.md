@@ -4,140 +4,192 @@
 
 # Perks Ledger
 
-**Every credit, perk, and discount across your cards & memberships — tracked in one place.**
+### Your cards pay you back. Make sure they actually do.
 
-[![License](https://img.shields.io/badge/license-all%20rights%20reserved-8a2f3c.svg)](LICENSE)
-[![Single file](https://img.shields.io/badge/app-single%20HTML%20file-136147)](index.html)
-[![Zero dependencies](https://img.shields.io/badge/dependencies-zero-2e8a6d)](build-pwa.js)
-[![PWA](https://img.shields.io/badge/PWA-installable%20%C2%B7%20offline-1c4f8f)](#-put-it-on-your-phone)
-[![Privacy](https://img.shields.io/badge/your%20data-never%20leaves%20your%20browser-5a2a63)](#-privacy)
+Every credit, perk, offer and welcome bonus across your credit cards and memberships, in one private checklist that knows when each one resets.
 
-[**Live demo**](https://perksledger.vercel.app) · [Put it on your phone](#-put-it-on-your-phone) · [Deploy your own](#-deploy-your-own) · [Roadmap](#-roadmap)
+[![Live app](https://img.shields.io/badge/▶_open_the_app-perksledger.vercel.app-136147?style=for-the-badge)](https://perksledger.vercel.app)
+
+[![Version](https://img.shields.io/badge/version-0.6_beta-136147)](#-changelog)
+[![Data verified](https://img.shields.io/badge/data_verified-Nov_2026-2e8a6d)](#-keeping-the-data-honest)
+[![Single file](https://img.shields.io/badge/app-one_HTML_file-1c4f8f)](index.html)
+[![Zero dependencies](https://img.shields.io/badge/dependencies-0-5a2a63)](build-pwa.js)
+[![Privacy](https://img.shields.io/badge/your_data-never_leaves_your_device-8a2f3c)](#-privacy-by-architecture)
+
+[Features](#-what-it-does) · [The Perk Graph](#-the-perk-graph) · [Install on your phone](#-install-it-in-10-seconds) · [How it's built](#-under-the-hood) · [Roadmap](#-roadmap)
 
 <br>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/assets/hero-dark.png">
-  <img src=".github/assets/hero-light.png" alt="Perks Ledger — wallet, redemption stats, and the perk connections graph" width="920">
+  <img src=".github/assets/hero-light.png" alt="Perks Ledger: the wallet, redemption stats and the perk connections graph" width="920">
 </picture>
 
 </div>
 
 ---
 
-People pay **$700+ annual fees** and redeem barely half of what those cards promise. Credits reset monthly, quarterly, semiannually — quietly. Memberships bundle perks nobody remembers. And the whole thing is interconnected: your Amex pays for Walmart+, Walmart+ includes Paramount+, and you're *still* paying for Paramount+ out of pocket.
+## 💡 The problem
 
-Perks Ledger is the antidote: add what's in your wallet, and every credit, perk, discount, and hidden chain shows up as a checklist with reset countdowns, redemption math, and overlap detection.
+Premium cards now cost **$95 to $895 a year**, and they justify it with a pile of small credits: $10 a month here, $50 every six months there, $300 a year if you remember. Each one resets on its own schedule: monthly, quarterly, half-yearly, on January 1, or on your card's anniversary. Most people redeem about half of them.
 
-## ✨ Features
+The credits also overlap. Your Amex pays for Walmart+, Walmart+ includes Paramount+, and you're still paying for Paramount+ yourself.
+
+**Perks Ledger turns all of that into one checklist.** Add your cards. Every credit shows up with its reset date, what you've used, what you're about to lose, and which subscriptions you're paying for twice.
+
+## ✨ What it does
+
+### 📋 Track every credit
 
 | | |
 |---|---|
-| 💳 **Built-in database** | 61 U.S. credit cards (personal + business, airline and hotel co-brands) + 8 memberships (Verizon, T-Mobile, Xfinity Rewards, Amazon Prime, Walmart+, Costco, Sam's Club Plus, AAA) — benefit values verified **November 2026** |
-| 🧭 **Which card?** | Type a merchant or pick a category → your cards ranked by live offers, unused credits, then real return (points × your own point values), with rotating 5% quarters, network acceptance (Costco = Visa) and per-category pins |
-| 🏷 **Card offers** | Log Amex/Chase/Citi offers (spend $X get $Y), track progress, get nudged before they expire |
-| 🗓 **Anniversary-aware** | Set the month you opened a card → cardmember-year credits reset on your anniversary, fee reminders, and a keep / ask for retention / downgrade verdict |
-| 🧮 **5/24 + application log** | Counts personal cards opened in the last 24 months and shows when each one drops off |
-| ✅ **Set-and-forget tracking** | Check off each perk per period; period-keyed storage means monthly/quarterly/half-year/annual credits reset themselves |
-| ⏳ **Use it or lose it** | Unused dollar credits that reset soon get surfaced before they expire |
-| 🕸 **Perk Graph** | Tell it what you pay for → it flags subscriptions your cards already cover, deals that are cheaper through your plans, and card → membership → subscription chains with one-click unlocks |
-| 🎯 **Welcome-bonus pacing** | Spend target, deadline, and a live *$/day needed* number |
-| 📉 **Money left behind** | A running "left on the table" total from periods that already ended — with clickable history dots to fix the record |
-| 📅 **Calendar reminders** | One-click `.ics` export: recurring nudges before every reset window, amounts included |
-| 🧾 **Custom everything** | Cards, memberships, and perks the database doesn't know; hide built-in perks your card doesn't have |
-| 🌗 **Considered design** | Wallet-plate UI, banker's-green ledger aesthetic, full light/dark themes, responsive down to phones |
-| 🔒 **Local-only data** | No accounts, no servers, no tracking — with export/import and a "download app + data" escape hatch |
+| 💳 **313 perks, pre-loaded** | 61 U.S. credit cards (personal, business, airline and hotel) plus 8 memberships. Pick a card and its credits are already there. |
+| 🔄 **Resets itself** | Monthly, quarterly, half-year, calendar-year and **cardmember-year** credits each roll over on their own date. No manual reset. |
+| ⏳ **Use it or lose it** | A **Today** strip lists the dollars expiring soonest, so nothing slips past a reset. |
+| 📉 **Money left behind** | A running total of what you missed in periods that already ended, with a dot per period so you can fix the record. |
+| 🙈 **Hide what you don't use** | Move perks you'll never use out of the way without losing them from the math. |
+| 🧾 **Custom anything** | Add cards, memberships and perks the database doesn't know about. |
+
+### 🧠 Spend smarter
+
+| | |
+|---|---|
+| 🧭 **Which card?** | Type a merchant ("Starbucks", "Costco") or pick a category. Your cards are ranked by live offers, then unused credits, then real return (points × *your* point values). Rotating 5% categories, network acceptance (Costco takes Visa only) and your own pins are built in. |
+| 🏷 **Card offers** | Log Amex, Chase and Citi offers ("spend $250, get $50"), track progress, and get a nudge before they expire. |
+| 🎯 **Welcome-bonus pacing** | Spend target, deadline, and the live **$ per day** you need to hit it. |
+
+### 🗓 Manage the wallet
+
+| | |
+|---|---|
+| 📆 **Anniversary-aware** | Set the month you opened a card. Anniversary credits reset on time, the annual fee shows up before it hits, and a renewal check says **keep**, **ask for a retention offer** or **downgrade**, with the downgrade options listed. |
+| 🧮 **5/24 tracker** | Counts personal cards opened in the last 24 months and shows when each one drops off. Closed cards stay in your application history. |
+| 📅 **Calendar reminders** | One-click `.ics` export: a reminder before every reset, fee and offer expiry, with amounts included. |
+| 📸 **Monthly recap** | A shareable image of what you claimed this month. |
 
 ## 🕸 The Perk Graph
 
-The feature nobody else has. Perks Ledger models the *edges* between your money and your benefits:
+Nobody else models this: the **connections** between your cards, your memberships and the subscriptions you pay for.
 
 <div align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/assets/perk-graph-dark.png">
-  <img src=".github/assets/perk-graph-light.png" alt="Perk connections panel showing covered subscriptions, deals, and unlock chains" width="880">
+  <img src=".github/assets/perk-graph-light.png" alt="Perk connections panel showing covered subscriptions, deals and unlock chains" width="880">
 </picture>
 </div>
 
-- **"Already covered"** — you pay for Netflix; your T-Mobile plan includes it. Stop.
-- **"Cheaper through your plan"** — Google AI Pro is $19.99/mo direct, $10/mo as a Verizon perk.
-- **"Free unlock"** — your Platinum's credit pays for Walmart+, which includes Paramount+ or Peacock: a whole chain for $0, one click to add.
-- **"Watch the drops"** — Perplexity Pro shows up as an occasional carrier freebie; check before you renew.
+| Signal | Example |
+|---|---|
+| ✅ **Already covered** | You pay for Netflix, and your T-Mobile plan already includes it. Cancel. |
+| 💸 **Cheaper through your plan** | A streaming bundle costs less as a Verizon perk than paying direct. |
+| 🔓 **Free unlock** | Your Platinum's credit pays for Walmart+, and Walmart+ includes Paramount+ or Peacock. That's a whole chain for $0. |
+| 👀 **Watch the drops** | Carrier perks such as Verizon Shine and Xfinity's weekly drops rotate, so check them before you renew anything. |
 
-It totals what it finds (*"≈ $192/yr sitting in overlaps"*) and lists everything already free with your wallet that you're not using yet.
+It adds up the overlap (*"≈ $192/yr sitting in overlaps"*) and lists everything your wallet already pays for that you aren't using.
 
-## 🚀 Getting started
+## 📱 Install it in 10 seconds
 
-Open the [**live demo**](https://perksledger.vercel.app), hit **+ Add card**, and add your wallet. That's it — data persists in your browser.
+1. Open **[perksledger.vercel.app](https://perksledger.vercel.app)** on your phone.
+2. **iPhone:** Share → *Add to Home Screen*. **Android:** ⋮ → *Install app*.
+3. It opens like a native app, works offline, and keeps your data on the device.
 
-### 📱 Put it on your phone
+> 🧪 Want to look around first? Tap **Explore a sample wallet** on the welcome screen.
 
-1. Open the live demo link on your phone
-2. **iPhone:** Share → *Add to Home Screen* · **Android:** menu ⋮ → *Add to Home screen / Install app*
-3. It launches like a native app, works offline, and keeps your data on-device
+### 💾 Your data, one file
 
-### 💾 Own your copy
+**Data → Download app + data** saves `perks-ledger.html`: the whole app with your wallet built in, as a single file. Open it on any computer and it keeps working. Plain JSON export and import are there too.
 
-Inside the app: **Data → Download app + data** saves `perks-ledger.html` — the entire app *with your cards and history baked in*, as one file. Open it from any computer; it keeps saving there. Email it to yourself, drop it in Dropbox, whatever — it's yours.
+## 🔒 Privacy by architecture
 
-## 🛠 Deploy your own
+Your data stays private because there is nowhere else for it to go.
 
-The app is a single HTML file; `dist/` contains the installable PWA build (manifest + offline service worker + icons + social card).
+- 🏠 Everything lives in your browser's `localStorage`.
+- 🚫 No accounts, no backend, no analytics, no bank logins.
+- 🌐 **No third-party requests at all.** The production build self-hosts everything, including the font.
+- 📤 Export and import are a JSON blob that only you hold.
+
+Full policy: [PRIVACY.md](PRIVACY.md).
+
+## 🗂 What's in the database
+
+| Issuer | Cards |
+|---|---|
+| **American Express** | Platinum, Gold, Green, Business Platinum, Business Gold, Blue Cash Preferred / Everyday, Delta SkyMiles Gold / Platinum / Reserve, Hilton Honors / Surpass / Aspire, Marriott Bonvoy Brilliant / Bevy |
+| **Chase** | Sapphire Reserve / Preferred, Freedom Unlimited / Flex, Ink Preferred / Cash / Unlimited, United Explorer / Quest / Club, World of Hyatt, IHG Premier, Marriott Boundless, Southwest Priority, Prime Visa |
+| **Capital One** | Venture X, Venture X Business, Venture, Savor, Quicksilver, Platinum |
+| **Citi** | Strata Elite / Premier, Double Cash, Custom Cash, AAdvantage Executive / Platinum Select, Costco Anywhere |
+| **Bank of America** | Premium Rewards / Elite, Customized Cash, Unlimited Cash, Travel Rewards, Atmos Rewards Summit / Ascent |
+| **Others** | Wells Fargo Autograph / Journey / Active Cash · U.S. Bank Altitude Reserve / Connect · Bilt Obsidian / Bilt · Robinhood Gold / Platinum · Discover it · Apple Card |
+| **Memberships** | Verizon · T-Mobile · Xfinity · Amazon Prime · Walmart+ · Costco · Sam's Club Plus · AAA |
+
+Plus 25 subscriptions for the Perk Graph and 90 merchants for the card picker. Missing yours? Add it as a custom card, or send a request from **Feedback** in the app.
+
+## 🔁 Keeping the data honest
+
+The database *is* the product, so keeping it current is part of the build.
+
+| | |
+|---|---|
+| 🤖 **`/add-card <name>`** | A Claude Code command that researches a card on the issuer's own pages, adds it following the house conventions, lints, builds and ships. |
+| 🔍 **`/refresh-benefits`** | A quarterly sweep. It re-checks all 69 entries against the issuers, produces a diff table, applies it and redeploys. |
+| ⏰ **Scheduled reminder** | A GitHub Action opens a `data-refresh` issue every Jan, Apr, Jul and Oct 1. |
+| 🧹 **`scripts/lint-db.js`** | Zero-dependency checks: duplicate IDs, amounts that don't match their cadence, expired perks, broken links between cards and subscriptions, missing earn rates. |
+| ⌛ **Self-expiring perks** | Limited-time perks carry an end date and disappear from the totals once it passes, so stale data can't inflate your numbers. |
+| 📮 **In-app reports** | *Feedback → Wrong benefit data* sends corrections between sweeps. |
+
+The app's footer always shows when the data was last verified.
+
+## 🧑‍💻 Under the hood
+
+```
+index.html         the entire app: data, logic and UI (vanilla JS, ~3,800 lines)
+build-pwa.js       wraps it into an installable, offline PWA in dist/ (zero-dependency)
+scripts/lint-db.js database linter, run before every build
+privacy.html       the in-app privacy page
+dist/              the built PWA (what production serves)
+```
+
+- **No framework, no `npm install`.** One HTML file you can read top to bottom.
+- **Period-keyed storage** (`2026-11`, `2026-Q4`, `2026-H2`, `A2026`). A reset is just a new key, so there's nothing to schedule.
+- **The data is plain JS objects.** Adding a card is a small data edit, not a migration.
+- **Design:** a warm-paper and banker's-green ledger look, gradient card plates, Fraunces for display type, full light and dark themes, down to phone width.
+
+### Run or deploy your own
+
+```bash
+node build-pwa.js --cdn-font   # production build into dist/
+```
 
 | Host | How |
 |---|---|
-| **Vercel** (this repo's setup) | `vercel.json` sets everything — *Import repo → Deploy*. Every push to `main` auto-deploys to [perksledger.vercel.app](https://perksledger.vercel.app) |
-| **Netlify / Cloudflare / any static host** | Serve the `dist/` folder. Done. |
-
-Rebuild after editing `index.html`:
-
-```bash
-node build-pwa.js            # inline-font build (fully self-contained, works offline-first)
-node build-pwa.js --cdn-font # production build: extracts the font to a self-hosted file (smaller HTML, zero third-party)
-```
-
-No `npm install`. No framework. No dependencies.
-
-## 🧑‍💻 How it's built
-
-```
-index.html      the entire app — data, logic, UI (vanilla JS, ~2,400 lines)
-build-pwa.js    wraps it into an installable PWA in dist/ (zero-dep build script)
-icons/          app icons + social preview card
-dist/           built PWA (what production serves)
-vercel.json     build config for Vercel's git integration
-```
-
-Design notes: warm-paper + banker's-green "ledger" system with a wallet of gradient card plates; Fraunces for display type; period-keyed usage storage (`2026-07`, `2026-Q3`, `2026-H2`) so resets are free; the card/benefit database is plain JS objects — adding a card is a small data edit, not a schema migration.
-
-## 🔁 Keeping the data fresh
-
-The benefit database is the product — here's how it stays current:
-
-- **`/add-card <name>`** — Claude Code slash command (`.claude/commands/add-card.md`): researches a requested card's *current* perks against issuer pages + guides, adds it following house conventions, tests, builds, and ships.
-- **`/refresh-benefits`** — the quarterly sweep: re-verifies all ~69 entries in parallel, produces a diff table, applies changes, bumps the `DATA_VERIFIED` stamp, and deploys.
-- **Scheduled reminder** — a GitHub Action opens a `data-refresh` issue every Jan/Apr/Jul/Oct 1 so the sweep never gets forgotten.
-- **User reports** — in-app "Report wrong benefit data" and "Request your card" links feed corrections between sweeps.
-- The app footer always shows when data was last verified (`DATA_VERIFIED` in `index.html`).
-
-## 🔒 Privacy
-
-Everything lives in `localStorage` in *your* browser. No sign-up, no backend, no analytics, and zero third-party requests — the production build self-hosts everything, including the font. Export/import is a JSON blob you control.
+| **Vercel** (this repo) | `vercel.json` handles it. Every push to `main` deploys to [perksledger.vercel.app](https://perksledger.vercel.app). |
+| **Anywhere else** | Serve `dist/` from any static host. |
 
 ## 🗺 Roadmap
 
-- [x] Monthly recap & wallet score
-- [x] Best-card-for-this-purchase cheat sheet
+- [x] Best-card-for-this-purchase picker with merchants, rotating categories and pins
+- [x] Card-linked offers tracker
+- [x] Anniversary resets, fee reminders and a renewal verdict
+- [x] 5/24 and application history
+- [x] Monthly recap share card
+- [ ] Optional encrypted sync between devices
 - [ ] Push reminders (PWA notifications)
-- [ ] Household / player-2 shared wallets
-- [ ] Community-verified benefit database with freshness dates
-- [x] Card ROI at renewal: keep / downgrade / cancel
-- [ ] AI concierge over your own wallet
+- [ ] Household / player-2 wallets
+- [ ] Community-verified benefit database
+
+## 📝 Changelog
+
+| Version | Highlights |
+|---|---|
+| **0.6** | Which-card picker, card offers, anniversary resets, renewal verdict, 5/24, 21 new cards and memberships, November 2026 data, a round of bug fixes |
+| **0.5** | Today strip, which-card cheat sheet, monthly recap share, hidden benefits, privacy page, in-app feedback, import |
+| **0.4** | Beta-readiness fixes from an external review |
+| **0.3** | Share card, sample wallet, card requests, data-freshness system |
 
 ## ⚠️ A note on the numbers
 
-Benefit values were verified against issuer pages and card guides in **November 2026**. Issuers change these constantly — treat the app as your checklist and confirm amounts in your card's app before booking. Perks marked *Enroll* need one-time activation with the issuer. This is a tracking tool, not financial advice.
+Benefit values were checked against issuer pages and card guides in **November 2026**. Issuers change them all the time, so treat the app as your checklist and confirm amounts in your card's own app before you book. Perks marked *Enroll* need a one-time activation with the issuer. This is a tracking tool, not financial advice.
 
 ## 📄 License
 
-All rights reserved © 2026 Sean Cheick Baradji — see [LICENSE](LICENSE). The hosted app is free for personal use.
+All rights reserved © 2026 Sean Cheick Baradji. See [LICENSE](LICENSE). The hosted app is free for personal use.
