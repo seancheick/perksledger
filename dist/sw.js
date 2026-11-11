@@ -1,5 +1,5 @@
 /* Perks Ledger service worker — cache-first with background refresh */
-const CACHE = 'perks-ledger-061cfdf7cf';
+const CACHE = 'perks-ledger-7e580d329e';
 const ASSETS = ["index.html","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png","privacy.html","fraunces.woff2"];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
