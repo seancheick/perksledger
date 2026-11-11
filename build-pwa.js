@@ -5,30 +5,25 @@
  * document, adds the manifest + service-worker registration, and stamps the
  * service-worker cache name with a content hash so deploys roll cleanly.
  *
- * Usage: node build-pwa.js [--cdn-font]   (icons are copied from ./icons)
- *   --cdn-font  extract the embedded Fraunces data-URI into a separate
- *               fraunces.woff2 file (smaller HTML, service-worker cached,
- *               zero third-party requests). The default build keeps the font
- *               inline for fully self-contained single-file use.
+ * Usage: node build-pwa.js   (icons from ./icons, fonts from ./fonts, landing page from
+ *   welcome.html + ./site). The --cdn-font flag is accepted for the existing Vercel build
+ *   command and does nothing now: fonts are always self-hosted files.
  */
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const cdnFont = process.argv.includes('--cdn-font');
 const root = __dirname;
 const dist = path.join(root, 'dist');
-let frag = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
-let fontFile = null;
-if (cdnFont) {
-  const m = frag.match(/src:url\(data:font\/woff2;base64,([^)]+)\) format\('woff2'\)/);
-  if (m) {
-    fontFile = Buffer.from(m[1], 'base64');
-    frag = frag.replace(m[0], "src:url(fraunces.woff2) format('woff2')");
-  }
-}
-const fontLinks = '';
-const hash = crypto.createHash('sha256').update(frag).digest('hex').slice(0, 10);
+const frag = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const fonts = fs.readdirSync(path.join(root, 'fonts')).filter(f => f.endsWith('.woff2'));
+const site = fs.readdirSync(path.join(root, 'site')).filter(f => !f.startsWith('.'));
+const fontLinks = fonts.filter(f => /^(sentient-400|hanken)\.woff2$/.test(f))
+  .map(f => `<link rel="preload" href="fonts/${f}" as="font" type="font/woff2" crossorigin>\n`).join('');
+/* The cache name covers everything the service worker serves, so any change rolls out. */
+const h = crypto.createHash('sha256').update(frag).update(fs.readFileSync(path.join(root, 'welcome.html')));
+for (const f of site) h.update(fs.readFileSync(path.join(root, 'site', f)));
+const hash = h.digest('hex').slice(0, 10);
 
 fs.rmSync(dist, { recursive: true, force: true });
 fs.mkdirSync(dist, { recursive: true });
@@ -40,15 +35,15 @@ const head = `<!doctype html>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Perks Ledger</title>
 <meta name="description" content="Every credit, perk, and discount across your cards & memberships — tracked in one place.">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F4EE">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121613">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F1EA">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0E0E0D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Perks">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Perks Ledger">
 <meta property="og:title" content="Perks Ledger — stop leaving card perks on the table">
-<meta property="og:description" content="Track every credit, perk, and discount across your cards & memberships. See what resets soon, what you're double-paying for, and what your wallet already covers. Free, no signup, data never leaves your browser.">
+<meta property="og:description" content="Track every credit, perk, and discount across your cards & memberships. See what resets soon, what you're double-paying for, and what your wallet already covers. Free during the beta, and your wallet data never leaves your browser.">
 <meta property="og:url" content="https://perksledger.vercel.app">
 <meta property="og:image" content="https://perksledger.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -110,7 +105,11 @@ if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
 
 fs.writeFileSync(path.join(dist, 'index.html'), head + frag + swRegister);
 
-if (fontFile) fs.writeFileSync(path.join(dist, 'fraunces.woff2'), fontFile);
+fs.mkdirSync(path.join(dist, 'fonts'));
+for (const f of fonts) fs.copyFileSync(path.join(root, 'fonts', f), path.join(dist, 'fonts', f));
+fs.mkdirSync(path.join(dist, 'site'));
+for (const f of site) fs.copyFileSync(path.join(root, 'site', f), path.join(dist, 'site', f));
+fs.copyFileSync(path.join(root, 'welcome.html'), path.join(dist, 'welcome.html'));
 fs.writeFileSync(path.join(dist, 'robots.txt'), 'User-agent: *\nAllow: /\n');
 fs.copyFileSync(path.join(root, 'privacy.html'), path.join(dist, 'privacy.html'));
 fs.copyFileSync(path.join(root, 'PRIVACY.md'), path.join(dist, 'PRIVACY.md'));
@@ -124,8 +123,8 @@ fs.writeFileSync(path.join(dist, 'manifest.webmanifest'), JSON.stringify({
   start_url: './',
   scope: './',
   display: 'standalone',
-  background_color: '#F6F4EE',
-  theme_color: '#136147',
+  background_color: '#F4F1EA',
+  theme_color: '#141414',
   icons: [
     { src: 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
     { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
@@ -133,8 +132,8 @@ fs.writeFileSync(path.join(dist, 'manifest.webmanifest'), JSON.stringify({
   ]
 }, null, 2));
 
-const swAssets = ['index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'privacy.html']
-  .concat(fontFile ? ['fraunces.woff2'] : []);
+const swAssets = ['index.html', 'welcome.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'privacy.html']
+  .concat(fonts.map(f => 'fonts/' + f), site.map(f => 'site/' + f));
 fs.writeFileSync(path.join(dist, 'sw.js'), `/* Perks Ledger service worker — cache-first with background refresh */
 const CACHE = 'perks-ledger-${hash}';
 const ASSETS = ${JSON.stringify(swAssets)};
@@ -151,7 +150,7 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(cached => {
       const fresh = fetch(e.request).then(res => {
-        if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+        if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
         return res;
       }).catch(() => cached);
       if (cached) return cached;

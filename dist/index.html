@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Perks Ledger</title>
 <meta name="description" content="Every credit, perk, and discount across your cards & memberships — tracked in one place.">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F6F4EE">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121613">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#F4F1EA">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0E0E0D">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Perks">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Perks Ledger">
 <meta property="og:title" content="Perks Ledger — stop leaving card perks on the table">
-<meta property="og:description" content="Track every credit, perk, and discount across your cards & memberships. See what resets soon, what you're double-paying for, and what your wallet already covers. Free, no signup, data never leaves your browser.">
+<meta property="og:description" content="Track every credit, perk, and discount across your cards & memberships. See what resets soon, what you're double-paying for, and what your wallet already covers. Free during the beta, and your wallet data never leaves your browser.">
 <meta property="og:url" content="https://perksledger.vercel.app">
 <meta property="og:image" content="https://perksledger.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
@@ -25,76 +25,82 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/sentient-400.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
 <title>Perks Ledger</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+/* Access gate: the hosted app asks for an email once (welcome.html). A downloaded copy opened from disk skips it. */
+(function(){ try{
+  if(!/^https?:$/.test(location.protocol)) return;
+  if(localStorage.getItem("perksLedger.member")) return;
+  location.replace("welcome.html" + location.search);
+}catch(e){} })();
+</script>
 <style>
-@font-face{
-  font-family:'Fraunces';
-  font-style:normal;
-  font-weight:600;
-  font-display:swap;
-  src:url(fraunces.woff2) format('woff2');
-}
+@font-face{font-family:'Sentient';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/sentient-400.woff2) format('woff2')}
+@font-face{font-family:'Sentient';font-style:normal;font-weight:300;font-display:swap;src:url(fonts/sentient-300.woff2) format('woff2')}
+@font-face{font-family:'Hanken Grotesk';font-style:normal;font-weight:100 900;font-display:swap;src:url(fonts/hanken.woff2) format('woff2')}
 :root{
-  --paper:#F6F4EE; --surface:#FFFFFF; --surface2:#EFECE2; --inset:#F1EFE7;
-  --ink:#1C221E; --muted:#5D675F; --faint:#8B948C;
-  --line:#E3DFD3; --line2:#CFCBBB;
-  --accent:#136147; --accent-ink:#0E4E39; --accent-soft:#E3EEE7; --accent-line:#BCD7C9;
-  --amber:#8F5600; --amber-soft:#F6EBD5; --amber-line:#E2CD9F;
-  --red:#A23B31; --red-soft:#F5E3DF; --red-line:#E3BBB3;
-  --plate-shadow:0 1px 2px rgba(28,34,30,.10),0 10px 24px rgba(28,34,30,.10);
-  --card-shadow:0 1px 2px rgba(28,34,30,.05),0 6px 20px rgba(28,34,30,.06);
-  --focus:#136147;
+  --paper:#F4F1EA; --surface:#FCFBF8; --surface2:#ECE8DF; --inset:#F0ECE4;
+  --ink:#141414; --muted:#6B6760; --faint:#78736A;
+  --line:#E3DED3; --line2:#CDC6B8;
+  --accent:#A8834A; --accent-ink:#76561F; --accent-soft:#F0E7D6; --accent-line:#DCCAA6; --on-accent:#141414;
+  --amber:#A4511F; --amber-soft:#F6E7DC; --amber-line:#E6C6AE;
+  --red:#A3352A; --red-soft:#F5E1DC; --red-line:#E4B9B0;
+  --plate-shadow:0 1px 2px rgba(20,18,14,.10),0 12px 28px -6px rgba(20,18,14,.18);
+  --card-shadow:0 1px 1px rgba(20,18,14,.04),0 8px 24px -10px rgba(20,18,14,.14);
+  --focus:#76561F;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --paper:#121613; --surface:#1A201B; --surface2:#212822; --inset:#161C17;
-    --ink:#EAECE4; --muted:#9DA89F; --faint:#727D74;
-    --line:#2A322B; --line2:#3A443C;
-    --accent:#57C599; --accent-ink:#83D8B6; --accent-soft:#1C2B23; --accent-line:#2F4B3C;
-    --amber:#E2A755; --amber-soft:#2A2315; --amber-line:#4E3F1F;
-    --red:#E08677; --red-soft:#2E1D19; --red-line:#54312A;
-    --plate-shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px rgba(0,0,0,.45);
-    --card-shadow:0 1px 2px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.28);
-    --focus:#57C599;
+    --paper:#0E0E0D; --surface:#171715; --surface2:#201F1C; --inset:#131311;
+    --ink:#E9E4D8; --muted:#A39D90; --faint:#7E786E;
+    --line:#2A2925; --line2:#3B3934;
+    --accent:#C9A46A; --accent-ink:#D9B983; --accent-soft:#2A2318; --accent-line:#4A3D27; --on-accent:#14110B;
+    --amber:#E0915A; --amber-soft:#2C1D12; --amber-line:#55361F;
+    --red:#E5806F; --red-soft:#2E1B17; --red-line:#5A2F27;
+    --plate-shadow:0 1px 2px rgba(0,0,0,.45),0 14px 30px -6px rgba(0,0,0,.6);
+    --card-shadow:0 1px 1px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.5);
+    --focus:#D9B983;
   }
 }
 :root[data-theme="light"]{
-  --paper:#F6F4EE; --surface:#FFFFFF; --surface2:#EFECE2; --inset:#F1EFE7;
-  --ink:#1C221E; --muted:#5D675F; --faint:#8B948C;
-  --line:#E3DFD3; --line2:#CFCBBB;
-  --accent:#136147; --accent-ink:#0E4E39; --accent-soft:#E3EEE7; --accent-line:#BCD7C9;
-  --amber:#8F5600; --amber-soft:#F6EBD5; --amber-line:#E2CD9F;
-  --red:#A23B31; --red-soft:#F5E3DF; --red-line:#E3BBB3;
-  --plate-shadow:0 1px 2px rgba(28,34,30,.10),0 10px 24px rgba(28,34,30,.10);
-  --card-shadow:0 1px 2px rgba(28,34,30,.05),0 6px 20px rgba(28,34,30,.06);
-  --focus:#136147;
+  --paper:#F4F1EA; --surface:#FCFBF8; --surface2:#ECE8DF; --inset:#F0ECE4;
+  --ink:#141414; --muted:#6B6760; --faint:#78736A;
+  --line:#E3DED3; --line2:#CDC6B8;
+  --accent:#A8834A; --accent-ink:#76561F; --accent-soft:#F0E7D6; --accent-line:#DCCAA6; --on-accent:#141414;
+  --amber:#A4511F; --amber-soft:#F6E7DC; --amber-line:#E6C6AE;
+  --red:#A3352A; --red-soft:#F5E1DC; --red-line:#E4B9B0;
+  --plate-shadow:0 1px 2px rgba(20,18,14,.10),0 12px 28px -6px rgba(20,18,14,.18);
+  --card-shadow:0 1px 1px rgba(20,18,14,.04),0 8px 24px -10px rgba(20,18,14,.14);
+  --focus:#76561F;
 }
 :root[data-theme="dark"]{
-  --paper:#121613; --surface:#1A201B; --surface2:#212822; --inset:#161C17;
-  --ink:#EAECE4; --muted:#9DA89F; --faint:#727D74;
-  --line:#2A322B; --line2:#3A443C;
-  --accent:#57C599; --accent-ink:#83D8B6; --accent-soft:#1C2B23; --accent-line:#2F4B3C;
-  --amber:#E2A755; --amber-soft:#2A2315; --amber-line:#4E3F1F;
-  --red:#E08677; --red-soft:#2E1D19; --red-line:#54312A;
-  --plate-shadow:0 1px 2px rgba(0,0,0,.4),0 12px 28px rgba(0,0,0,.45);
-  --card-shadow:0 1px 2px rgba(0,0,0,.25),0 6px 18px rgba(0,0,0,.28);
-  --focus:#57C599;
+  --paper:#0E0E0D; --surface:#171715; --surface2:#201F1C; --inset:#131311;
+  --ink:#E9E4D8; --muted:#A39D90; --faint:#7E786E;
+  --line:#2A2925; --line2:#3B3934;
+  --accent:#C9A46A; --accent-ink:#D9B983; --accent-soft:#2A2318; --accent-line:#4A3D27; --on-accent:#14110B;
+  --amber:#E0915A; --amber-soft:#2C1D12; --amber-line:#55361F;
+  --red:#E5806F; --red-soft:#2E1B17; --red-line:#5A2F27;
+  --plate-shadow:0 1px 2px rgba(0,0,0,.45),0 14px 30px -6px rgba(0,0,0,.6);
+  --card-shadow:0 1px 1px rgba(0,0,0,.3),0 8px 24px -10px rgba(0,0,0,.5);
+  --focus:#D9B983;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background:var(--paper); color:var(--ink);
-  font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font:15px/1.5 "Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   -webkit-font-smoothing:antialiased;
 }
 button{font:inherit;color:inherit;background:none;border:none;padding:0;cursor:pointer}
 input,select,textarea{font:inherit;color:inherit}
 :is(button,input,select,textarea,[tabindex]):focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
-.serif{font-family:'Fraunces',Georgia,'Times New Roman',serif;font-weight:600}
+.serif{font-family:'Sentient',Georgia,'Times New Roman',serif;font-weight:400;letter-spacing:-.012em}
 
 /* ---------- top bar ---------- */
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:22px 0 6px}
@@ -108,9 +114,7 @@ input,select,textarea{font:inherit;color:inherit}
   transition:border-color .12s, background .12s;
 }
 .btn:hover{border-color:var(--faint)}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-:root[data-theme="dark"] .btn.primary{color:#0d1410}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .btn.primary{color:#0d1410} }
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .btn.primary:hover{filter:brightness(1.06)}
 .btn.quiet{border-color:transparent;background:transparent;color:var(--muted)}
 .btn.quiet:hover{background:var(--surface2);color:var(--ink)}
@@ -214,7 +218,7 @@ input,select,textarea{font:inherit;color:inherit}
   margin-top:6px;margin-bottom:4px;background:var(--surface);border:1px solid var(--line);
   border-radius:16px;padding:14px 16px 15px;box-shadow:var(--card-shadow);
 }
-.today.at-risk{box-shadow:inset 3px 0 0 var(--amber),var(--card-shadow)}
+.today.at-risk .thd h2{color:var(--ink)}
 .today .thd{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .today .thd h2{font-size:20px;margin:0;line-height:1.2}
 .today .thd .risk{font-size:13px;color:var(--muted);margin-top:3px}
@@ -253,9 +257,7 @@ input,select,textarea{font:inherit;color:inherit}
   flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;
   font-size:13px;font-weight:700;background:var(--accent-soft);color:var(--accent-ink);
 }
-.bcrow.top .bcrank{background:var(--accent);color:#fff}
-:root[data-theme="dark"] .bcrow.top .bcrank,:root:not([data-theme="light"]) .bcrow.top .bcrank{color:#0d1410}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .bcrow.top .bcrank{color:#0d1410} }
+.bcrow.top .bcrank{background:var(--accent);color:var(--on-accent)}
 .bcbody{flex:1;min-width:0}
 .bcname{font-weight:650;font-size:15px}
 .bcreason{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
@@ -377,9 +379,7 @@ input,select,textarea{font:inherit;color:inherit}
 }
 .ck input:hover{border-color:var(--accent)}
 .ck input:checked{background:var(--accent);border-color:var(--accent)}
-.ck svg{position:absolute;inset:0;margin:auto;pointer-events:none;color:#fff;opacity:0;transform:scale(.6);transition:all .12s}
-:root[data-theme="dark"] .ck svg{color:#0d1410}
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .ck svg{color:#0d1410} }
+.ck svg{position:absolute;inset:0;margin:auto;pointer-events:none;color:var(--on-accent);opacity:0;transform:scale(.6);transition:opacity .12s,transform .12s}
 .ck input:checked+svg{opacity:1;transform:scale(1)}
 .ck.ongoing{display:grid;place-items:center}
 .ck.ongoing span{width:8px;height:8px;border-radius:50%;background:var(--line2)}
@@ -401,10 +401,11 @@ input,select,textarea{font:inherit;color:inherit}
 .perk .detail{display:none;padding:2px 16px 15px 52px;font-size:13.5px;color:var(--muted)}
 .perk.expanded .detail{display:block}
 .perk .detail .desc{max-width:68ch}
-.punch{display:flex;align-items:center;gap:5px;margin-top:10px}
-.punch .pd{width:11px;height:11px;border-radius:50%;border:1.4px solid var(--line2);background:transparent}
+.punch{display:flex;align-items:center;gap:5px;margin-top:8px;flex-wrap:wrap}
+.punch .pd{width:10px;height:10px;border-radius:50%;border:1.4px solid var(--line2);background:transparent;transition:background-color .15s,border-color .15s,transform .15s}
+.punch .pd.clickable:hover{transform:scale(1.25)}
 .punch .pd.hit{background:var(--accent);border-color:var(--accent)}
-.punch .pd.now{box-shadow:0 0 0 2px var(--paper),0 0 0 3.4px var(--faint)}
+.punch .pd.now{box-shadow:0 0 0 2px var(--surface),0 0 0 3.4px var(--faint)}
 .punch .plabel{font-size:11.5px;color:var(--faint);margin-left:6px;font-variant-numeric:tabular-nums}
 .detail .actions{display:flex;gap:14px;margin-top:11px}
 .detail .actions button{font-size:12.5px;font-weight:600;color:var(--faint)}
@@ -2626,6 +2627,7 @@ function perkRow(r){
           ${b.e? `<span class="mtag enroll">Enroll first</span>`:""}
           ${b.thru? `<span class="mtag">thru ${esc(b.thru)}</span>`:""}
         </div>
+        ${punch}
       </div>
       <div class="right">
         <span class="valchip">${b.a>0? fmt$(b.a)+"/yr" : (b.per? esc(b.per):"")}</span>
@@ -2635,7 +2637,6 @@ function perkRow(r){
     </div>
     <div class="detail">
       <div class="desc">${esc(b.d||"")}${b.e? " <em>Requires one-time enrollment with the issuer.</em>":""}</div>
-      ${punch}
       <div class="actions">
         ${isCustom? `<button data-act="del-perk" data-iid="${c.iid}" data-bid="${b.id}" class="del">Delete this custom perk</button>`
                   : `<button data-act="hide-perk" data-iid="${c.iid}" data-bid="${b.id}">Hide — not using, or not on my card</button>
@@ -3314,76 +3315,76 @@ async function shareCard(){
   if(!state.cards.length){ toast("Add a card first"); return; }
   const t = walletTotals();
   const ov = graphSavingsTotal();
-  try{ if(document.fonts && document.fonts.load) await document.fonts.load("600 66px Fraunces"); }catch(e){}
+  try{ if(document.fonts && document.fonts.load) await document.fonts.load("400 66px Sentient"); }catch(e){}
   const W=1080, H=1080, cv = document.createElement("canvas");
   cv.width = W; cv.height = H;
   const x = cv.getContext("2d");
-  x.fillStyle = "#F6F4EE"; x.fillRect(0,0,W,H);
-  x.fillStyle = "#136147"; x.fillRect(0,0,W,14);
-  x.fillStyle = "#1C221E"; x.font = "600 66px Fraunces, Georgia, serif";
+  x.fillStyle = "#F4F1EA"; x.fillRect(0,0,W,H);
+  x.fillStyle = "#A8834A"; x.fillRect(0,0,W,14);
+  x.fillStyle = "#141414"; x.font = "400 66px Sentient, Georgia, serif";
   x.fillText("Perks Ledger", 84, 172);
-  x.fillStyle = "#8B948C"; x.font = "600 30px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#86817A"; x.font = "600 30px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText("I ' M   T R A C K I N G", 84, 320);
-  x.fillStyle = "#1C221E"; x.font = "700 132px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#141414"; x.font = "700 132px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText(fmt$(t.potential), 84, 452);
-  x.fillStyle = "#5D675F"; x.font = "400 40px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#6B6760"; x.font = "400 40px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText("in card & membership perks this year", 84, 518);
   function statRow(y2, val, label, color){
-    x.font = "700 58px -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = color;
+    x.font = "700 58px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = color;
     x.fillText(val, 84, y2);
     const w = x.measureText(val).width;
-    x.font = "400 36px -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = "#5D675F";
+    x.font = "400 36px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = "#6B6760";
     x.fillText("  "+label, 84+w, y2);
   }
-  statRow(646, fmt$(t.redeemed), "redeemed so far", "#0E4E39");
-  statRow(730, fmt$(Math.max(0,t.potential-t.redeemed)), "still on the table", "#8F5600");
-  if(ov>0) statRow(814, "≈ "+fmt$(ov)+"/yr", "found in overlapping subscriptions", "#0E4E39");
+  statRow(646, fmt$(t.redeemed), "redeemed so far", "#76561F");
+  statRow(730, fmt$(Math.max(0,t.potential-t.redeemed)), "still on the table", "#A4511F");
+  if(ov>0) statRow(814, "≈ "+fmt$(ov)+"/yr", "found in overlapping subscriptions", "#76561F");
   const my = 880, mw = W-168;
-  x.fillStyle = "#E3EEE7"; rr(x, 84, my, mw, 18, 9);
+  x.fillStyle = "#ECE3D0"; rr(x, 84, my, mw, 18, 9);
   const pct = t.potential? Math.min(1, t.redeemed/t.potential) : 0;
-  x.fillStyle = "#136147"; rr(x, 84, my, Math.max(18, mw*pct), 18, 9);
-  x.fillStyle = "#8B948C"; x.font = "600 34px -apple-system, 'Segoe UI', sans-serif";
-  x.fillText("perksledger.vercel.app  ·  free · no signup · data stays local", 84, 986);
+  x.fillStyle = "#A8834A"; rr(x, 84, my, Math.max(18, mw*pct), 18, 9);
+  x.fillStyle = "#86817A"; x.font = "600 34px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
+  x.fillText("perksledger.vercel.app  ·  free beta · data stays local", 84, 986);
   await exportSharePng(cv, "perks-ledger-savings.png", "Tracking every card perk in one place — perksledger.vercel.app");
 }
 async function shareMonthRecap(){
   if(!state.cards.length){ toast("Add a card first"); return; }
   const s = monthRecapStats();
   const label = monthLabel();
-  try{ if(document.fonts && document.fonts.load) await document.fonts.load("600 66px Fraunces"); }catch(e){}
+  try{ if(document.fonts && document.fonts.load) await document.fonts.load("400 66px Sentient"); }catch(e){}
   const W=1080, H=1080, cv = document.createElement("canvas");
   cv.width = W; cv.height = H;
   const x = cv.getContext("2d");
-  x.fillStyle = "#F6F4EE"; x.fillRect(0,0,W,H);
-  x.fillStyle = "#136147"; x.fillRect(0,0,W,14);
-  x.fillStyle = "#1C221E"; x.font = "600 56px Fraunces, Georgia, serif";
+  x.fillStyle = "#F4F1EA"; x.fillRect(0,0,W,H);
+  x.fillStyle = "#A8834A"; x.fillRect(0,0,W,14);
+  x.fillStyle = "#141414"; x.font = "400 56px Sentient, Georgia, serif";
   x.fillText("Perks Ledger", 84, 130);
-  x.fillStyle = "#8B948C"; x.font = "600 28px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#86817A"; x.font = "600 28px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText(label.toUpperCase()+"  ·  MONTHLY RECAP", 84, 188);
   const used = s.monthAvail? s.monthUsed : s.yearRedeemed;
   const avail = s.monthAvail || s.yearPotential;
-  x.fillStyle = "#1C221E"; x.font = "700 120px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#141414"; x.font = "700 120px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText(fmt$(used), 84, 340);
-  x.fillStyle = "#5D675F"; x.font = "400 36px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#6B6760"; x.font = "400 36px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText(s.monthAvail? "of "+fmt$(avail)+" monthly credits used" : "redeemed of "+fmt$(avail)+" trackable this year", 84, 400);
   function row(y, val, label, color){
-    x.font = "700 52px -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = color;
+    x.font = "700 52px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = color;
     x.fillText(val, 84, y);
     const w = x.measureText(val).width;
-    x.font = "400 32px -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = "#5D675F";
+    x.font = "400 32px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif"; x.fillStyle = "#6B6760";
     x.fillText("  "+label, 84+w, y);
   }
-  row(520, s.leftTable>0? fmt$(s.leftTable):"$0", s.leftTable>0? "left on the table this year":"left on the table — clean sheet", s.leftTable>0? "#8F5600":"#0E4E39");
-  row(600, s.weekN? fmt$(s.weekRisk):"$0", s.weekN? "at risk in the next 7 days":"at risk this week — clear", s.weekN? "#8F5600":"#0E4E39");
-  if(s.overlap>0) row(680, "≈ "+fmt$(s.overlap)+"/yr", "in overlaps your wallet already covers", "#0E4E39");
+  row(520, s.leftTable>0? fmt$(s.leftTable):"$0", s.leftTable>0? "left on the table this year":"left on the table — clean sheet", s.leftTable>0? "#A4511F":"#76561F");
+  row(600, s.weekN? fmt$(s.weekRisk):"$0", s.weekN? "at risk in the next 7 days":"at risk this week — clear", s.weekN? "#A4511F":"#76561F");
+  if(s.overlap>0) row(680, "≈ "+fmt$(s.overlap)+"/yr", "in overlaps your wallet already covers", "#76561F");
   const barY = 780, mw = W-168;
   const pct = avail? Math.min(1, used/avail) : 0;
-  x.fillStyle = "#E3EEE7"; rr(x, 84, barY, mw, 18, 9);
-  x.fillStyle = "#136147"; rr(x, 84, barY, Math.max(18, mw*pct), 18, 9);
-  x.fillStyle = "#8B948C"; x.font = "600 32px -apple-system, 'Segoe UI', sans-serif";
+  x.fillStyle = "#ECE3D0"; rr(x, 84, barY, mw, 18, 9);
+  x.fillStyle = "#A8834A"; rr(x, 84, barY, Math.max(18, mw*pct), 18, 9);
+  x.fillStyle = "#86817A"; x.font = "600 32px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
   x.fillText(Math.round(pct*100)+"% of trackable credits used  ·  perksledger.vercel.app", 84, 860);
-  x.fillStyle = "#A8AFA8"; x.font = "400 26px -apple-system, 'Segoe UI', sans-serif";
-  x.fillText("Free · no signup · data never left my browser", 84, 960);
+  x.fillStyle = "#A9A398"; x.font = "400 26px 'Hanken Grotesk', -apple-system, 'Segoe UI', sans-serif";
+  x.fillText("Free beta · my wallet data never left my browser", 84, 960);
   const blurb = s.leftTable===0
     ? `I left $0 on the table so far in ${new Date().getFullYear()} — tracking every card credit in Perks Ledger.`
     : `Used ${fmt$(used)} in credits · ${fmt$(s.leftTable)} left on the table this year. Tracking with Perks Ledger.`;
@@ -3804,6 +3805,14 @@ document.querySelectorAll("[data-vdate]").forEach(el=>{ el.textContent = DATA_VE
 save();
 if(!state.cards.length && /[?&]demo=1/.test(location.search)) loadDemo();
 else render();
+/* A signup that couldn't reach the server (offline, or before the list was set up) is retried once per visit. */
+try{
+  const mb = JSON.parse(localStorage.getItem("perksLedger.member") || "null");
+  if(mb && mb.email && !mb.synced && /^https?:$/.test(location.protocol)){
+    fetch("api/subscribe", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({email:mb.email})})
+      .then(r=>{ if(r.ok){ mb.synced = true; localStorage.setItem("perksLedger.member", JSON.stringify(mb)); } }).catch(()=>{});
+  }
+}catch(e){}
 </script>
 
 <script>

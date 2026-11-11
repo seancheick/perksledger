@@ -1,6 +1,6 @@
 /* Perks Ledger service worker — cache-first with background refresh */
-const CACHE = 'perks-ledger-7e580d329e';
-const ASSETS = ["index.html","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png","privacy.html","fraunces.woff2"];
+const CACHE = 'perks-ledger-750cd4fd43';
+const ASSETS = ["index.html","welcome.html","manifest.webmanifest","icon-192.png","icon-512.png","apple-touch-icon.png","privacy.html","fonts/hanken.woff2","fonts/sentient-300.woff2","fonts/sentient-400.woff2","site/app-ledger.jpg","site/app-today.jpg","site/base.css","site/cards.jpg","site/tokens.css","site/wallet.jpg","site/welcome.css"];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
@@ -14,7 +14,7 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request, { ignoreSearch: true }).then(cached => {
       const fresh = fetch(e.request).then(res => {
-        if (res && res.ok) caches.open(CACHE).then(c => c.put(e.request, res.clone()));
+        if (res && res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put(e.request, copy)); }
         return res;
       }).catch(() => cached);
       if (cached) return cached;

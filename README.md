@@ -89,7 +89,7 @@ It adds up the overlap (*"≈ $192/yr sitting in overlaps"*) and lists everythin
 
 ## 📱 Install it in 10 seconds
 
-1. Open **[perksledger.vercel.app](https://perksledger.vercel.app)** on your phone.
+1. Open **[perksledger.vercel.app](https://perksledger.vercel.app)** on your phone and enter your email to get access (free during the beta).
 2. **iPhone:** Share → *Add to Home Screen*. **Android:** ⋮ → *Install app*.
 3. It opens like a native app, works offline, and keeps your data on the device.
 
@@ -103,9 +103,10 @@ It adds up the overlap (*"≈ $192/yr sitting in overlaps"*) and lists everythin
 
 Your data stays private because there is nowhere else for it to go.
 
-- 🏠 Everything lives in your browser's `localStorage`.
-- 🚫 No accounts, no backend, no analytics, no bank logins.
-- 🌐 **No third-party requests at all.** The production build self-hosts everything, including the font.
+- 🏠 Your wallet lives in your browser's `localStorage`.
+- ✉️ The only thing we keep is the email you enter to get access, held in a Resend contact list for launch news.
+- 🚫 No bank logins, no passwords, no analytics.
+- 🌐 **No third-party requests from the page.** The production build self-hosts everything, including the fonts; the signup goes to our own `/api/subscribe`.
 - 📤 Export and import are a JSON blob that only you hold.
 
 Full policy: [PRIVACY.md](PRIVACY.md).
@@ -145,6 +146,9 @@ The app's footer always shows when the data was last verified.
 index.html         the entire app: data, logic and UI (vanilla JS, ~3,800 lines)
 build-pwa.js       wraps it into an installable, offline PWA in dist/ (zero-dependency)
 scripts/lint-db.js database linter, run before every build
+welcome.html       the landing page and access gate (styles and photos in site/)
+api/subscribe.js   Vercel function: adds a signup email to the Resend contact list
+fonts/             self-hosted Sentient and Hanken Grotesk
 privacy.html       the in-app privacy page
 dist/              the built PWA (what production serves)
 ```
@@ -152,7 +156,7 @@ dist/              the built PWA (what production serves)
 - **No framework, no `npm install`.** One HTML file you can read top to bottom.
 - **Period-keyed storage** (`2026-11`, `2026-Q4`, `2026-H2`, `A2026`). A reset is just a new key, so there's nothing to schedule.
 - **The data is plain JS objects.** Adding a card is a small data edit, not a migration.
-- **Design:** a warm-paper and banker's-green ledger look, gradient card plates, Fraunces for display type, full light and dark themes, down to phone width.
+- **Design:** ink, bone and brass, gradient card plates, Sentient for display type and Hanken Grotesk for text, full light and dark themes, down to phone width.
 
 ### Run or deploy your own
 
@@ -163,7 +167,16 @@ node build-pwa.js --cdn-font   # production build into dist/
 | Host | How |
 |---|---|
 | **Vercel** (this repo) | `vercel.json` handles it. Every push to `main` deploys to [perksledger.vercel.app](https://perksledger.vercel.app). |
-| **Anywhere else** | Serve `dist/` from any static host. |
+| **Anywhere else** | Serve `dist/` from any static host. Without `/api/subscribe` the access gate still lets people in and keeps their email in the browser. |
+
+**The access gate.** `welcome.html` is the landing page. The app sends anyone without a saved email there; the form posts to `api/subscribe.js`, a Vercel function that adds the address to a Resend contact list. Set these in Vercel → Settings → Environment Variables:
+
+| Variable | Value |
+|---|---|
+| `RESEND_API_KEY` | A Resend API key with contacts access |
+| `RESEND_SEGMENT_ID` | Optional: the Resend segment to file signups under |
+
+Until the key is set, signups still get in; their email is kept in the browser and retried on the next visit.
 
 ## 🗺 Roadmap
 

@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Perks Ledger</title>
+<meta name="description" content="Every card credit, every reset, tracked privately on your own device.">
+<meta name="theme-color" content="#F4F1EA">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Perks Ledger">
+<meta property="og:title" content="Perks Ledger: your cards owe you money">
+<meta property="og:description" content="Every card credit, every reset, tracked privately on your own device.">
+<meta property="og:url" content="https://perksledger.vercel.app/welcome.html">
+<meta property="og:image" content="https://perksledger.vercel.app/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preload" href="fonts/sentient-300.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/hanken.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="site/welcome.css">
+</head>
+<body>
+
+<header class="container nav">
+  <a class="wordmark" href="welcome.html" aria-label="Perks Ledger">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 9.5h19" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 14.5l1.6 1.6 3.2-3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Perks Ledger
+  </a>
+  <nav class="nav-links" aria-label="Site">
+    <a class="link hide-sm" href="privacy.html">Privacy</a>
+    <a class="btn line" href="#access">Get access</a>
+  </nav>
+</header>
+
+<main>
+  <section class="container hero" aria-labelledby="hero-title">
+    <div>
+      <h1 id="hero-title">Your cards owe you money.</h1>
+      <p class="lead">Every credit, every reset, tracked privately on your own device.</p>
+      <form class="access" id="access" data-form novalidate>
+        <label class="visually-hidden" for="email-1">Email address</label>
+        <div class="field">
+          <input id="email-1" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+          <button class="btn" type="submit">Get access</button>
+        </div>
+        <div class="hp" aria-hidden="true"><label>Company<input name="company" tabindex="-1" autocomplete="off"></label></div>
+        <p class="msg" role="alert" aria-live="polite"></p>
+        <p class="note">Free during the beta. We email you at launch, nothing else. <a class="link" href="privacy.html">Privacy</a></p>
+      </form>
+    </div>
+
+    <div class="stage" aria-hidden="true">
+      <figure class="photo" data-slot="cards" data-alt="Three blank metal cards, silver, black and brass, fanned on linen">
+        <img src="site/cards.jpg" width="1024" height="1024" alt="" fetchpriority="high" decoding="async">
+      </figure>
+      <div class="slip">
+        <div class="slip-row">
+          <span class="tick"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div>
+            <p class="title">Uber Cash</p>
+            <p class="from">The Platinum Card, monthly</p>
+          </div>
+          <span class="amt">$15</span>
+        </div>
+        <div class="dots"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on now"></i><i class="later"></i></div>
+        <p class="foot">Resets December 1</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" aria-labelledby="resets-title">
+    <div class="split rule-top" style="padding-top: var(--space-xl)">
+      <div>
+        <h2 id="resets-title">Every reset, on one page.</h2>
+        <p>Monthly, quarterly, half-year and anniversary credits each roll over on their own date. Perks Ledger lines them up, counts what you used, and warns you before one lapses.</p>
+      </div>
+      <figure class="print">
+        <div class="frame" data-slot="ledger" data-alt="The Perks Ledger monthly credits list with checked perks and period dots">
+          <img src="site/app-ledger.jpg" width="1600" height="878" alt="The Perks Ledger monthly credits list with checked perks and period dots" loading="lazy" decoding="async">
+        </div>
+        <figcaption><span>The ledger, sample wallet</span><span>Perks Ledger 0.7</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="container" aria-labelledby="db-title">
+    <h2 class="statement" id="db-title">Sixty-one cards and eight memberships, every credit checked against the issuer in <em>November 2026</em>.</h2>
+    <dl class="index">
+      <div><dt>American Express</dt><dd>Platinum, Gold, Green, Business Platinum, Delta, Hilton and Marriott cards</dd></div>
+      <div><dt>Chase</dt><dd>Sapphire Reserve and Preferred, Freedom, Ink, United, Hyatt, IHG, Southwest</dd></div>
+      <div><dt>Capital One and Citi</dt><dd>Venture X, Savor, Strata Elite and Premier, AAdvantage Executive, Costco</dd></div>
+      <div><dt>And the rest</dt><dd>Bank of America Atmos, Bilt, Robinhood, U.S. Bank, Wells Fargo, Apple, Discover</dd></div>
+      <div><dt>Memberships</dt><dd>Verizon, T-Mobile, Xfinity, Prime, Walmart+, Costco, Sam’s Club, AAA</dd></div>
+    </dl>
+  </section>
+
+  <section class="container" aria-labelledby="chain-title">
+    <div class="split rule-top" style="padding-top: var(--space-xl)">
+      <h2 id="chain-title">It sees what you pay for twice.</h2>
+      <div>
+        <p style="margin-top:0">Tell it your subscriptions. It follows each card through the memberships it pays for, and flags what your wallet already covers.</p>
+        <div class="chain" aria-label="Example: The Platinum Card covers Walmart+, which includes Paramount+">
+          <span class="node"><b>The Platinum Card</b><span>$12.95 a month credit</span></span>
+          <span class="join">covers</span>
+          <span class="node"><b>Walmart+</b><span>membership</span></span>
+          <span class="join">includes</span>
+          <span class="node"><b>Paramount+</b><span>no longer paid twice</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" aria-labelledby="privacy-title">
+    <div class="split privacy">
+      <figure class="print" data-slot="wallet" data-alt="A leather wallet holding a brass and a black card beside a phone lying face down">
+        <div class="frame wide"><img src="site/wallet.jpg" width="1536" height="1024" alt="A leather wallet holding a brass and a black card beside a phone lying face down" loading="lazy" decoding="async"></div>
+        <figcaption><span>Kept on the device</span><span>No bank logins</span></figcaption>
+      </figure>
+      <div>
+        <h2 class="statement" id="privacy-title">No bank logins. No passwords. Your wallet stays on your phone.</h2>
+        <p style="margin-top: var(--space-lg); max-width: 44ch">Cards, check-offs and history live in your browser and nowhere else. The one thing we keep is the email you give us here.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container closing" aria-labelledby="close-title">
+    <div class="card-form">
+      <h2 id="close-title">Open your ledger.</h2>
+      <form class="access" data-form novalidate>
+        <label class="visually-hidden" for="email-2">Email address</label>
+        <div class="field">
+          <input id="email-2" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
+          <button class="btn" type="submit">Get access</button>
+        </div>
+        <div class="hp" aria-hidden="true"><label>Company<input name="company" tabindex="-1" autocomplete="off"></label></div>
+        <p class="msg" role="alert" aria-live="polite"></p>
+        <p class="note">Free during the beta. Unsubscribe from any email in one click.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="container">
+  <a class="wordmark" href="welcome.html">Perks Ledger</a>
+  <div class="row">
+    <span>Benefit data verified November 2026. Not financial advice.</span>
+    <span class="links"><a class="link" href="privacy.html">Privacy</a><span>&copy; 2026 Sean Cheick Baradji</span></span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var KEY = "perksLedger.member";
+  var EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  function enter() { location.replace("./" + location.search); }
+  function remember(email, synced) {
+    try { localStorage.setItem(KEY, JSON.stringify({ email: email, synced: synced, at: Date.now() })); } catch (e) {}
+  }
+  document.querySelectorAll("[data-form]").forEach(function (form) {
+    var input = form.querySelector('input[name="email"]');
+    var btn = form.querySelector('button[type="submit"]');
+    var msg = form.querySelector(".msg");
+    var field = form.querySelector(".field");
+    input.addEventListener("input", function () { field.classList.remove("is-error"); msg.textContent = ""; });
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var email = input.value.trim().toLowerCase();
+      if (!EMAIL.test(email) || email.length > 254) {
+        field.classList.add("is-error"); msg.textContent = "That doesn’t look like an email address. Check it and try again."; input.focus(); return;
+      }
+      btn.disabled = true; btn.setAttribute("aria-busy", "true"); btn.textContent = "Opening…";
+      var hp = form.querySelector('input[name="company"]').value;
+      fetch("api/subscribe", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email: email, company: hp }) })
+        .then(function (r) {
+          if (r.status === 400) {
+            btn.disabled = false; btn.removeAttribute("aria-busy"); btn.textContent = "Get access";
+            field.classList.add("is-error"); msg.textContent = "That address was rejected. Check it and try again."; input.focus(); return;
+          }
+          remember(email, r.ok); enter();
+        })
+        .catch(function () { remember(email, false); enter(); });
+    });
+  });
+  /* the photograph leans gently toward the pointer */
+  var stage = document.querySelector(".stage"), fan = document.querySelector(".stage .photo");
+  if (stage && fan && matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
+    addEventListener("pointermove", function (e) {
+      var b = stage.getBoundingClientRect();
+      var x = (e.clientX - (b.left + b.width / 2)) / innerWidth, y = (e.clientY - (b.top + b.height / 2)) / innerHeight;
+      fan.style.setProperty("--rx", (x * 10).toFixed(2)); fan.style.setProperty("--ry", (-y * 8).toFixed(2));
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
