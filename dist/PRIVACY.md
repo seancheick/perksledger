@@ -4,9 +4,11 @@ Your wallet stays on your device. The only thing we keep is your email.
 
 - **Your email, and nothing else.** To open the hosted app you enter an email
   address. It is stored in our contact list at Resend, our email provider, and
-  used to tell you about Perks Ledger: the public launch, accounts and paid
-  plans. We never sell or share it. Every email has a one-click unsubscribe,
+  used to tell you about Perks Ledger: beta news, card benefits that changed,
+  and later the public launch, accounts and paid plans. We never sell or share it. Every email has a one-click unsubscribe,
   and you can ask us to delete the address at any time.
+- **The sample wallet needs no email.** Looking around the sample stores
+  nothing at all, not even on your device.
 - **No bank logins, no passwords.** Perks Ledger never asks for card numbers or
   bank credentials.
 - **Your wallet data stays in your browser.** Your cards, check-offs, offers and

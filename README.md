@@ -169,7 +169,7 @@ node build-pwa.js --cdn-font   # production build into dist/
 | **Vercel** (this repo) | `vercel.json` handles it. Every push to `main` deploys to [perksledger.vercel.app](https://perksledger.vercel.app). |
 | **Anywhere else** | Serve `dist/` from any static host. Without `/api/subscribe` the access gate still lets people in and keeps their email in the browser. |
 
-**The access gate.** `welcome.html` is the landing page. The app sends anyone without a saved email there; the form posts to `api/subscribe.js`, a Vercel function that adds the address to a Resend contact list. Set these in Vercel → Settings → Environment Variables:
+**The access gate.** `welcome.html` is the landing page. The app sends anyone without a saved email there, except `/?sample=1`: a look-only sample wallet that reads and writes no storage and points visitors back to the form; the form posts to `api/subscribe.js`, a Vercel function that adds the address to a Resend contact list. Set these in Vercel → Settings → Environment Variables:
 
 | Variable | Value |
 |---|---|

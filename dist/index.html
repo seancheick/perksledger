@@ -35,6 +35,7 @@
 /* Access gate: the hosted app asks for an email once (welcome.html). A downloaded copy opened from disk skips it. */
 (function(){ try{
   if(!/^https?:$/.test(location.protocol)) return;
+  if(/[?&]sample=1/.test(location.search)) return;
   if(localStorage.getItem("perksLedger.member")) return;
   location.replace("welcome.html" + location.search);
 }catch(e){} })();
@@ -129,6 +130,8 @@ input,select,textarea{font:inherit;color:inherit}
 }
 .banner.info{background:var(--surface);border-color:var(--line);color:var(--muted)}
 .banner.info b,.banner.info button{color:var(--ink)}
+.banner.sample{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--surface);border-color:var(--accent);color:var(--ink);font-size:14px}
+.banner.sample .btn{text-decoration:none;white-space:nowrap}
 
 /* ---------- empty state ---------- */
 .empty{
@@ -570,8 +573,8 @@ const DB = [
    d:"Equinox club memberships or the Equinox+ app.", e:1},
   {id:"uber", n:"Uber Cash", c:"rid", f:"m", a:200, pv:{12:35}, per:"$15 / mo (+$20 Dec)",
    d:"Add the card to your Uber wallet; credit applies to U.S. rides and Uber Eats. Unused amounts don't roll over."},
-  {id:"uberone", n:"Uber One membership credit", c:"rid", f:"m", a:120, per:"$9.99 / mo",
-   d:"Covers an Uber One monthly membership charged to the card.", e:1},
+  {id:"uberone", n:"Uber One membership credit", c:"rid", f:"y", a:120, per:"$120 / yr",
+   d:"Up to $120 in statement credits each calendar year on a monthly or annual Uber One membership charged to the card. Turn off Uber Cash for membership fees.", e:1},
   {id:"airfee", n:"Airline fee credit", c:"trv", f:"y", a:200, per:"$200 / yr",
    d:"Incidental fees (bags, seats, lounge day passes) with one qualifying airline you select in your Amex account each year.", e:1},
   {id:"walmart", n:"Walmart+ membership credit", c:"shp", f:"m", a:155, per:"$12.95 / mo",
@@ -1599,7 +1602,7 @@ const DB = [
   art:["#0053e2","#2f79f0"], ink:"l",
   rates:"$98/yr or $12.95/mo",
   b:[
-  {id:"stream", n:"Streaming pick: Peacock or Paramount+", c:"ent", f:"q", a:0, per:"pick every 90d",
+  {id:"stream", n:"Streaming pick: Peacock or Paramount+", c:"ent", f:"q", a:0, pick:1, per:"pick every 90d",
    d:"Choose one ad-supported service — Peacock Premium or Paramount+ Essential — and switch your pick every 90 days.", e:1},
   {id:"bk", n:"Burger King: free Whopper + 25% off", c:"din", f:"q", a:0, per:"1 free / quarter",
    d:"25% off digital orders every day, plus a free Whopper with any purchase every 3 months.", e:1},
@@ -1788,7 +1791,10 @@ const ROTATING = {
 
 /* =============== state =============== */
 const LS_KEY = "perksLedger.v1";
-const store = (()=>{ try{ const t="__plt"; localStorage.setItem(t,"1"); localStorage.removeItem(t); return localStorage; }catch(e){ return null; } })();
+/* ?sample=1 — a look-only wallet for visitors: nothing is read from or written to storage. */
+const SAMPLE = /[?&]sample=1/.test(location.search);
+const SAMPLE_VIEW = new Set(["close","group","jump","focus","bexpand","expand","cat","bc-cat","open-best","jump-offer","jump-hidden"]);
+const store = SAMPLE ? null : (()=>{ try{ const t="__plt"; localStorage.setItem(t,"1"); localStorage.removeItem(t); return localStorage; }catch(e){ return null; } })();
 function seedState(){
   try{ return normalizeState(JSON.parse(document.getElementById("seedState").textContent)); }
   catch(e){ return null; }
@@ -2259,7 +2265,8 @@ function renderWallet(){
       <button class="x" data-act="ask-remove" data-iid="${c.iid}" aria-label="Remove ${esc(c.name)}">×</button>
     </div>`;
   }).join("");
-  el.innerHTML = `${state.demo? `<div class="banner info" style="margin-top:6px">Sample wallet — poke around, check things off, expand perks. <button data-act="demo-clear" style="font-weight:700;text-decoration:underline;color:inherit">Clear &amp; start fresh</button></div>`:""}
+  el.innerHTML = `${SAMPLE? `<div class="banner sample">You're looking at a sample wallet. Look around; nothing here can be changed or saved. <a class="btn small primary" href="welcome.html#access">Open my own ledger</a></div>`
+    : state.demo? `<div class="banner info" style="margin-top:6px">Sample wallet — poke around, check things off, expand perks. <button data-act="demo-clear" style="font-weight:700;text-decoration:underline;color:inherit">Clear &amp; start fresh</button></div>`:""}
   <div class="wallet">${plates}
     <button class="plate add" data-act="open-add">+ Add card</button>
   </div>`;
@@ -2351,6 +2358,31 @@ function collectSources(){
   }
   return map;
 }
+/* How much of each paid subscription the wallet really covers, a year.
+   A capped credit (b.a > 0) is one budget shared by everything it covers; a pick-one
+   benefit (b.pick) covers a single service at a time; an included membership covers in full.
+   Pricier subscriptions claim a budget first. */
+function coverAlloc(map){
+  const left = new Map(), out = {};
+  const paid = state.subs.filter(sid => SUBS[sid] && (map[sid]||[]).some(s=>s.type==="covers"))
+    .sort((a,b)=>SUBS[b].pm - SUBS[a].pm);
+  for(const sid of paid){
+    const yr = Math.round(SUBS[sid].pm*12*100)/100;
+    let need = yr; const used = [];
+    for(const s of map[sid].filter(s=>s.type==="covers")){
+      if(need <= 0) break;
+      const k = s.c.iid+"|"+s.b.id;
+      if(!left.has(k)) left.set(k, s.b.a > 0 ? s.b.a : Infinity);
+      let room = left.get(k);
+      if(room <= 0) continue;
+      const take = Math.min(need, room);
+      need -= take; used.push({s, take});
+      left.set(k, s.b.pick ? 0 : room - take);
+    }
+    out[sid] = {yr, credited: Math.round((yr-need)*100)/100, used, all: map[sid].filter(s=>s.type==="covers")};
+  }
+  return out;
+}
 function fchip(c){ return `<span class="fchip"><i style="background:linear-gradient(118deg,${c.art[0]},${c.art[1]})"></i>${esc(c.name)}</span>`; }
 function renderGraph(){
   const el = $("#graphSec");
@@ -2359,15 +2391,22 @@ function renderGraph(){
   const paid = state.subs.filter(s=>SUBS[s]);
   const findings = [];
   let savings = 0;
+  const alloc = coverAlloc(map);
   for(const sid of paid){
     const sub = SUBS[sid];
     const src = map[sid]||[];
     const cov = src.filter(s=>s.type==="covers");
     const deal = src.filter(s=>s.type==="deals");
     if(cov.length){
-      const yr = sub.pm*12; savings += yr;
-      findings.push({kind:"covered", html:`
-        <div class="ft"><b>${esc(sub.n)} is already covered</b> — worth <span class="amt">${fmt$(yr)}/yr</span>. Don't pay for it out of pocket.</div>
+      const al = alloc[sid], yr = al.yr, got = al.credited; savings += got;
+      const others = paid.filter(o=>o!==sid && alloc[o] && alloc[o].all.some(x=>cov.some(y=>y.c.iid===x.c.iid && y.b.id===x.b.id))).map(o=>SUBS[o].n);
+      const head = got >= yr
+        ? `<b>${esc(sub.n)} is already covered</b> — worth <span class="amt">${fmt$(yr)}/yr</span>. Don't pay for it out of pocket.`
+        : got > 0
+          ? `<b>${esc(sub.n)} is partly covered</b> — about <span class="amt">${fmt$(got)}/yr</span> of its ${fmt$(yr)}/yr${others.length? `, sharing the credit with ${esc(others.join(" and "))}`:""}.`
+          : `<b>${esc(sub.n)} is eligible</b> for ${esc(cov[0].b.n)}, but that credit is already spoken for${others.length? ` by ${esc(others.join(" and "))}`:""}.`;
+      findings.push({kind: got>0? "covered":"watch", html:`
+        <div class="ft">${head}</div>
         <div class="flow">${cov.map(s=>fchip(s.c)).join('<span class="farrow">or</span>')}<span class="farrow">→</span><span class="fchip">${esc(sub.n)}</span></div>
         <div class="ft" style="font-size:12px;color:var(--faint);margin-top:5px">via ${cov.map(s=>esc(s.b.n)).join(" · ")}</div>`});
     } else if(deal.length){
@@ -3273,16 +3312,16 @@ function loadDemo(){
     bonuses:[{id:"bnD", iid:"d2", what:"100,000 points", target:6000, spent:3400, deadline:dl}],
     offers:[{id:"ofD", iid:"d1", merchant:"Best Buy", desc:"Amex Offer — spend $250, get $50 back", kind:"cash", value:50, minSpend:250, expires:offExp, usedAmt:120}],
     seq:100, demo:true });
-  save(); render(); toast("Sample wallet loaded — everything is clickable");
+  save(); render(); if(!SAMPLE) toast("Sample wallet loaded — everything is clickable");
 }
 /* =============== share card =============== */
 function graphSavingsTotal(){
   let savings = 0;
-  const map = collectSources();
+  const map = collectSources(), alloc = coverAlloc(map);
   for(const sid of state.subs){
     const sub = SUBS[sid]; if(!sub) continue;
     const src = map[sid]||[];
-    if(src.some(s=>s.type==="covers")) savings += sub.pm*12;
+    if(src.some(s=>s.type==="covers")) savings += (alloc[sid]? alloc[sid].credited : 0);
     else { const d = src.find(s=>s.type==="deals" && s.pm!=null); if(d) savings += Math.max(0,(sub.pm-d.pm)*12); }
   }
   return savings;
@@ -3464,6 +3503,12 @@ function toast(msg){
 }
 
 /* =============== events =============== */
+if(SAMPLE) document.addEventListener("click", e=>{
+  const el = e.target.closest("[data-act], #addBtn, #dataBtn");
+  if(!el || (el.dataset.act && SAMPLE_VIEW.has(el.dataset.act))) return;
+  e.preventDefault(); e.stopPropagation();
+  toast("This is a sample wallet. Open your own ledger to track your cards.");
+}, true);
 document.addEventListener("click", e=>{
   const el = e.target.closest("[data-act]");
   if(!el) return;
@@ -3787,7 +3832,7 @@ document.addEventListener("keydown", e=>{
 $("#overlay").addEventListener("mousedown", e=>{ if(e.target===e.currentTarget) closeModal(); });
 /* another tab/installed app saved — adopt its state instead of overwriting it on our next save */
 window.addEventListener("storage", e=>{
-  if(e.key!==LS_KEY || !e.newValue) return;
+  if(SAMPLE || e.key!==LS_KEY || !e.newValue) return;
   try{ const s2 = normalizeState(JSON.parse(e.newValue)); if(s2){ state = s2; render(); } }catch(_){}
 });
 /* app left open across midnight / month end: re-render so checkboxes and countdowns match today */
@@ -3798,17 +3843,19 @@ setInterval(refreshIfStale, 60e3);
 $("#addBtn").addEventListener("click", addCardModal);
 $("#dataBtn").addEventListener("click", dataModal);
 $("#bestBtn").addEventListener("click", ()=> bestCardModal());
-if(!store){
+if(SAMPLE){ $("#addBtn").hidden = true; $("#dataBtn").hidden = true; }
+else if(!store){
   $("#storageBanner").innerHTML = `<div class="banner">Heads up — this viewer doesn't keep data between visits. Before you close, use <b>Data → Download app + data</b> to get your own copy that saves itself, or <b>Data → Export → Copy</b> for a backup you can paste back in later.</div>`;
 }
 document.querySelectorAll("[data-vdate]").forEach(el=>{ el.textContent = DATA_VERIFIED; });
 save();
-if(!state.cards.length && /[?&]demo=1/.test(location.search)) loadDemo();
+if(SAMPLE) loadDemo();
+else if(!state.cards.length && /[?&]demo=1/.test(location.search)) loadDemo();
 else render();
 /* A signup that couldn't reach the server (offline, or before the list was set up) is retried once per visit. */
 try{
   const mb = JSON.parse(localStorage.getItem("perksLedger.member") || "null");
-  if(mb && mb.email && !mb.synced && /^https?:$/.test(location.protocol)){
+  if(!SAMPLE && mb && mb.email && !mb.synced && /^https?:$/.test(location.protocol)){
     fetch("api/subscribe", {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify({email:mb.email})})
       .then(r=>{ if(r.ok){ mb.synced = true; localStorage.setItem("perksLedger.member", JSON.stringify(mb)); } }).catch(()=>{});
   }
