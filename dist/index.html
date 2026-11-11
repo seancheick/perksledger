@@ -163,6 +163,19 @@ input,select,textarea{font:inherit;color:inherit}
 @media (hover:none){
   .plate .x{width:44px;height:44px;opacity:.7;font-size:20px}
 }
+.plate .dt{position:absolute;top:4px;right:42px;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:17px;line-height:1;opacity:0;transition:opacity .12s}
+.plate:hover .dt,.plate .dt:focus-visible{opacity:1}
+@media (hover:none){ .plate .dt{width:44px;height:44px;right:50px;opacity:.7} }
+.plate.ink-l .dt{background:rgba(0,0,0,.28);color:#fff}
+.plate.ink-d .dt{background:rgba(255,255,255,.5);color:#20261F}
+.plate .feedue{font-size:10.5px;font-weight:700;margin-top:3px;padding:1px 7px;border-radius:999px;align-self:flex-start;background:rgba(0,0,0,.22)}
+.plate.ink-d .feedue{background:rgba(255,255,255,.55)}
+.verdict{border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:12px 0}
+.verdict .vt{font-weight:700;font-size:15px}
+.verdict.keep .vt{color:var(--accent-ink)} .verdict.ask .vt{color:var(--amber)} .verdict.cut .vt{color:var(--red)}
+.verdict ul{margin:8px 0 0;padding-left:18px;font-size:13px;color:var(--muted)}
+.kv{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:5px 0;border-bottom:1px dashed var(--line)}
+.kv:last-child{border-bottom:0}
 .plate.ink-l .x{background:rgba(0,0,0,.28);color:#fff}
 .plate.ink-d .x{background:rgba(255,255,255,.5);color:#20261F}
 .plate .confirm{
@@ -245,6 +258,11 @@ input,select,textarea{font:inherit;color:inherit}
 .bcreason{font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
 .bcreason b{color:var(--ink);font-weight:600}
 .bcwhy{font-size:12px;color:var(--faint);margin-top:4px}
+.bcreason .cap{color:var(--faint)}
+.cppgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:8px 0}
+.cppgrid label{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.cppgrid input{width:64px}
+.bchint{font-size:12.5px;color:var(--muted);margin:8px 2px 2px}
 
 /* ---------- perk graph ---------- */
 .graph{margin-top:18px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px 15px;box-shadow:var(--card-shadow)}
@@ -271,6 +289,8 @@ input,select,textarea{font:inherit;color:inherit}
 
 /* ---------- bonuses ---------- */
 .bonuses{margin-top:18px}
+.bonuses>.ghd{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.bonuses>.ghd h3{font-size:18px;margin:0}
 .bonuses .glist{overflow:visible}
 .bonus .main{display:grid;grid-template-columns:1fr auto;gap:3px 14px;padding:13px 16px;cursor:pointer;align-items:center}
 .bonus .main:hover{background:var(--inset)}
@@ -285,6 +305,7 @@ input,select,textarea{font:inherit;color:inherit}
 .bonus .detail{display:none;padding:2px 16px 15px;font-size:13.5px;color:var(--muted)}
 .bonus.expanded .detail{display:block}
 .bonus .detail .form{max-width:420px}
+.linkbtn{background:none;border:0;padding:0;color:var(--accent-ink);font:inherit;font-weight:600;text-decoration:underline;cursor:pointer}
 .mini{border:1px solid var(--line2);border-radius:8px;padding:6px 9px;background:var(--inset);color:var(--ink);width:110px}
 
 /* ---------- missed ---------- */
@@ -300,6 +321,7 @@ input,select,textarea{font:inherit;color:inherit}
 .punch .pd.clickable{cursor:pointer}
 .punch .pd.clickable:hover{border-color:var(--accent)}
 .punch .pd.future{opacity:.35}
+.punch .pd.pre:not(.hit){border-style:dashed;opacity:.5}
 
 /* ---------- controls ---------- */
 .controls{
@@ -490,12 +512,13 @@ footer a{color:var(--muted)}
   <section id="soonSec"></section>
   <section id="graphSec"></section>
   <section id="bonusSec"></section>
+  <section id="offersSec"></section>
   <section id="ledgerSec"></section>
 
   <footer>
-    <p><strong>About the numbers.</strong> Benefit values were verified in <span data-vdate>early July 2026</span> against issuer pages and card guides. Issuers change these constantly — treat this as your checklist and confirm in your card's app before you book. Perks marked <em>Enroll</em> need one-time activation with the issuer first.</p>
+    <p><strong>About the numbers.</strong> Benefit values were verified in <span data-vdate>November 2026</span> against issuer pages and card guides. Issuers change these constantly — treat this as your checklist and confirm in your card's app before you book. Perks marked <em>Enroll</em> need one-time activation with the issuer first.</p>
     <p>Estimated redemption totals divide each perk's annual value evenly across its reset periods. One-time and every-4-year credits aren't counted in annual totals. Your data stays in this browser — use <em>Data → Export</em> for a backup.</p>
-    <p>Perks Ledger v0.5 beta · <button type="button" class="btn quiet small" data-act="open-feedback" style="padding:0;vertical-align:baseline;color:var(--muted);font-weight:500;text-decoration:underline">Feedback &amp; ideas</button> · <a href="privacy.html">Privacy</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A">Report wrong benefit data</a></p>
+    <p>Perks Ledger v0.6 beta · <button type="button" class="btn quiet small" data-act="open-feedback" style="padding:0;vertical-align:baseline;color:var(--muted);font-weight:500;text-decoration:underline">Feedback &amp; ideas</button> · <a href="privacy.html">Privacy</a> · <a href="mailto:mybbrllc@gmail.com?subject=Perks%20Ledger%20—%20wrong%20benefit%20data&amp;body=Card%3A%0APerk%3A%0AWhat%27s%20wrong%3A">Report wrong benefit data</a></p>
   </footer>
 </div>
 
@@ -505,8 +528,8 @@ footer a{color:var(--muted)}
 <script type="application/json" id="seedState">null</script>
 <script>
 "use strict";
-const DATA_VERIFIED = "early July 2026"; /* bump via /refresh-benefits */
-/* =============== reference data — verified early July 2026 =============== */
+const DATA_VERIFIED = "November 2026"; /* bump via /refresh-benefits */
+/* =============== reference data — verified November 2026 =============== */
 const CATS = {
   trv:"Travel & hotels", din:"Dining & delivery", ent:"Entertainment", shp:"Shopping",
   wel:"Wellness & fitness", rid:"Rideshare & transit", air:"Airport & lounge",
@@ -521,19 +544,21 @@ const PPY = { m:12, q:4, h:2, y:1 };
 const DB = [
 { id:"amex-plat", name:"The Platinum Card", issuer:"American Express", fee:895,
   art:["#c7cdd6","#eef1f6"], ink:"d",
+  cur:"MR", net:"amex", down:["amex-gold","amex-green"],
+  earn:[{k:"flights",x:5,cap:"direct or Amex Travel, $500k/yr"},{k:"hotels",x:5,portal:1},{k:"other",x:1}],
   rates:"5x flights (to $500k/yr) & prepaid hotels via Amex Travel",
   b:[
-  {id:"hotel", n:"Hotel credit — FHR + The Hotel Collection", c:"trv", f:"h", a:600, per:"$300 / half",
-   d:"Prepaid Fine Hotels + Resorts or Hotel Collection bookings through Amex Travel (THC needs 2+ nights). $300 Jan–Jun and $300 Jul–Dec."},
+  {id:"hotel", n:"Lodging credit — FHR, Hotel Collection & Airbnb Luxe", c:"trv", f:"h", a:600, per:"$300 / half",
+   d:"Prepaid Fine Hotels + Resorts or Hotel Collection bookings through Amex Travel or prepaid Airbnb Luxe stays through Amex Travel (THC needs 2+ nights; FHR too from 1/1/27). $300 Jan–Jun and $300 Jul–Dec."},
   {id:"resy", n:"Resy dining credit", c:"din", f:"q", a:400, per:"$100 / quarter",
-   d:"Eligible purchases at U.S. Resy restaurants, up to $100 back each quarter.", e:1},
+   d:"U.S. Resy restaurants marked \"eligible for Resy Credit\" in the Resy app, up to $100 back each quarter.", e:1},
   {id:"dige", n:"Digital entertainment credit", c:"ent", f:"m", a:300, per:"$25 / mo",
    d:"Covers Disney+, Hulu, ESPN, Peacock, Paramount+, YouTube TV, The New York Times, The Wall Street Journal.", e:1},
   {id:"lulu", n:"lululemon credit", c:"shp", f:"q", a:300, per:"$75 / quarter",
    d:"U.S. lululemon stores and lululemon.com.", e:1},
   {id:"eqx", n:"Equinox credit", c:"wel", f:"y", a:300, per:"$300 / yr",
    d:"Equinox club memberships or the Equinox+ app.", e:1},
-  {id:"uber", n:"Uber Cash", c:"rid", f:"m", a:200, per:"$15 / mo (+$20 Dec)",
+  {id:"uber", n:"Uber Cash", c:"rid", f:"m", a:200, pv:{12:35}, per:"$15 / mo (+$20 Dec)",
    d:"Add the card to your Uber wallet; credit applies to U.S. rides and Uber Eats. Unused amounts don't roll over."},
   {id:"uberone", n:"Uber One membership credit", c:"rid", f:"m", a:120, per:"$9.99 / mo",
    d:"Covers an Uber One monthly membership charged to the card.", e:1},
@@ -541,14 +566,14 @@ const DB = [
    d:"Incidental fees (bags, seats, lounge day passes) with one qualifying airline you select in your Amex account each year.", e:1},
   {id:"walmart", n:"Walmart+ membership credit", c:"shp", f:"m", a:155, per:"$12.95 / mo",
    d:"Covers the Walmart+ monthly plan (includes Paramount+ Essential).", e:1},
-  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:209, per:"$209 / yr",
+  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:219, per:"$219 / yr",
    d:"Covers a CLEAR Plus membership for faster airport security."},
   {id:"oura", n:"Oura Ring credit", c:"wel", f:"y", a:200, per:"$200 / yr",
    d:"Statement credit toward Oura Ring hardware bought at ouraring.com.", e:1},
   {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
    d:"Application-fee credit: Global Entry ($120) every 4 years or TSA PreCheck ($85) every 4.5 years."},
   {id:"lounge", n:"Global Lounge Collection", c:"air", f:"on", a:0, per:"",
-   d:"Centurion Lounges, Priority Pass Select, Plaza Premium, Escape lounges — plus 10 Delta Sky Club visits/yr when flying Delta.", e:1},
+   d:"Centurion Lounges (entry up to 5 hrs before departure), Priority Pass Select, Plaza Premium, Escape lounges — plus 10 Delta Sky Club visits/yr when flying Delta.", e:1},
   {id:"hstat", n:"Marriott & Hilton Gold status", c:"sts", f:"on", a:0, per:"",
    d:"Complimentary Gold Elite status with Marriott Bonvoy and Hilton Honors.", e:1},
   {id:"cstat", n:"Rental car elite status", c:"sts", f:"on", a:0, per:"",
@@ -560,12 +585,14 @@ const DB = [
 ]},
 { id:"amex-gold", name:"American Express Gold", issuer:"American Express", fee:325,
   art:["#d9b25f","#f3e3b3"], ink:"d",
-  rates:"4x restaurants (to $50k/yr) & U.S. supermarkets (to $25k/yr) · 3x flights",
+  cur:"MR", net:"amex", down:["amex-green"],
+  earn:[{k:"dining",x:4,cap:"$50k/yr"},{k:"groceries",x:4,cap:"U.S. supermarkets, $25k/yr"},{k:"hotels",x:5,portal:1},{k:"flights",x:3},{k:"other",x:1}],
+  rates:"4x restaurants (to $50k/yr) & U.S. supermarkets (to $25k/yr) · 3x flights · 5x prepaid hotels via Amex Travel",
   b:[
   {id:"uber", n:"Uber Cash", c:"rid", f:"m", a:120, per:"$10 / mo",
    d:"Add the card to your Uber wallet; applies to U.S. rides and Uber Eats."},
   {id:"resy", n:"Resy dining credit", c:"din", f:"h", a:100, per:"$50 / half",
-   d:"U.S. Resy restaurants — $50 back Jan–Jun and $50 Jul–Dec.", e:1},
+   d:"U.S. Resy restaurants marked \"eligible for Resy Credit\" — $50 back Jan–Jun and $50 Jul–Dec.", e:1},
   {id:"dunkin", n:"Dunkin' credit", c:"din", f:"m", a:84, per:"$7 / mo",
    d:"U.S. Dunkin' locations.", e:1},
   {id:"dining", n:"Dining partners credit", c:"din", f:"m", a:120, per:"$10 / mo",
@@ -577,15 +604,19 @@ const DB = [
 ]},
 { id:"amex-green", name:"American Express Green", issuer:"American Express", fee:150,
   art:["#25573f","#3e7c5c"], ink:"l",
+  cur:"MR", net:"amex",
+  earn:[{k:"travel",x:3},{k:"transit",x:3},{k:"dining",x:3},{k:"other",x:1}],
   rates:"3x travel, transit & restaurants",
   b:[
-  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:209, per:"$209 / yr",
+  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:219, per:"$219 / yr",
    d:"Covers a CLEAR Plus membership."},
   {id:"prot", n:"Trip delay & purchase protections", c:"prt", f:"on", a:0, per:"",
    d:"Trip delay insurance, purchase protection, extended warranty."}
 ]},
 { id:"amex-bcp", name:"Blue Cash Preferred", issuer:"American Express", fee:95, feeNote:"$0 intro first year",
   art:["#9fb6d9","#dde7f5"], ink:"d",
+  cur:"cash", net:"amex", down:["amex-bce"],
+  earn:[{k:"groceries",x:6,cap:"U.S. supermarkets, $6k/yr"},{k:"streaming",x:6},{k:"transit",x:3},{k:"gas",x:3},{k:"other",x:1}],
   rates:"6% U.S. supermarkets (to $6k/yr) & select streaming · 3% transit & U.S. gas",
   b:[
   {id:"disney", n:"Disney streaming credit", c:"ent", f:"m", a:120, per:"$10 / mo",
@@ -593,6 +624,8 @@ const DB = [
 ]},
 { id:"amex-bce", name:"Blue Cash Everyday", issuer:"American Express", fee:0,
   art:["#2f6fbe","#7aa7e0"], ink:"l",
+  cur:"cash", net:"amex",
+  earn:[{k:"groceries",x:3,cap:"$6k/yr"},{k:"gas",x:3,cap:"$6k/yr"},{k:"online",x:3,cap:"$6k/yr"},{k:"other",x:1}],
   rates:"3% U.S. supermarkets, U.S. gas & online retail (each to $6k/yr)",
   b:[
   {id:"disney", n:"Disney streaming credit", c:"ent", f:"m", a:84, per:"$7 / mo",
@@ -602,22 +635,28 @@ const DB = [
 ]},
 { id:"delta-gold", name:"Delta SkyMiles Gold", issuer:"American Express", fee:150, feeNote:"$0 intro first year",
   art:["#12294a","#274b7d"], ink:"l",
+  cur:"DL", net:"amex",
+  earn:[{k:"flights",x:2,m:"delta"},{k:"dining",x:2},{k:"groceries",x:2},{k:"other",x:1}],
   rates:"2x Delta, restaurants & U.S. supermarkets",
   b:[
   {id:"flight", n:"$200 Delta flight credit", c:"trv", f:"y", a:200, per:"$200 / yr",
    d:"Take $200 off a future Delta flight after spending $10k on the card in a calendar year."},
   {id:"stays", n:"Delta Stays credit", c:"trv", f:"y", a:100, per:"$100 / yr",
    d:"Prepaid hotels or vacation rentals booked through Delta Stays on delta.com."},
-  {id:"bag", n:"First checked bag free", c:"trv", f:"on", a:0, per:"",
+  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:120, per:"$10 / mo",
+   d:"U.S. rideshare purchases with select providers, after your first card renewal.", e:1},
+  {id:"bag", n:"Free checked bags (2nd on U.S. domestic)", c:"trv", f:"on", a:0, per:"",
    d:"For you and up to 8 companions on the same Delta reservation."},
   {id:"to15", n:"TakeOff 15", c:"trv", f:"on", a:0, per:"",
    d:"15% off Delta award flights booked with miles."}
 ]},
 { id:"delta-plat", name:"Delta SkyMiles Platinum", issuer:"American Express", fee:350,
   art:["#0e2036","#1f3d63"], ink:"l",
+  cur:"DL", net:"amex", down:["delta-gold"],
+  earn:[{k:"flights",x:3,m:"delta"},{k:"hotels",x:3},{k:"dining",x:2},{k:"groceries",x:2},{k:"other",x:1}],
   rates:"3x Delta & hotels · 2x restaurants & U.S. supermarkets",
   b:[
-  {id:"comp", n:"Companion certificate", c:"trv", f:"y", a:0, per:"1 / yr",
+  {id:"comp", n:"Companion certificate", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
    d:"Annual Main Cabin round-trip companion certificate on renewal (domestic, Caribbean, Central America; taxes & fees apply)."},
   {id:"stays", n:"Delta Stays credit", c:"trv", f:"y", a:150, per:"$150 / yr",
    d:"Prepaid hotels or vacation rentals via Delta Stays."},
@@ -625,7 +664,7 @@ const DB = [
    d:"U.S. Resy restaurants.", e:1},
   {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:120, per:"$10 / mo",
    d:"U.S. Uber, Lyft, Curb, Revel, or Alto purchases.", e:1},
-  {id:"bag", n:"First bag free + priority boarding", c:"trv", f:"on", a:0, per:"",
+  {id:"bag", n:"Free checked bags (2nd on U.S. domestic) + priority boarding", c:"trv", f:"on", a:0, per:"",
    d:"Plus TakeOff 15: 15% off Delta award flights."},
   {id:"mqd", n:"$2,500 MQD Headstart", c:"sts", f:"on", a:0, per:"",
    d:"Automatic head start toward Delta Medallion status every year."},
@@ -634,9 +673,11 @@ const DB = [
 ]},
 { id:"delta-res", name:"Delta SkyMiles Reserve", issuer:"American Express", fee:650,
   art:["#101418","#2b3440"], ink:"l",
+  cur:"DL", net:"amex", down:["delta-plat","delta-gold"],
+  earn:[{k:"flights",x:3,m:"delta"},{k:"other",x:1}],
   rates:"3x Delta",
   b:[
-  {id:"comp", n:"Companion certificate", c:"trv", f:"y", a:0, per:"1 / yr",
+  {id:"comp", n:"Companion certificate", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
    d:"First Class, Comfort+, or Main Cabin round-trip companion certificate each renewal (taxes & fees apply)."},
   {id:"stays", n:"Delta Stays credit", c:"trv", f:"y", a:200, per:"$200 / yr",
    d:"Prepaid hotels or vacation rentals via Delta Stays."},
@@ -646,7 +687,7 @@ const DB = [
    d:"U.S. Uber, Lyft, Curb, Revel, or Alto purchases.", e:1},
   {id:"club", n:"Delta Sky Club — 15 visits / yr", c:"air", f:"on", a:0, per:"",
    d:"15 visits per year (unlimited after $75k spend); plus Centurion Lounge access when your Delta flight was booked with the card."},
-  {id:"bag", n:"First bag free + priority boarding", c:"trv", f:"on", a:0, per:"",
+  {id:"bag", n:"Free checked bags (2nd on U.S. domestic) + priority boarding", c:"trv", f:"on", a:0, per:"",
    d:"Plus TakeOff 15: 15% off Delta award flights."},
   {id:"mqd", n:"$2,500 MQD Headstart + MQD boost", c:"sts", f:"on", a:0, per:"",
    d:"Head start plus 1 MQD per $10 spent toward Medallion status."},
@@ -655,6 +696,8 @@ const DB = [
 ]},
 { id:"hilton-surpass", name:"Hilton Honors Surpass", issuer:"American Express", fee:150,
   art:["#274a78","#3f6ba3"], ink:"l",
+  cur:"HH", net:"amex", down:["hilton-amex"],
+  earn:[{k:"hotels",x:12,m:"hilton"},{k:"dining",x:6},{k:"groceries",x:6},{k:"gas",x:6},{k:"other",x:3}],
   rates:"12x Hilton · 6x dining, U.S. supermarkets & gas",
   b:[
   {id:"hcred", n:"Hilton credit", c:"trv", f:"q", a:200, per:"$50 / quarter",
@@ -666,15 +709,17 @@ const DB = [
 ]},
 { id:"hilton-aspire", name:"Hilton Honors Aspire", issuer:"American Express", fee:550,
   art:["#15151d","#2f2f40"], ink:"l",
+  cur:"HH", net:"amex", down:["hilton-surpass","hilton-amex"],
+  earn:[{k:"hotels",x:14,m:"hilton"},{k:"flights",x:7},{k:"dining",x:7},{k:"other",x:3}],
   rates:"14x Hilton · 7x flights & U.S. dining",
   b:[
   {id:"resort", n:"Hilton resort credit", c:"trv", f:"h", a:400, per:"$200 / half",
    d:"Eligible purchases at participating Hilton resorts — $200 Jan–Jun, $200 Jul–Dec."},
   {id:"flight", n:"Airline flight credit", c:"trv", f:"q", a:200, per:"$50 / quarter",
    d:"Flights booked directly with airlines or via Amex Travel."},
-  {id:"fnc", n:"Annual Free Night Reward", c:"trv", f:"y", a:0, per:"1 / yr",
+  {id:"fnc", n:"Annual Free Night Reward", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
    d:"Valid any night at nearly any Hilton (incl. Waldorf Astoria & Conrad). Earn a 2nd after $30k and a 3rd after $60k spend."},
-  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:209, per:"$209 / yr",
+  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:219, per:"$219 / yr",
    d:"Covers a CLEAR Plus membership."},
   {id:"diamond", n:"Hilton Diamond status", c:"sts", f:"on", a:0, per:"",
    d:"Top-tier Diamond Elite status while you hold the card."},
@@ -683,11 +728,13 @@ const DB = [
 ]},
 { id:"marriott-brilliant", name:"Marriott Bonvoy Brilliant", issuer:"American Express", fee:650,
   art:["#23232b","#45454f"], ink:"l",
+  cur:"MB", net:"amex", down:["marriott-bevy"],
+  earn:[{k:"hotels",x:6,m:"marriott"},{k:"dining",x:3},{k:"flights",x:3},{k:"other",x:2}],
   rates:"6x Marriott · 3x dining & flights",
   b:[
   {id:"dine", n:"Dining credit", c:"din", f:"m", a:300, per:"$25 / mo",
    d:"Restaurants worldwide — up to $25 back each month."},
-  {id:"fnc", n:"85k Free Night Award", c:"trv", f:"y", a:0, per:"1 / yr",
+  {id:"fnc", n:"85k Free Night Award", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
    d:"Annual on renewal; redeemable up to 85,000 points per night."},
   {id:"plat", n:"Platinum Elite status", c:"sts", f:"on", a:0, per:"",
    d:"Complimentary Platinum Elite plus 25 Elite Night Credits each year."},
@@ -698,11 +745,91 @@ const DB = [
   {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
    d:"Application-fee credit every 4 years (4.5 for PreCheck)."}
 ]},
+/* src: upgradedpoints.com/credit-cards/reviews/amex-business-platinum/ (2026-11-06); thepointsguy.com amex-business-platinum-card-review */
+{ id:"amex-bizplat", name:"Business Platinum", issuer:"American Express", fee:895, biz:1, net:"amex", cur:"MR",
+  art:["#b9bec7","#e6e9ee"], ink:"d",
+  rates:"5x flights & prepaid hotels via Amex Travel · 2x select business categories & $5k+ purchases (to $2M/yr)",
+  earn:[{k:"flights",x:5,portal:1},{k:"hotels",x:5,portal:1},{k:"homeimp",x:2,cap:"$2M/yr combined"},{k:"online",x:2,cap:"$2M/yr · electronics, software, shipping"},{k:"other",x:1}],
+  b:[
+  {id:"hotel", n:"Hotel credit — FHR + The Hotel Collection", c:"trv", f:"h", a:600, per:"$300 / half",
+   d:"Prepaid Fine Hotels + Resorts or Hotel Collection bookings through Amex Travel. From 1/1/27 FHR bookings need a 2-night minimum."},
+  {id:"hilton", n:"Hilton for Business credit", c:"trv", f:"q", a:200, per:"$50 / quarter",
+   d:"Eligible purchases at Hilton properties after enrolling in Hilton for Business.", e:1},
+  {id:"airline", n:"Airline fee credit", c:"air", f:"y", a:200, per:"$200 / yr",
+   d:"Incidental fees (bags, seats, lounge day passes) on the one qualifying airline you select. Not airfare.", e:1},
+  {id:"chatgpt", n:"ChatGPT Business credit", c:"oth", f:"y", a:300, per:"$300 / yr",
+   d:"U.S. ChatGPT Business purchases, per calendar year.", e:1},
+  {id:"indeed", n:"Indeed credit", c:"oth", f:"q", a:360, per:"$90 / quarter",
+   d:"Indeed hiring and job-post purchases, up to $90 back each quarter.", e:1},
+  {id:"clear", n:"CLEAR Plus credit", c:"air", f:"y", a:219, per:"$219 / yr",
+   d:"Pay for a CLEAR Plus membership with the card."},
+  {id:"dell", n:"Dell credit", c:"shp", f:"y", a:150, per:"$150 / yr",
+   d:"Direct U.S. Dell purchases. Spend $5k+ at Dell in a calendar year for an extra $1,000.", e:1},
+  {id:"wireless", n:"Wireless phone credit", c:"oth", f:"m", a:120, per:"$10 / mo",
+   d:"U.S. wireless service bought directly from the provider.", e:1},
+  {id:"adobe", n:"Adobe credit at $600 spend", c:"oth", f:"y", a:0, per:"$250 / yr possible",
+   d:"$250 back after $600+ in direct U.S. Adobe purchases in a calendar year.", e:1},
+  {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."},
+  {id:"lounge", n:"Global Lounge Collection", c:"air", f:"on", a:0, per:"",
+   d:"Centurion, Priority Pass (enroll), Plaza Premium and more. Delta Sky Club 10 visits/yr on same-day Delta flights.", e:1},
+  {id:"status", n:"Hilton & Marriott Gold + car status", c:"sts", f:"on", a:0, per:"",
+   d:"Complimentary Hilton Honors Gold, Marriott Bonvoy Gold and rental-car elite status.", e:1}
+]},
+/* src: upgradedpoints.com amex business gold review (2026-10-29); thepointsguy.com amex-business-gold-card-review */
+{ id:"amex-bizgold", name:"Business Gold", issuer:"American Express", fee:375, biz:1, net:"amex", cur:"MR",
+  art:["#c9a24a","#ead290"], ink:"d",
+  rates:"4x your top 2 of 6 business categories (to $150k/yr) · 3x Amex Travel flights & prepaid hotels",
+  earn:[{k:"dining",x:4,cap:"if a top-2 category · $150k/yr"},{k:"gas",x:4,cap:"if a top-2 category · $150k/yr"},{k:"transit",x:4,cap:"if a top-2 category · $150k/yr"},{k:"phone",x:4,cap:"if a top-2 category · $150k/yr"},{k:"online",x:4,cap:"electronics/software, if top-2"},{k:"flights",x:3,portal:1},{k:"hotels",x:3,portal:1},{k:"other",x:1}],
+  b:[
+  {id:"flex", n:"Grubhub, office supply & UPS credit", c:"oth", f:"m", a:240, per:"$20 / mo",
+   d:"Grubhub, U.S. office supply stores and UPS.com shipments, up to $20 back each month.", e:1},
+  {id:"walmart", n:"Walmart+ membership credit", c:"shp", f:"m", a:155, per:"$12.95 / mo",
+   d:"Covers one monthly Walmart+ membership (plus tax) paid with the card."},
+  {id:"chatgpt", n:"ChatGPT Business credit", c:"oth", f:"y", a:300, per:"$300 / yr",
+   d:"U.S. ChatGPT Business purchases, per calendar year.", e:1},
+  {id:"sqsp", n:"Squarespace credit", c:"oth", f:"y", a:150, per:"$150 / yr",
+   d:"U.S. Squarespace purchases, per calendar year.", e:1},
+  {id:"thc", n:"The Hotel Collection perks", c:"trv", f:"on", a:0, per:"",
+   d:"$100 on-property credit plus an upgrade when available, on 2+ night Hotel Collection stays booked via Amex Travel."},
+  {id:"prot", n:"Cell phone, purchase & travel protections", c:"prt", f:"on", a:0, per:"",
+   d:"Cell phone protection (up to $800, $50 deductible), purchase protection, extended warranty, trip delay, baggage insurance."}
+]},
+/* src: thepointsguy.com best-no-annual-fee-hotel-credit-cards (2026); insideflyer.com no-annual-fee-hilton-card */
+{ id:"hilton-amex", name:"Hilton Honors Card", issuer:"American Express", fee:0, net:"amex", cur:"HH",
+  art:["#9fb3c8","#d3dde8"], ink:"d",
+  rates:"7x Hilton · 5x U.S. dining, supermarkets & gas · 3x everything else",
+  earn:[{k:"hotels",x:7,m:"hilton"},{k:"dining",x:5},{k:"groceries",x:5},{k:"gas",x:5},{k:"other",x:3}],
+  b:[
+  {id:"silver", n:"Hilton Silver status", c:"sts", f:"on", a:0, per:"",
+   d:"Complimentary Silver: 20% bonus points on stays and the 5th night free on standard reward stays."},
+  {id:"prot", n:"Car rental cover, no foreign fees", c:"prt", f:"on", a:0, per:"",
+   d:"Secondary rental car loss/damage coverage and no foreign transaction fees."}
+]},
+/* src: thepointsguy.com marriott-bonvoy-bevy review (2026-08); bankrate.com marriott-bonvoy-bevy review */
+{ id:"marriott-bevy", name:"Marriott Bonvoy Bevy", issuer:"American Express", fee:250, net:"amex", cur:"MB",
+  art:["#3b3640","#6a6170"], ink:"l",
+  rates:"6x Marriott · 4x dining & U.S. supermarkets (to $15k/yr) · 2x everything else",
+  earn:[{k:"hotels",x:6,m:"marriott"},{k:"dining",x:4,cap:"$15k/yr combined"},{k:"groceries",x:4,cap:"$15k/yr combined"},{k:"other",x:2}],
+  b:[
+  {id:"gold", n:"Marriott Gold Elite status", c:"sts", f:"on", a:0, per:"",
+   d:"Complimentary Gold: enhanced upgrades, 2pm late checkout (when available), 25% bonus points."},
+  {id:"enc", n:"15 Elite Night Credits", c:"sts", f:"y", a:0, per:"15 / yr",
+   d:"15 Elite Night Credits each calendar year toward higher Marriott status."},
+  {id:"stay", n:"1,000 bonus points per paid stay", c:"trv", f:"on", a:0, per:"",
+   d:"1,000 points on each eligible paid stay booked directly with Marriott."},
+  {id:"fn", n:"Free Night Award at $15k spend", c:"trv", f:"y", a:0, per:"1 / yr possible",
+   d:"Spend $15k in a calendar year for a night up to 50k points (top up with 25k)."},
+  {id:"prot", n:"Purchase & travel protections", c:"prt", f:"on", a:0, per:"",
+   d:"Purchase protection, extended warranty, trip delay, baggage insurance, secondary car rental cover."}
+]},
 { id:"csr", name:"Sapphire Reserve", issuer:"Chase", fee:795,
   art:["#0c1626","#1f3352"], ink:"l",
+  cur:"UR", net:"visa", down:["csp","cfu","cff"],
+  earn:[{k:"travel",x:8,portal:1},{k:"flights",x:4},{k:"hotels",x:4},{k:"dining",x:3},{k:"other",x:1}],
   rates:"8x Chase Travel · 4x flights & hotels direct · 3x dining",
   b:[
-  {id:"travel", n:"$300 travel credit", c:"trv", f:"y", a:300, per:"$300 / yr",
+  {id:"travel", n:"$300 travel credit", c:"trv", f:"y", yr:"cm", a:300, per:"$300 / yr",
    d:"Automatic statement credits on any travel purchases each account-anniversary year."},
   {id:"edit", n:"The Edit hotel credit", c:"trv", f:"h", a:500, per:"$250 / half",
    d:"Prepaid bookings of 2+ nights via The Edit by Chase Travel — $250 Jan–Jun, $250 Jul–Dec."},
@@ -710,7 +837,7 @@ const DB = [
    d:"At Sapphire Reserve Exclusive Tables restaurants (book through OpenTable)."},
   {id:"stub", n:"StubHub / viagogo credit", c:"ent", f:"h", a:300, per:"$150 / half",
    d:"Concert and event tickets on StubHub or viagogo.", e:1, thru:"12/31/27"},
-  {id:"dd", n:"DoorDash promos", c:"din", f:"m", a:300, per:"$25 / mo",
+  {id:"dd", n:"DoorDash promos", c:"din", f:"m", a:420, per:"$35 / mo",
    d:"$5 restaurant promo + two $10 grocery/retail promos monthly, with complimentary DashPass (activate by 12/31/27).", e:1},
   {id:"peloton", n:"Peloton membership credit", c:"wel", f:"m", a:120, per:"$10 / mo",
    d:"Toward Peloton App or All-Access membership.", thru:"12/31/27"},
@@ -731,16 +858,16 @@ const DB = [
 ]},
 { id:"csp", name:"Sapphire Preferred", issuer:"Chase", fee:95,
   art:["#1c4f8f","#3873bd"], ink:"l",
-  rates:"5x Chase Travel · 3x dining, streaming & online groceries",
+  cur:"UR", net:"visa", down:["cfu","cff"],
+  earn:[{k:"travel",x:5,portal:1},{k:"dining",x:3},{k:"gas",x:3},{k:"streaming",x:3},{k:"groceries",x:3,cap:"online groceries only"},{k:"travel",x:2},{k:"other",x:1}],
+  rates:"5x Chase Travel · 3x dining, gas & EV, vacation homes, streaming & online groceries",
   b:[
-  {id:"hotel", n:"Hotel credit", c:"trv", f:"y", a:100, per:"$100 / yr",
+  {id:"hotel", n:"Hotel credit", c:"trv", f:"y", yr:"cm", a:100, per:"$100 / yr",
    d:"Chase Travel hotel stays each account-anniversary year — raised from $50 in the June 2026 refresh."},
   {id:"dd", n:"DoorDash promo", c:"din", f:"m", a:120, per:"$10 / mo",
    d:"Monthly $10 promo (grocery/retail) plus complimentary DashPass — activate by 12/31/27.", e:1},
-  {id:"apple", n:"Apple TV+ — 1 year free", c:"ent", f:"o", a:0, per:"12 months",
+  {id:"apple", n:"Apple TV+ — 1 year free", c:"ent", f:"o", a:0, per:"12 months", thru:"12/31/26",
    d:"Complimentary 12 months of Apple TV+ — activate by 12/31/26.", e:1},
-  {id:"anniv", n:"10% anniversary points boost", c:"oth", f:"on", a:0, per:"",
-   d:"Bonus points equal to 10% of your total purchases each account anniversary."},
   {id:"ge", n:"Global Entry / TSA PreCheck / NEXUS credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
    d:"New with the June 2026 refresh — application-fee credit every 4 years."},
   {id:"prot", n:"Travel protections", c:"prt", f:"on", a:0, per:"",
@@ -748,6 +875,8 @@ const DB = [
 ]},
 { id:"cfu", name:"Freedom Unlimited", issuer:"Chase", fee:0,
   art:["#1360a8","#2f83cf"], ink:"l",
+  cur:"UR", net:"visa",
+  earn:[{k:"travel",x:5,portal:1},{k:"dining",x:3},{k:"drugstore",x:3},{k:"other",x:1.5}],
   rates:"5% Chase Travel · 3% dining & drugstores · 1.5% everything else",
   b:[
   {id:"dash", n:"3 months of DashPass", c:"din", f:"o", a:0, per:"3 months",
@@ -757,22 +886,26 @@ const DB = [
 ]},
 { id:"cff", name:"Freedom Flex", issuer:"Chase", fee:0,
   art:["#0f4c81","#1f6fae"], ink:"l",
+  cur:"UR", net:"mc",
+  earn:[{k:"travel",x:5,portal:1},{k:"dining",x:3},{k:"drugstore",x:3},{k:"other",x:1}],
   rates:"5% rotating categories (to $1.5k/qtr) · 5% Chase Travel · 3% dining & drugstores",
   b:[
   {id:"act", n:"Activate 5% quarterly categories", c:"shp", f:"q", a:0, per:"up to $75 / qtr",
    d:"Activate each quarter's bonus categories — worth up to $75 cash back on $1,500 of spend."},
-  {id:"phone", n:"Cell phone protection", c:"prt", f:"on", a:0, per:"",
-   d:"Up to $800 per claim (2 claims/yr, $50 deductible) when you pay your phone bill with the card."},
+  {id:"noftf", n:"No foreign transaction fees", c:"trv", f:"on", a:0, per:"",
+   d:"Since Sept 20, 2026 — use it abroad and on international sites without the 3% fee."},
   {id:"dash", n:"3 months of DashPass", c:"din", f:"o", a:0, per:"3 months",
    d:"Complimentary DashPass for 3 months, then 50% off — activate by 12/31/27.", e:1}
 ]},
 { id:"united-explorer", name:"United Explorer", issuer:"Chase", fee:150, feeNote:"$0 intro first year",
   art:["#12295c","#264d94"], ink:"l",
+  cur:"UA", net:"visa",
+  earn:[{k:"flights",x:2,m:"united"},{k:"dining",x:2},{k:"hotels",x:2},{k:"other",x:1}],
   rates:"2x United, dining & hotels",
   b:[
   {id:"utc", n:"$100 United travel credit", c:"trv", f:"y", a:100, per:"$100 / yr",
    d:"After spending $10k on the card in a calendar year."},
-  {id:"hotels", n:"United Hotels credit", c:"trv", f:"y", a:100, per:"2 × $50 / yr",
+  {id:"hotels", n:"United Hotels credit", c:"trv", f:"y", yr:"cm", a:100, per:"2 × $50 / yr",
    d:"$50 back on each of your first two prepaid United Hotels bookings per anniversary year."},
   {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:60, per:"$5 / mo",
    d:"U.S. rideshare purchases.", e:1},
@@ -780,7 +913,7 @@ const DB = [
    d:"Book via cars.united.com; paid as United TravelBank cash."},
   {id:"insta", n:"Instacart+ credit", c:"shp", f:"m", a:120, per:"$10 / mo",
    d:"Covers an Instacart+ membership purchased directly with Instacart.", e:1},
-  {id:"jsx", n:"JSX flight credit", c:"trv", f:"y", a:100, per:"$100 / yr",
+  {id:"jsx", n:"JSX flight credit", c:"trv", f:"y", yr:"cm", a:100, per:"$100 / yr",
    d:"Statement credit on JSX semi-private flights each anniversary year."},
   {id:"club", n:"2 United Club passes", c:"air", f:"y", a:0, per:"2 / yr",
    d:"Two one-time passes each anniversary; you or an authorized user must be present to use them."},
@@ -793,18 +926,22 @@ const DB = [
 ]},
 { id:"united-quest", name:"United Quest", issuer:"Chase", fee:350,
   art:["#241f5e","#4038a0"], ink:"l",
+  cur:"UA", net:"visa", down:["united-explorer"],
+  earn:[{k:"flights",x:3,m:"united"},{k:"travel",x:2},{k:"dining",x:2},{k:"streaming",x:2},{k:"other",x:1}],
   rates:"3x United · 2x other travel, dining & streaming",
   b:[
-  {id:"tb", n:"$200 United TravelBank cash", c:"trv", f:"y", a:200, per:"$200 / yr",
+  {id:"tb", n:"$200 United TravelBank cash", c:"trv", f:"y", yr:"cm", a:200, per:"$200 / yr",
    d:"Deposited automatically after account opening and every anniversary — spend it on United flights."},
-  {id:"renowned", n:"Renowned Hotels credit", c:"trv", f:"y", a:150, per:"$150 / yr",
+  {id:"renowned", n:"Renowned Hotels credit", c:"trv", f:"y", yr:"cm", a:150, per:"$150 / yr",
    d:"Statement credits each anniversary year on prepaid bookings made directly through Renowned Hotels and Resorts (also earns 5x miles)."},
-  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:100, per:"$8 / mo (+$12 Dec)",
+  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:100, pv:{12:20}, per:"$8 / mo (+$12 Dec)",
    d:"U.S. rideshare purchases — $8/month Jan–Nov, up to $12 in December.", e:1},
   {id:"insta", n:"Instacart credits", c:"shp", f:"m", a:180, per:"$15 / mo",
    d:"One $10 and one $5 statement credit monthly on purchases made directly through Instacart.", thru:"12/31/27"},
-  {id:"jsx", n:"JSX flight credit", c:"trv", f:"y", a:150, per:"$150 / yr",
+  {id:"jsx", n:"JSX flight credit", c:"trv", f:"y", yr:"cm", a:150, per:"$150 / yr",
    d:"Statement credits each anniversary year on flights booked directly with JSX."},
+  {id:"avis", n:"Avis / Budget credit", c:"trv", f:"y", yr:"cm", a:80, per:"2 × $40 / yr",
+   d:"Two $40 credits each anniversary year on Avis or Budget rentals paid with the card."},
   {id:"bags", n:"Free first & second checked bags", c:"trv", f:"on", a:0, per:"",
    d:"For you + one companion on the same reservation (save up to $360 per round trip), plus priority boarding."},
   {id:"inflight", n:"25% off United inflight purchases", c:"trv", f:"on", a:0, per:"",
@@ -814,6 +951,8 @@ const DB = [
 ]},
 { id:"ink-preferred", name:"Ink Business Preferred", issuer:"Chase", fee:95,
   art:["#2b3a4a","#42566b"], ink:"l",
+  cur:"UR", net:"visa", biz:1,
+  earn:[{k:"travel",x:3,cap:"$150k/yr combined"},{k:"phone",x:3,cap:"internet & phone, $150k/yr combined"},{k:"other",x:1}],
   rates:"3x travel, shipping, ads & internet (to $150k/yr)",
   b:[
   {id:"phone", n:"Cell phone protection", c:"prt", f:"on", a:0, per:"",
@@ -823,6 +962,8 @@ const DB = [
 ]},
 { id:"ink-cash", name:"Ink Business Cash", issuer:"Chase", fee:0,
   art:["#1e5e46","#2f8163"], ink:"l",
+  cur:"UR", net:"visa", biz:1,
+  earn:[{k:"phone",x:5,cap:"internet, cable & phone, $25k/yr"},{k:"transit",x:5,m:"lyft"},{k:"gas",x:2,cap:"$25k/yr"},{k:"dining",x:2,cap:"$25k/yr"},{k:"other",x:1}],
   rates:"5% office supply, internet, cable & phone (to $25k/yr) · 2% gas & restaurants (to $25k/yr) · 5% Lyft thru 9/30/27",
   b:[
   {id:"dash", n:"3 months of DashPass", c:"din", f:"o", a:0, per:"3 months",
@@ -834,8 +975,126 @@ const DB = [
   {id:"emp", n:"Free employee cards", c:"oth", f:"on", a:0, per:"",
    d:"Employee cards at no extra cost, with individual spending limits."}
 ]},
+/* src: creditcards.chase.com/business-credit-cards/ink/unlimited (live, Nov 2026) */
+{ id:"ink-unlimited", name:"Ink Business Unlimited", issuer:"Chase", fee:0, biz:1, net:"visa", cur:"UR",
+  art:["#b8c4cf","#e2e8ee"], ink:"d",
+  rates:"1.5% on everything · 5% Lyft through 9/30/27",
+  earn:[{k:"transit",x:5,m:"lyft"},{k:"other",x:1.5}],
+  b:[
+  {id:"insta", n:"Instacart+ trial", c:"shp", f:"o", a:0, per:"3 months",
+   d:"3 months of Instacart+ free (then $99/yr unless cancelled). Activate by 12/31/27.", e:1, thru:"12/31/27"},
+  {id:"car", n:"Primary rental car coverage (business)", c:"prt", f:"on", a:0, per:"",
+   d:"Primary coverage on business rentals. Decline the rental company's CDW."},
+  {id:"prot", n:"Purchase protection & extended warranty", c:"prt", f:"on", a:0, per:"",
+   d:"120-day purchase protection and +1 year on warranties of 3 years or less."},
+  {id:"emp", n:"Free employee cards", c:"oth", f:"on", a:0, per:"",
+   d:"Employee cards at no cost, with individual spending limits."}
+]},
+/* src: thepointsguy.com world-of-hyatt-credit-card-review (2026-11-06); yourmileagemayvary.com (2026-10-28) */
+{ id:"hyatt", name:"World of Hyatt", issuer:"Chase", fee:95, net:"visa", cur:"HY",
+  art:["#1d3f73","#3f6fae"], ink:"l",
+  rates:"4x Hyatt · 2x dining, airlines, transit/rideshare & gyms",
+  earn:[{k:"hotels",x:4,m:"hyatt"},{k:"dining",x:2},{k:"flights",x:2},{k:"transit",x:2},{k:"other",x:1}],
+  b:[
+  {id:"fn", n:"Anniversary free night (Cat 1–4)", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
+   d:"One Category 1–4 free night each cardmember year. Expires 12 months after issue."},
+  {id:"fn2", n:"Second free night at $15k spend", c:"trv", f:"y", a:0, per:"1 / yr possible",
+   d:"Spend $15k in a calendar year for another Category 1–4 night."},
+  {id:"tqn", n:"Elite night credits", c:"sts", f:"y", a:0, per:"5 / yr + 2 per $5k",
+   d:"5 tier-qualifying night credits each year, plus 2 more for every $5k spent."},
+  {id:"disc", n:"Discoverist status", c:"sts", f:"on", a:0, per:"",
+   d:"Complimentary Discoverist: preferred rooms, late checkout when available, 10% bonus points."},
+  {id:"prot", n:"Travel protections", c:"prt", f:"on", a:0, per:"",
+   d:"Auto rental CDW, baggage delay, lost luggage, trip cancellation/interruption. No foreign transaction fees."}
+]},
+/* src: creditcards.chase.com/travel-credit-cards/ihg-rewards-club/premier (live); thepointsguy.com ihg-credit-card-refresh-2026 */
+{ id:"ihg-premier", name:"IHG One Rewards Premier", issuer:"Chase", fee:150, net:"mc", cur:"IHG",
+  art:["#2b2a33","#4d4b59"], ink:"l",
+  rates:"10x IHG · 5x airlines, car rental, dining, grocery & gas · 3x everything else",
+  earn:[{k:"hotels",x:10,m:"ihg"},{k:"flights",x:5},{k:"car",x:5},{k:"dining",x:5},{k:"groceries",x:5},{k:"gas",x:5},{k:"other",x:3}],
+  b:[
+  {id:"fn", n:"Anniversary free night (up to 50k)", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
+   d:"One night up to 50k points each account anniversary (top up with points). Use within 12 months."},
+  {id:"airline", n:"Airline credit at $250 flight spend", c:"air", f:"y", a:100, per:"$100 / yr",
+   d:"$100 back once you spend $250 on flights bought directly from an airline in a calendar year.", thru:"12/31/27"},
+  {id:"fb", n:"IHG food & beverage voucher", c:"din", f:"q", a:100, per:"$25 / quarter",
+   d:"$25 voucher each quarter for food and drink at participating IHG hotels."},
+  {id:"insta", n:"Instacart credit", c:"shp", f:"m", a:120, per:"$10 / mo",
+   d:"$10/mo with an active Instacart+ membership (3 months free included).", e:1, thru:"12/31/27"},
+  {id:"dash", n:"DashPass + $10 off monthly", c:"din", f:"m", a:120, per:"$10 / mo",
+   d:"Complimentary DashPass plus $10 off one non-restaurant order each month.", e:1, thru:"12/31/27"},
+  {id:"utb", n:"United TravelBank cash", c:"air", f:"h", a:50, per:"$25 / half",
+   d:"$25 deposited around Jan 5 and Jul 5. One-time registration.", e:1},
+  {id:"4th", n:"4th night free on awards", c:"trv", f:"on", a:0, per:"",
+   d:"Book 4+ reward nights at one hotel and the 4th night is free."},
+  {id:"status", n:"Gold Elite + spend to Platinum / Diamond", c:"sts", f:"on", a:0, per:"",
+   d:"Automatic Gold (existing holders keep Platinum through 12/31/27). Platinum at $15k/yr spend, Diamond at $40k/yr."},
+  {id:"ge", n:"Global Entry / TSA PreCheck / NEXUS credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."}
+]},
+/* src: creditcards.chase.com/travel-credit-cards/marriott-bonvoy/boundless (live) */
+{ id:"marriott-boundless", name:"Marriott Bonvoy Boundless", issuer:"Chase", fee:95, net:"visa", cur:"MB",
+  art:["#1b2a4a","#36507f"], ink:"l",
+  rates:"6x Marriott · 3x gas, grocery & dining (first $6k/yr) · 2x everything else",
+  earn:[{k:"hotels",x:6,m:"marriott"},{k:"gas",x:3,cap:"$6k/yr combined"},{k:"groceries",x:3,cap:"$6k/yr combined"},{k:"dining",x:3,cap:"$6k/yr combined"},{k:"other",x:2}],
+  b:[
+  {id:"fn", n:"Anniversary Free Night (up to 35k)", c:"trv", f:"y", yr:"cm", a:0, per:"1 / yr",
+   d:"One night at properties up to 35k points each account anniversary. Expires after 12 months."},
+  {id:"airline", n:"Airline credit at $250 spend", c:"air", f:"h", a:100, per:"$50 / half",
+   d:"$50 back after $250 in direct airline purchases, once Jun–Dec 2026 and again Jan–Jun 2027. Existing cardmembers must activate.", e:1, thru:"6/30/27"},
+  {id:"dash", n:"DashPass + $10 off monthly", c:"din", f:"m", a:120, per:"$10 / mo",
+   d:"1 year of DashPass (activate by 12/31/27) plus $10 off one non-restaurant order monthly.", e:1, thru:"12/31/27"},
+  {id:"silver", n:"Silver Elite + 15 Elite Night Credits", c:"sts", f:"on", a:0, per:"",
+   d:"Automatic Silver Elite, 15 Elite Night Credits yearly + 1 per $5k. Gold Elite at $35k/yr spend."},
+  {id:"prot", n:"Travel & purchase protections", c:"prt", f:"on", a:0, per:"",
+   d:"Baggage delay, lost luggage, trip delay, 120-day purchase protection. No foreign fees."}
+]},
+/* src: creditcards.chase.com/travel-credit-cards/southwest/priority (live) */
+{ id:"sw-priority", name:"Southwest Rapid Rewards Priority", issuer:"Chase", fee:229, net:"visa", cur:"SW",
+  art:["#1f2f6b","#3550b8"], ink:"l",
+  rates:"4x Southwest · 2x gas & dining · 5x Lyft through 12/31/27",
+  earn:[{k:"flights",x:4,m:"southwest"},{k:"transit",x:5,m:"lyft"},{k:"gas",x:2},{k:"dining",x:2},{k:"other",x:1}],
+  b:[
+  {id:"anniv", n:"7,500 anniversary points", c:"air", f:"y", yr:"cm", a:0, per:"7,500 / yr",
+   d:"7,500 Rapid Rewards points each account anniversary."},
+  {id:"bag", n:"First checked bag free", c:"air", f:"on", a:0, per:"",
+   d:"For you and up to 8 passengers on the same reservation."},
+  {id:"seat", n:"Preferred seat + Extra Legroom upgrades", c:"air", f:"on", a:0, per:"",
+   d:"Preferred seat at booking, and Extra Legroom upgrades within 48 hrs of departure when available."},
+  {id:"inflight", n:"25% back on inflight purchases", c:"air", f:"on", a:0, per:"",
+   d:"25% back as a statement credit on inflight drinks and Wi-Fi."},
+  {id:"dash", n:"DashPass + $10 off monthly", c:"din", f:"m", a:120, per:"$10 / mo",
+   d:"1 year of DashPass (activate by 12/31/27) plus $10 off one non-restaurant order monthly.", e:1, thru:"12/31/27"},
+  {id:"insta", n:"Instacart credit", c:"shp", f:"m", a:120, per:"$10 / mo",
+   d:"3 months of Instacart+ free, plus $10 off one $10+ order monthly.", e:1, thru:"12/31/27"}
+]},
+/* src: onemileatatime.com/reviews/united-club-card (2026-10-21); thepointsguy.com united-infinite-club-card-review (2026-10-12) */
+{ id:"united-club", name:"United Club Card", issuer:"Chase", fee:695, net:"visa", cur:"UA",
+  art:["#141922","#2e3644"], ink:"l",
+  rates:"5x United & Renowned Hotels · 2x travel & dining",
+  earn:[{k:"flights",x:5,m:"united"},{k:"travel",x:2},{k:"dining",x:2},{k:"other",x:1}],
+  b:[
+  {id:"club", n:"United Club membership", c:"air", f:"on", a:0, per:"",
+   d:"Full membership with 1 guest + kids under 18."},
+  {id:"insta", n:"Instacart credit", c:"shp", f:"m", a:240, per:"$20 / mo",
+   d:"Two $10 Instacart credits each month.", thru:"12/31/27"},
+  {id:"renowned", n:"Renowned Hotels credit", c:"trv", f:"y", yr:"cm", a:200, per:"$200 / yr",
+   d:"Prepaid Renowned Hotels and Resorts bookings, per anniversary year."},
+  {id:"jsx", n:"JSX credit", c:"air", f:"y", yr:"cm", a:200, per:"$200 / yr",
+   d:"JSX purchases with the card, per anniversary year."},
+  {id:"ride", n:"Rideshare credit", c:"rid", f:"m", a:150, pv:{12:30}, per:"$12 / mo (+$18 Dec)",
+   d:"Rideshare credit each month. Opt in annually.", e:1},
+  {id:"bags", n:"2 free checked bags", c:"air", f:"on", a:0, per:"",
+   d:"First and second bags free for you and one companion."},
+  {id:"access", n:"Premier Access + 25% inflight back", c:"air", f:"on", a:0, per:"",
+   d:"Priority check-in, security and boarding, plus 25% back on inflight purchases."},
+  {id:"ge", n:"Global Entry / TSA PreCheck / NEXUS credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."}
+]},
 { id:"prime-visa", name:"Prime Visa", issuer:"Chase", fee:0, feeNote:"requires Prime",
   art:["#0d2b3e","#1a4a63"], ink:"l",
+  cur:"cash", net:"visa",
+  earn:[{k:"amazon",x:5},{k:"travel",x:5,portal:1},{k:"gas",x:2},{k:"dining",x:2},{k:"transit",x:2},{k:"other",x:1}],
   rates:"5% Amazon, Whole Foods & Chase Travel · 2% gas, dining & transit",
   b:[
   {id:"deals", n:"10% back rotating Amazon deals", c:"shp", f:"on", a:0, per:"",
@@ -845,11 +1104,13 @@ const DB = [
 ]},
 { id:"venture-x", name:"Venture X", issuer:"Capital One", fee:395,
   art:["#181720","#33313f"], ink:"l",
+  cur:"C1", net:"visa", down:["venture"],
+  earn:[{k:"hotels",x:10,portal:1},{k:"car",x:10,portal:1},{k:"flights",x:5,portal:1},{k:"other",x:2}],
   rates:"10x hotels & cars via portal · 5x flights via portal · 2x everything",
   b:[
-  {id:"travel", n:"$300 Capital One Travel credit", c:"trv", f:"y", a:300, per:"$300 / yr",
+  {id:"travel", n:"$300 Capital One Travel credit", c:"trv", f:"y", yr:"cm", a:300, per:"$300 / yr",
    d:"For bookings through Capital One Travel, each cardmember year."},
-  {id:"anniv", n:"10,000 anniversary miles", c:"trv", f:"y", a:100, per:"10k mi / yr",
+  {id:"anniv", n:"10,000 anniversary miles", c:"trv", f:"y", yr:"cm", a:100, per:"10k mi / yr",
    d:"Every account anniversary — worth $100+ toward travel."},
   {id:"lounge", n:"Capital One Lounges + Priority Pass", c:"air", f:"on", a:0, per:"",
    d:"Complimentary entry for you. Since Feb 2026: guests cost extra (free guests unlock at $75k/yr spend) and authorized-user lounge access is $125/user/yr."},
@@ -866,6 +1127,8 @@ const DB = [
 ]},
 { id:"venture", name:"Venture", issuer:"Capital One", fee:95,
   art:["#31465f","#4a6787"], ink:"l",
+  cur:"C1", net:"visa", down:["quicksilver"],
+  earn:[{k:"hotels",x:5,portal:1},{k:"car",x:5,portal:1},{k:"other",x:2}],
   rates:"2x everything · 5x hotels & cars via portal",
   b:[
   {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
@@ -875,6 +1138,8 @@ const DB = [
 ]},
 { id:"savor", name:"Savor", issuer:"Capital One", fee:0,
   art:["#8a3a2c","#b0543f"], ink:"l",
+  cur:"cash", net:"mc",
+  earn:[{k:"dining",x:3},{k:"groceries",x:3},{k:"ent",x:3},{k:"streaming",x:3},{k:"other",x:1}],
   rates:"3% dining, groceries, entertainment & streaming",
   b:[
   {id:"uberone", n:"Uber One membership credits", c:"rid", f:"m", a:120, per:"$9.99 / mo",
@@ -882,6 +1147,8 @@ const DB = [
 ]},
 { id:"c1-platinum", name:"Platinum Mastercard", issuer:"Capital One", fee:0,
   art:["#4a5560","#66727e"], ink:"l",
+  cur:"cash", net:"mc",
+  earn:[],
   rates:"No rewards — a credit-building card",
   b:[
   {id:"cli", n:"Automatic credit line reviews", c:"oth", f:"on", a:0, per:"",
@@ -889,8 +1156,42 @@ const DB = [
   {id:"virtual", n:"Virtual card numbers + $0 fraud liability", c:"prt", f:"on", a:0, per:"",
    d:"Shop online with merchant-specific virtual numbers via Eno; you're not responsible for unauthorized charges."}
 ]},
+/* src: capitalone.com/small-business/credit-cards/venture-x-business (live) */
+{ id:"venture-x-biz", name:"Venture X Business", issuer:"Capital One", fee:395, feeNote:"pay-in-full card", biz:1, net:"visa", cur:"C1",
+  art:["#1a1d24","#383d49"], ink:"l",
+  rates:"2x on everything · 10x hotels & cars, 5x flights via Capital One Business Travel",
+  earn:[{k:"hotels",x:10,portal:1},{k:"car",x:10,portal:1},{k:"flights",x:5,portal:1},{k:"other",x:2}],
+  b:[
+  {id:"travel", n:"Business Travel credit", c:"trv", f:"y", yr:"cm", a:300, per:"$300 / yr",
+   d:"Bookings through Capital One Business Travel. Expires the day before your account anniversary."},
+  {id:"anniv", n:"10,000 anniversary miles", c:"trv", f:"y", yr:"cm", a:0, per:"10k mi / yr",
+   d:"10,000 bonus miles each account anniversary."},
+  {id:"lounge", n:"Capital One Lounges + Priority Pass", c:"air", f:"on", a:0, per:"",
+   d:"Capital One Lounges and Landings, plus Priority Pass (enroll).", e:1},
+  {id:"pc", n:"Premier Collection $100 experience credit", c:"trv", f:"on", a:0, per:"",
+   d:"$100 experience credit per Premier Collection hotel or vacation-rental booking."},
+  {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."},
+  {id:"hertz", n:"Hertz President's Circle", c:"sts", f:"on", a:0, per:"",
+   d:"Complimentary Hertz President's Circle status.", e:1}
+]},
+/* src: capitalone.com/credit-cards/quicksilver (live) */
+{ id:"quicksilver", name:"Quicksilver", issuer:"Capital One", fee:0, net:"mc", cur:"cash",
+  art:["#aeb3ba","#dfe2e6"], ink:"d",
+  rates:"1.5% on everything · 5% hotels, vacation rentals & cars via Capital One Travel",
+  earn:[{k:"hotels",x:5,portal:1},{k:"car",x:5,portal:1},{k:"other",x:1.5}],
+  b:[
+  {id:"hertz", n:"Hertz Five Star status", c:"sts", f:"on", a:0, per:"",
+   d:"Complimentary Hertz Five Star status."},
+  {id:"prot", n:"Extended warranty & travel accident", c:"prt", f:"on", a:0, per:"",
+   d:"Extended warranty on eligible purchases, travel accident insurance. No foreign transaction fees."},
+  {id:"cafe", n:"50% off at Capital One Cafés", c:"din", f:"on", a:0, per:"",
+   d:"Half off handcrafted beverages every day at Capital One Cafés."}
+]},
 { id:"citi-premier", name:"Strata Premier", issuer:"Citi", fee:95,
   art:["#173a6e","#2b5da8"], ink:"l",
+  cur:"TYP", net:"mc", down:["citi-doublecash","citi-customcash"],
+  earn:[{k:"flights",x:3},{k:"hotels",x:3},{k:"gas",x:3},{k:"groceries",x:3},{k:"dining",x:3},{k:"other",x:1}],
   rates:"3x flights, hotels, gas/EV, supermarkets & dining",
   b:[
   {id:"hotel", n:"$100 hotel benefit", c:"trv", f:"y", a:100, per:"$100 / yr",
@@ -900,6 +1201,8 @@ const DB = [
 ]},
 { id:"citi-elite", name:"Strata Elite", issuer:"Citi", fee:595,
   art:["#101c2c","#22344c"], ink:"l",
+  cur:"TYP", net:"mc", down:["citi-premier","citi-doublecash"],
+  earn:[{k:"hotels",x:12,portal:1},{k:"car",x:12,portal:1},{k:"flights",x:6,portal:1},{k:"dining",x:3,cap:"6x Fri–Sat 6pm–6am"},{k:"other",x:1.5}],
   rates:"12x hotels/cars via Citi Travel · 6x air (portal) · 6x dining Fri–Sat nights, 3x other times",
   b:[
   {id:"hotel", n:"$300 hotel credit", c:"trv", f:"y", a:300, per:"$300 / yr",
@@ -917,6 +1220,8 @@ const DB = [
 ]},
 { id:"citi-doublecash", name:"Double Cash", issuer:"Citi", fee:0,
   art:["#3a3f46","#565d66"], ink:"l",
+  cur:"cash", net:"mc",
+  earn:[{k:"other",x:2}],
   rates:"2% on everything (1% when you buy + 1% when you pay)",
   b:[
   {id:"ent", n:"Citi Entertainment access", c:"ent", f:"on", a:0, per:"",
@@ -924,13 +1229,57 @@ const DB = [
 ]},
 { id:"citi-customcash", name:"Custom Cash", issuer:"Citi", fee:0,
   art:["#4a7fb5","#6fa2d4"], ink:"l",
+  cur:"cash", net:"mc",
+  earn:[{k:"dining",x:5,cap:"if it\u2019s your top category, $500/cycle"},{k:"groceries",x:5,cap:"if top category, $500/cycle"},{k:"gas",x:5,cap:"if top category, $500/cycle"},{k:"drugstore",x:5,cap:"if top category, $500/cycle"},{k:"streaming",x:5,cap:"if top category, $500/cycle"},{k:"homeimp",x:5,cap:"if top category, $500/cycle"},{k:"transit",x:5,cap:"if top category, $500/cycle"},{k:"ent",x:5,cap:"if top category, $500/cycle"},{k:"other",x:1}],
   rates:"5% on your top eligible category each cycle (to $500 spend)",
   b:[
   {id:"auto", n:"5% adapts automatically", c:"oth", f:"on", a:0, per:"",
    d:"No activation needed — 5% applies to your highest eligible spend category each billing cycle."}
 ]},
+/* src: citi.com aadvantage-executive (live); viewfromthewing.com american-raises-citi-executive-card-fee-to-695 (2026-08-03) */
+{ id:"citi-aa-exec", name:"AAdvantage Executive", issuer:"Citi", fee:695, feeNote:"$595 for some existing cardholders until renewal", net:"mc", cur:"AA",
+  art:["#1d1f24","#3b3e46"], ink:"l",
+  rates:"12x AAdvantage Hotels & Cars · 4x American (5x after $150k/yr)",
+  earn:[{k:"hotels",x:12,portal:1},{k:"car",x:12,portal:1},{k:"flights",x:4,m:"american"},{k:"other",x:1}],
+  b:[
+  {id:"admirals", n:"Admirals Club membership", c:"air", f:"on", a:0, per:"",
+   d:"Unlimited Admirals Club and partner-lounge access for you + 2 guests or immediate family."},
+  {id:"aav", n:"AA Vacations credit", c:"trv", f:"h", a:500, per:"$250 / half",
+   d:"American Airlines Vacations purchases, up to $250 Jan–Jun and $250 Jul–Dec."},
+  {id:"dining", n:"inKind dining credit", c:"din", f:"h", a:200, per:"$100 / half",
+   d:"Add the card in the inKind app and dine at inKind restaurants.", e:1},
+  {id:"lyft", n:"Lyft credit", c:"rid", f:"m", a:180, per:"$15 / mo",
+   d:"$15 after 3 eligible Lyft rides in a calendar month."},
+  {id:"avis", n:"Avis / Budget credit", c:"trv", f:"y", a:120, per:"$120 / yr",
+   d:"Prepaid rentals booked directly on avis.com or budget.com."},
+  {id:"inflight", n:"Inflight & Admirals Club purchases credit", c:"air", f:"y", a:100, per:"$100 / yr",
+   d:"Inflight and Admirals Club purchases, per calendar year."},
+  {id:"bag", n:"First checked bag free", c:"air", f:"on", a:0, per:"",
+   d:"Domestic AA itineraries, for you and up to 8 companions."},
+  {id:"lp", n:"Loyalty Point bonuses", c:"sts", f:"y", a:0, per:"up to 40k LP / yr",
+   d:"10,000 LP bonus at 50k, 90k, 165k and 240k Loyalty Points in a qualification year."},
+  {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."}
+]},
+/* src: citi.com aadvantage-platinum-elite (live); upgradedpoints.com/news/citi-aadvantage-card-changes-2026 (2026-10-27) */
+{ id:"citi-aa-plat", name:"AAdvantage Platinum Select", issuer:"Citi", fee:99, feeNote:"$0 first year · $150 from 1/24/27", net:"mc", cur:"AA",
+  art:["#c4ccd6","#e9edf2"], ink:"d",
+  rates:"2x American, restaurants & gas",
+  earn:[{k:"flights",x:2,m:"american"},{k:"dining",x:2},{k:"gas",x:2},{k:"other",x:1}],
+  b:[
+  {id:"bag", n:"First checked bag free", c:"air", f:"on", a:0, per:"",
+   d:"Domestic AA itineraries, for you and up to 4 companions."},
+  {id:"board", n:"Preferred boarding", c:"air", f:"on", a:0, per:"",
+   d:"For you and up to 4 companions on the same reservation."},
+  {id:"inflight", n:"25% off inflight food & drink", c:"air", f:"on", a:0, per:"",
+   d:"25% back on AA inflight food and beverage. Replaced by a $100/yr inflight credit on 1/24/27.", thru:"1/23/27"},
+  {id:"disc", n:"Flight discount at $20k spend", c:"air", f:"y", a:0, per:"$125 / yr possible",
+   d:"$125 AA flight discount after $20k spend in an account year and renewal. Rises to $150 on 1/24/27."}
+]},
 { id:"costco-visa", name:"Costco Anywhere Visa", issuer:"Citi", fee:0, feeNote:"with Costco membership",
   art:["#e8e9ee","#f8f9fc"], ink:"d",
+  cur:"cash", net:"visa",
+  earn:[{k:"gas",x:4,cap:"$7k/yr"},{k:"dining",x:3},{k:"travel",x:3},{k:"wholesale",x:2,m:"costco"},{k:"other",x:1}],
   rates:"4% gas & EV charging (to $7k/yr) · 3% dining & travel · 2% Costco",
   b:[
   {id:"cert", n:"Annual reward certificate", c:"oth", f:"y", a:0, per:"1 / yr",
@@ -940,10 +1289,12 @@ const DB = [
 ]},
 { id:"bilt-obsidian", name:"Bilt Obsidian", issuer:"Bilt", fee:95,
   art:["#0f0e13","#2b2833"], ink:"l",
+  cur:"BILT", net:"mc",
+  earn:[{k:"dining",x:3,cap:"if you picked dining"},{k:"groceries",x:3,cap:"if you picked groceries, $25k/yr"},{k:"travel",x:2},{k:"rent",x:1.25,cap:"fee-free"},{k:"other",x:1}],
   rates:"3x dining or groceries (your pick) · 2x travel · up to 1.25x rent & mortgage fee-free",
   b:[
   {id:"hotel", n:"Bilt Travel hotel credit", c:"trv", f:"h", a:100, per:"$50 / half",
-   d:"Statement credits on qualifying Bilt Travel portal hotel bookings — $50 Jan–Jun and $50 Jul–Dec."},
+   d:"Statement credits on qualifying Bilt Travel portal hotel bookings — $50 Jan–Jun and $50 Jul–Dec. For 2027 it becomes $100 Bilt Cash after your card anniversary.", thru:"12/31/26"},
   {id:"pick3x", n:"Pick your 3x category", c:"oth", f:"y", a:0, per:"1 / yr",
    d:"Choose dining or grocery stores as your 3x category for the year (grocery capped at $25k/yr)."},
   {id:"rent", n:"Points on rent & mortgage, fee-free", c:"oth", f:"on", a:0, per:"",
@@ -951,6 +1302,8 @@ const DB = [
 ]},
 { id:"bilt", name:"Bilt Mastercard (original)", issuer:"Bilt", fee:0,
   art:["#131313","#2e2e2e"], ink:"l",
+  cur:"BILT", net:"mc",
+  earn:[{k:"dining",x:3},{k:"travel",x:2},{k:"rent",x:1,cap:"fee-free, 100k pts/yr"},{k:"other",x:1}],
   rates:"1x rent (no fee, to 100k pts/yr) · 3x dining · 2x travel",
   b:[
   {id:"rent", n:"Points on rent, fee-free", c:"oth", f:"on", a:0, per:"",
@@ -962,6 +1315,8 @@ const DB = [
 ]},
 { id:"wf-autograph", name:"Autograph", issuer:"Wells Fargo", fee:0,
   art:["#5a2a63","#7d4487"], ink:"l",
+  cur:"cash", net:"visa",
+  earn:[{k:"dining",x:3},{k:"travel",x:3},{k:"gas",x:3},{k:"transit",x:3},{k:"streaming",x:3},{k:"phone",x:3},{k:"other",x:1}],
   rates:"3x dining, travel, gas, transit, streaming & phone plans",
   b:[
   {id:"phone", n:"Cell phone protection", c:"prt", f:"on", a:0, per:"",
@@ -969,6 +1324,8 @@ const DB = [
 ]},
 { id:"wf-journey", name:"Autograph Journey", issuer:"Wells Fargo", fee:95,
   art:["#3b2440","#5c3a63"], ink:"l",
+  cur:"cash", net:"visa", down:["wf-autograph"],
+  earn:[{k:"hotels",x:5},{k:"flights",x:4},{k:"travel",x:3},{k:"dining",x:3},{k:"other",x:1}],
   rates:"5x hotels · 4x airlines · 3x other travel & dining",
   b:[
   {id:"air", n:"$50 airline credit", c:"trv", f:"y", a:50, per:"$50 / yr",
@@ -978,6 +1335,8 @@ const DB = [
 ]},
 { id:"wf-active", name:"Active Cash", issuer:"Wells Fargo", fee:0,
   art:["#7a1f2b","#a03040"], ink:"l",
+  cur:"cash", net:"visa",
+  earn:[{k:"other",x:2}],
   rates:"2% cash rewards on purchases",
   b:[
   {id:"phone", n:"Cell phone protection", c:"prt", f:"on", a:0, per:"",
@@ -985,6 +1344,8 @@ const DB = [
 ]},
 { id:"boa-pr", name:"Premium Rewards", issuer:"Bank of America", fee:95,
   art:["#5b1f28","#8a2f3c"], ink:"l",
+  cur:"cash", net:"visa", down:["boa-travel","boa-ucr"],
+  earn:[{k:"travel",x:2},{k:"dining",x:2},{k:"other",x:1.5}],
   rates:"2x travel & dining · 1.5x other (up to 75% more with Preferred Rewards)",
   b:[
   {id:"air", n:"Airline incidental credit", c:"trv", f:"y", a:100, per:"$100 / yr",
@@ -994,6 +1355,8 @@ const DB = [
 ]},
 { id:"boa-pre", name:"Premium Rewards Elite", issuer:"Bank of America", fee:550,
   art:["#23272e","#3d434d"], ink:"l",
+  cur:"cash", net:"visa", down:["boa-pr","boa-travel"],
+  earn:[{k:"travel",x:2},{k:"dining",x:2},{k:"other",x:1.5}],
   rates:"2x travel & dining · 1.5x other (+75% with Preferred Rewards)",
   b:[
   {id:"air", n:"Airline incidental credits", c:"trv", f:"y", a:300, per:"$300 / yr",
@@ -1009,6 +1372,8 @@ const DB = [
 ]},
 { id:"boa-ccr", name:"Customized Cash Rewards", issuer:"Bank of America", fee:0,
   art:["#7f8792","#a5adb8"], ink:"d",
+  cur:"cash", net:"visa",
+  earn:[{k:"groceries",x:2,cap:"$2.5k/qtr combined"},{k:"wholesale",x:2,cap:"$2.5k/qtr combined"},{k:"other",x:1}],
   rates:"3% category of your choice · 2% grocery & wholesale clubs (combined to $2.5k/qtr)",
   b:[
   {id:"choice", n:"3% choice category", c:"oth", f:"on", a:0, per:"",
@@ -1018,6 +1383,8 @@ const DB = [
 ]},
 { id:"boa-ucr", name:"Unlimited Cash Rewards", issuer:"Bank of America", fee:0,
   art:["#3f464e","#5a636d"], ink:"l",
+  cur:"cash", net:"visa",
+  earn:[{k:"other",x:1.5}],
   rates:"1.5% cash back on everything",
   b:[
   {id:"boost", n:"Preferred Rewards boost", c:"oth", f:"on", a:0, per:"",
@@ -1025,6 +1392,8 @@ const DB = [
 ]},
 { id:"boa-travel", name:"Travel Rewards", issuer:"Bank of America", fee:0,
   art:["#1d4f8a","#3a72b5"], ink:"l",
+  cur:"cash", net:"visa",
+  earn:[{k:"other",x:1.5}],
   rates:"1.5x points on everything · points erase travel & dining purchases",
   b:[
   {id:"noftf", n:"No foreign transaction fees", c:"trv", f:"on", a:0, per:"",
@@ -1032,19 +1401,66 @@ const DB = [
   {id:"boost", n:"Preferred Rewards boost", c:"oth", f:"on", a:0, per:"",
    d:"25–75% more points on every purchase if you bank with BofA/Merrill ($20k+ combined balances)."}
 ]},
+/* src: thepointsguy.com/credit-cards/atmos-ascent-vs-atmos-summit (2026-10-30) */
+{ id:"atmos-summit", name:"Atmos Rewards Summit", issuer:"Bank of America", fee:395, net:"visa", cur:"AS",
+  art:["#0f1c33","#25406a"], ink:"l",
+  rates:"3x Alaska/Hawaiian, dining & foreign purchases",
+  earn:[{k:"flights",x:3,m:"alaska"},{k:"dining",x:3},{k:"other",x:1}],
+  b:[
+  {id:"gca", n:"25k Global Companion Award", c:"air", f:"y", yr:"cm", a:0, per:"1 / yr",
+   d:"25,000-point Global Companion Award each anniversary, any cabin."},
+  {id:"lounge", n:"Alaska Lounge passes", c:"air", f:"q", a:0, per:"2 / quarter",
+   d:"Two Alaska Lounge day passes each quarter."},
+  {id:"wifi", n:"Inflight Wi-Fi passes", c:"air", f:"q", a:0, per:"2 / quarter",
+   d:"Two Wi-Fi passes each quarter on Alaska flights."},
+  {id:"bag", n:"Free checked bag + preferred boarding", c:"air", f:"on", a:0, per:"",
+   d:"First bag free for you + up to 6 on the reservation. 20% back on inflight purchases."},
+  {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$120 every 4 yrs",
+   d:"Application-fee credit when paid with the card."}
+]},
+/* src: thepointsguy.com/credit-cards/atmos-ascent-vs-atmos-summit (2026-10-30) */
+{ id:"atmos-ascent", name:"Atmos Rewards Ascent", issuer:"Bank of America", fee:95, net:"visa", cur:"AS",
+  art:["#1f4f8a","#4079c0"], ink:"l",
+  rates:"3x Alaska/Hawaiian · 2x gas/EV, transit, cable & streaming",
+  earn:[{k:"flights",x:3,m:"alaska"},{k:"gas",x:2},{k:"transit",x:2},{k:"streaming",x:2},{k:"other",x:1}],
+  b:[
+  {id:"comp", n:"$99 Companion Fare at $6k spend", c:"air", f:"y", yr:"cm", a:0, per:"1 / yr possible",
+   d:"$99 (+ taxes) Main Cabin companion fare each anniversary after $6k spend in the prior year."},
+  {id:"bag", n:"Free checked bag + preferred boarding", c:"air", f:"on", a:0, per:"",
+   d:"First bag free for you + up to 6 on the reservation. 20% back on inflight purchases."},
+  {id:"lounge", n:"$100 off Alaska Lounge+", c:"air", f:"on", a:0, per:"",
+   d:"$100 off an annual Alaska Lounge+ membership."}
+]},
 { id:"usb-ar", name:"Altitude Reserve", issuer:"U.S. Bank", fee:400, feeNote:"closed to new applicants",
   art:["#152a47","#274871"], ink:"l",
-  rates:"3x mobile-wallet & travel (points worth 1.5¢ on travel)",
+  cur:"cash", net:"visa",
+  earn:[{k:"travel",x:3,portal:1},{k:"other",x:1}],
+  rates:"3x mobile wallet (to $5k/cycle) & travel via U.S. Bank Travel Center · points worth 1¢",
   b:[
-  {id:"travel", n:"$325 travel & dining credit", c:"trv", f:"y", a:325, per:"$325 / yr",
-   d:"Automatic credits on travel and dining purchases each cardmember year."},
+  {id:"travel", n:"$325 travel credit", c:"trv", f:"y", yr:"cm", a:325, per:"$325 / yr",
+   d:"Bookings made through the U.S. Bank Travel Center, each cardmember year (portal-only since Dec 15, 2025)."},
   {id:"pp", n:"Priority Pass — 8 visits", c:"air", f:"y", a:0, per:"8 / yr",
    d:"Eight complimentary lounge visits per membership year."},
   {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"$100 every 4 yrs",
    d:"Application-fee credit every 4 years."}
 ]},
+/* src: usbank.com altitude-connect (live); awardwallet.com us-bank-altitude-connect-review */
+{ id:"usb-connect", name:"Altitude Connect", issuer:"U.S. Bank", fee:0, net:"visa", cur:"cash",
+  art:["#2b3442","#4b5769"], ink:"l",
+  rates:"4x travel · 4x gas & EV (to $1k/qtr) · 2x dining, grocery & streaming",
+  earn:[{k:"travel",x:4},{k:"gas",x:4,cap:"$1k/quarter"},{k:"dining",x:2},{k:"groceries",x:2},{k:"streaming",x:2},{k:"other",x:1}],
+  b:[
+  {id:"pp", n:"Priority Pass membership", c:"air", f:"on", a:0, per:"",
+   d:"Complimentary 12-month Priority Pass. Enroll at prioritypass.com/usbankaltitudeconnect.", e:1},
+  {id:"ge", n:"Global Entry / TSA PreCheck credit", c:"air", f:"o", a:0, per:"app-fee credit",
+   d:"Statement credit for the application fee when paid with the card."},
+  {id:"prot", n:"Trip protections, no foreign fees", c:"prt", f:"on", a:0, per:"",
+   d:"Trip cancellation/interruption and trip delay reimbursement. No foreign transaction fees."}
+]},
 { id:"discover-it", name:"Discover it Cash Back", issuer:"Discover", fee:0,
   art:["#e87722","#f19b4a"], ink:"d",
+  cur:"cash", net:"disc",
+  earn:[{k:"other",x:1}],
   rates:"5% rotating categories (to $1.5k/qtr) · 1% other · first-year Cashback Match",
   b:[
   {id:"act", n:"Activate 5% quarterly category", c:"shp", f:"q", a:0, per:"up to $75 / qtr",
@@ -1052,10 +1468,23 @@ const DB = [
 ]},
 { id:"apple-card", name:"Apple Card", issuer:"Apple", fee:0,
   art:["#e9e9ee","#fafafc"], ink:"d",
+  cur:"cash", net:"mc",
+  earn:[{k:"other",x:2,cap:"with Apple Pay (1% physical card)"}],
   rates:"3% Apple & select merchants · 2% Apple Pay · 1% physical card",
   b:[
   {id:"dc", n:"Daily Cash + no fees", c:"oth", f:"on", a:0, per:"",
    d:"Cash back lands daily. No annual, foreign-transaction, or late fees. 3% at Apple, Uber, Nike, T-Mobile, Walgreens and more with Apple Pay."}
+]},
+/* src: robinhood.com/creditcard (live) */
+{ id:"robinhood-gold", name:"Robinhood Gold Card", issuer:"Robinhood", fee:0, feeNote:"requires Robinhood Gold membership", net:"visa", cur:"cash",
+  art:["#b8923e","#e2c47d"], ink:"d",
+  rates:"3% on everything",
+  earn:[{k:"other",x:3}],
+  b:[
+  {id:"family", n:"Free family cards", c:"oth", f:"on", a:0, per:"",
+   d:"Family cardholders of any age with no authorized-user fee, with spending limits and tracking."},
+  {id:"prot", n:"Trip interruption protection", c:"prt", f:"on", a:0, per:"",
+   d:"Trip interruption protection plus Visa Signature benefits. No foreign transaction fees."}
 ]},
 
 /* ---- memberships & services (kind: svc) ---- */
@@ -1065,8 +1494,8 @@ const DB = [
   b:[
   {id:"gai", n:"Google AI Pro for $10/mo", c:"oth", f:"on", a:0, per:"",
    d:"Gemini app with advanced models, Deep Research, and 2TB of storage for $10/mo through Verizon vs $19.99 retail — about $120/yr in savings. Add it as a perk in the My Verizon app.", e:1},
-  {id:"stream", n:"Streaming perks — $10/mo each", c:"ent", f:"on", a:0, per:"",
-   d:"Disney Bundle (Disney+, Hulu, ESPN), Netflix & Max (with ads), or YouTube Premium — each $10/mo vs up to ~$20 retail.", e:1},
+  {id:"stream", n:"Streaming perks — $10–13/mo each", c:"ent", f:"on", a:0, per:"",
+   d:"Disney Bundle (Disney+, Hulu, ESPN) or YouTube Premium for $10/mo, Netflix & HBO Max (with ads) for $13/mo — vs up to ~$25 retail.", e:1},
   {id:"slots", n:"Walmart+, TravelPass & more slots", c:"trv", f:"on", a:0, per:"",
    d:"Other $10 perk slots: Walmart+ membership, 3 international TravelPass days, 100GB mobile hotspot, cloud storage.", e:1},
   {id:"access", n:"Verizon Access presales", c:"ent", f:"on", a:0, per:"",
@@ -1100,8 +1529,8 @@ const DB = [
   art:["#0e2233","#2196c9"], ink:"l",
   rates:"$139/yr or $14.99/mo",
   b:[
-  {id:"grubhub", n:"Grubhub+ included", c:"din", f:"on", a:0, per:"",
-   d:"$0 delivery fees and lower service fees on eligible orders — normally $120/yr on its own.", e:1},
+  {id:"ubereats", n:"Uber Eats $0 delivery", c:"din", f:"on", a:0, per:"",
+   d:"Order restaurants on Amazon.com or the Amazon app: $0 delivery fee on orders of $25+ (since Nov 5, 2026, replacing Grubhub+). No separate Uber account needed."},
   {id:"gaming", n:"Prime Gaming monthly claims", c:"ent", f:"m", a:0, per:"claim monthly",
    d:"Free PC games, in-game loot, and a free monthly Twitch channel subscription — claim at gaming.amazon.com."},
   {id:"fuel", n:"10¢/gal fuel savings", c:"oth", f:"on", a:0, per:"",
@@ -1136,26 +1565,54 @@ const DB = [
    d:"Costco gas typically runs 20–40¢/gal below area average."},
   {id:"next", n:"Costco Next & Travel", c:"shp", f:"on", a:0, per:"",
    d:"Member-only pricing direct from suppliers, plus Costco Travel packages and famously cheap rental cars."}
+]},
+/* src: samsclub.com/join/plus-membership (live: $120, includes Walmart+) */
+{ id:"svc-samsplus", name:"Sam's Club Plus", issuer:"Sam's Club", fee:120, feeNote:"$60 Club tier", kind:"svc",
+  art:["#0067a0","#2b8bc6"], ink:"l",
+  rates:"$120/yr · 2% Sam's Cash (to $750/yr)",
+  b:[
+  {id:"cash", n:"2% Sam's Cash", c:"shp", f:"y", a:0, per:"up to $750 / yr",
+   d:"2% back on eligible purchases as Sam's Cash."},
+  {id:"wplus", n:"Walmart+ included", c:"shp", f:"on", a:0, per:"",
+   d:"Plus membership includes Walmart+ — link it in your Sam's Club account.", e:1},
+  {id:"ship", n:"Free shipping & delivery", c:"shp", f:"on", a:0, per:"",
+   d:"Free shipping and same-day delivery from the club on eligible orders, plus free curbside pickup."},
+  {id:"early", n:"Early shopping hours", c:"shp", f:"on", a:0, per:"",
+   d:"Shop before regular hours and get early online access to deals."},
+  {id:"rx", n:"Pharmacy, optical & tire savings", c:"wel", f:"on", a:0, per:"",
+   d:"Free pharmacy delivery, extra pharmacy/optical/hearing savings, and tire savings."}
+]},
+/* src: az.aaa.com compare plans; acg.aaa.com compare-membership-levels (prices vary by club) */
+{ id:"svc-aaa", name:"AAA Membership", issuer:"AAA", fee:65, feeNote:"price varies by club; Plus ~$86–100", kind:"svc",
+  art:["#0b3d91","#2a5fb8"], ink:"l",
+  rates:"Classic: 5-mile tows · Plus: 100-mile tows",
+  b:[
+  {id:"tow", n:"Towing", c:"oth", f:"on", a:0, per:"4 calls / yr",
+   d:"Classic covers 5 miles per call; Plus covers 100 miles (Plus services start 7 days after joining). 4 service calls a year."},
+  {id:"road", n:"Roadside help", c:"oth", f:"on", a:0, per:"",
+   d:"Battery jump, flat tire change, fuel delivery and lockout service."},
+  {id:"disc", n:"Member discounts", c:"trv", f:"on", a:0, per:"",
+   d:"Hotel, rental-car and attraction discounts — ask for the AAA rate when booking."}
 ]}
 ];
-const ISSUER_ORDER = ["American Express","Chase","Capital One","Citi","Bank of America","Wells Fargo","U.S. Bank","Bilt","Discover","Apple","Verizon","T-Mobile","Xfinity","Amazon","Walmart","Costco"];
+const ISSUER_ORDER = ["American Express","Chase","Capital One","Citi","Bank of America","Wells Fargo","U.S. Bank","Bilt","Discover","Apple","Robinhood","Verizon","T-Mobile","Xfinity","Amazon","Walmart","Costco","Sam's Club","AAA"];
 const SWATCHES = [["#136147","#2e8a6d"],["#1c4f8f","#3873bd"],["#181720","#33313f"],["#8a3a2c","#b0543f"],["#5a2a63","#7d4487"],["#c7cdd6","#eef1f6"]];
 
 /* =============== perk graph: subscriptions & links =============== */
 const SUBS = {
   disneybundle:{n:"Disney Bundle (Disney+, Hulu, ESPN)", pm:16.99, g:"Streaming & TV"},
-  disneyplus:{n:"Disney+", pm:9.99, g:"Streaming & TV"},
-  hulu:{n:"Hulu", pm:9.99, g:"Streaming & TV"},
+  disneyplus:{n:"Disney+ (with ads)", pm:12.49, g:"Streaming & TV"},
+  hulu:{n:"Hulu (with ads)", pm:12.49, g:"Streaming & TV"},
   espn:{n:"ESPN (streaming)", pm:11.99, g:"Streaming & TV"},
-  netflix:{n:"Netflix (with ads)", pm:7.99, g:"Streaming & TV"},
-  max:{n:"Max (with ads)", pm:9.99, g:"Streaming & TV"},
-  paramountplus:{n:"Paramount+", pm:7.99, g:"Streaming & TV"},
-  peacock:{n:"Peacock Premium", pm:10.99, g:"Streaming & TV"},
+  netflix:{n:"Netflix (with ads)", pm:8.99, g:"Streaming & TV"},
+  max:{n:"HBO Max Basic (with ads)", pm:10.99, g:"Streaming & TV"},
+  paramountplus:{n:"Paramount+ Essential", pm:8.99, g:"Streaming & TV"},
+  peacock:{n:"Peacock Premium", pm:12.99, g:"Streaming & TV"},
   youtubepremium:{n:"YouTube Premium", pm:13.99, g:"Streaming & TV"},
   appletvplus:{n:"Apple TV+", pm:12.99, g:"Streaming & TV"},
   appleone:{n:"Apple One", pm:19.95, g:"Streaming & TV"},
   applemusic:{n:"Apple Music", pm:10.99, g:"Music"},
-  spotify:{n:"Spotify Premium", pm:11.99, g:"Music"},
+  spotify:{n:"Spotify Premium", pm:12.99, g:"Music"},
   nyt:{n:"New York Times", pm:25, g:"News"},
   wsj:{n:"Wall Street Journal", pm:38.99, g:"News"},
   peloton:{n:"Peloton App", pm:12.99, g:"Fitness"},
@@ -1164,7 +1621,7 @@ const SUBS = {
   uberone:{n:"Uber One", pm:9.99, g:"Memberships"},
   instacartplus:{n:"Instacart+", pm:9.99, g:"Memberships"},
   grubhubplus:{n:"Grubhub+", pm:10, g:"Memberships"},
-  clear:{n:"CLEAR Plus", pm:17.42, g:"Airport"},
+  clear:{n:"CLEAR Plus", pm:18.25, g:"Airport"},
   googleaipro:{n:"Google AI Pro (Gemini)", pm:19.99, g:"AI"},
   perplexitypro:{n:"Perplexity Pro", pm:20, g:"AI"},
   chatgptplus:{n:"ChatGPT Plus", pm:20, g:"AI"}
@@ -1192,7 +1649,15 @@ const COVERS = {
   "savor.uberone":["uberone"],
   "svc-tmobile.netflix":["netflix"],
   "svc-tmobile.appletv":["appletvplus"],
-  "svc-prime.grubhub":["grubhubplus"],
+  "amex-bizplat.clear":["clear"],
+  "amex-bizgold.walmart":["walmartplus"],
+  "ihg-premier.dash":["dashpass"],
+  "ihg-premier.insta":["instacartplus"],
+  "marriott-boundless.dash":["dashpass"],
+  "sw-priority.dash":["dashpass"],
+  "sw-priority.insta":["instacartplus"],
+  "united-club.insta":["instacartplus"],
+  "svc-samsplus.wplus":["walmartplus"],
   "svc-walmartplus.stream":["paramountplus","peacock"]
 };
 const DEALS = {
@@ -1202,7 +1667,8 @@ const DEALS = {
   "svc-tmobile.tuesdays":["perplexitypro","dashpass"],
   "svc-xfinity.drops":["perplexitypro"]
 };
-const DEAL_PM = { "svc-verizon.gai":10, "svc-verizon.stream":10, "svc-verizon.slots":10 };
+/* $/mo through the deal — a number, or per-subscription when prices differ (Verizon: Netflix & HBO Max $13 since May 2026) */
+const DEAL_PM = { "svc-verizon.gai":10, "svc-verizon.stream":{disneybundle:10, youtubepremium:10, netflix:13, max:13}, "svc-verizon.slots":10 };
 for(const c of DB) for(const b of c.b){
   const k = c.id+"."+b.id;
   if(COVERS[k]) b.covers = COVERS[k];
@@ -1212,27 +1678,155 @@ for(const c of DB) for(const b of c.b){
 /* subscriptions that are themselves memberships in the picker (for chains) */
 const MEMBERSHIP_SVC = { walmartplus:"svc-walmartplus" };
 
+/* =============== earning: categories, currencies, merchants, rotating 5% =============== */
+/* Earn categories (what you buy) — separate from perk CATS (what a benefit is). `p` = parent category
+   a card's broader rate also applies to (a "3x travel" card earns 3x on flights). */
+const EARN_CATS = {
+  dining:{n:"Dining"}, groceries:{n:"Groceries"}, gas:{n:"Gas & EV"}, travel:{n:"Travel (general)"},
+  flights:{n:"Flights", p:"travel"}, hotels:{n:"Hotels", p:"travel"}, car:{n:"Car rental", p:"travel"},
+  transit:{n:"Transit & rideshare", p:"travel"}, streaming:{n:"Streaming"}, drugstore:{n:"Drugstores"},
+  online:{n:"Online shopping"}, amazon:{n:"Amazon", p:"online"}, wholesale:{n:"Costco / Sam's"},
+  homeimp:{n:"Home improvement"}, ent:{n:"Entertainment"}, rent:{n:"Rent & mortgage"},
+  phone:{n:"Phone, internet & utilities"}, other:{n:"Everything else"}
+};
+/* Reward currencies and default cents-per-point. Deliberately conservative (~1.5¢ for transferable
+   points, near cash-out floors elsewhere); TPG's Aug 2026 valuations are higher (UR 2.05, MR 2.0,
+   TYP 1.9, C1 1.85, Bilt 2.2, Atmos 1.55). Users set their own in Data → Point values (state.cpp). */
+const CUR = {
+  cash:{n:"cash back", cpp:1, u:"%"}, UR:{n:"Chase Ultimate Rewards", cpp:1.5}, MR:{n:"Amex Membership Rewards", cpp:1.5},
+  TYP:{n:"Citi ThankYou", cpp:1.5}, C1:{n:"Capital One miles", cpp:1.5}, BILT:{n:"Bilt points", cpp:1.5},
+  AA:{n:"AAdvantage miles", cpp:1.3}, UA:{n:"United miles", cpp:1.2}, DL:{n:"Delta SkyMiles", cpp:1.1},
+  AS:{n:"Atmos points", cpp:1.3}, SW:{n:"Southwest points", cpp:1.3}, HH:{n:"Hilton points", cpp:0.5},
+  MB:{n:"Marriott points", cpp:0.7}, HY:{n:"Hyatt points", cpp:1.7}, IHG:{n:"IHG points", cpp:0.5}
+};
+function cppOf(cur){ return (state && state.cpp && state.cpp[cur]) || (CUR[cur]||CUR.cash).cpp; }
+/* Merchant → earn category (+ brand id matched by co-brand rates `m:`). `note` shows in results. */
+const MERCHANTS = {
+  "starbucks":{k:"dining"}, "dunkin":{k:"dining"}, "mcdonald's":{k:"dining"}, "chipotle":{k:"dining"}, "doordash":{k:"dining"},
+  "uber eats":{k:"dining", m:"uber"}, "grubhub":{k:"dining"}, "resy":{k:"dining"}, "opentable":{k:"dining"}, "panera":{k:"dining"},
+  "chick-fil-a":{k:"dining"}, "restaurant":{k:"dining"}, "coffee":{k:"dining"}, "bar":{k:"dining"},
+  "whole foods":{k:"groceries", m:"amazon", note:"Prime Visa earns 5% here"}, "trader joe's":{k:"groceries"}, "kroger":{k:"groceries"},
+  "safeway":{k:"groceries"}, "publix":{k:"groceries"}, "aldi":{k:"groceries"}, "h-e-b":{k:"groceries"}, "wegmans":{k:"groceries"},
+  "instacart":{k:"groceries"}, "supermarket":{k:"groceries"}, "grocery":{k:"groceries"},
+  "walmart":{k:"online", m:"walmart", note:"Walmart/Target usually don't count as groceries"}, "target":{k:"online", note:"Walmart/Target usually don't count as groceries"},
+  "costco":{k:"wholesale", m:"costco", net:["visa"], note:"Costco warehouses take Visa only"}, "sam's club":{k:"wholesale", net:["visa","mc","disc"], note:"Sam's takes Visa, Mastercard, Discover — not Amex"},
+  "amazon":{k:"amazon", m:"amazon"}, "ebay":{k:"online"}, "etsy":{k:"online"}, "best buy":{k:"online"}, "apple":{k:"online", m:"apple"},
+  "home depot":{k:"homeimp"}, "lowe's":{k:"homeimp"},
+  "shell":{k:"gas"}, "chevron":{k:"gas"}, "exxon":{k:"gas"}, "bp":{k:"gas"}, "wawa":{k:"gas"}, "tesla supercharger":{k:"gas"}, "gas":{k:"gas"}, "ev charging":{k:"gas"},
+  "cvs":{k:"drugstore"}, "walgreens":{k:"drugstore"}, "pharmacy":{k:"drugstore"},
+  "netflix":{k:"streaming"}, "spotify":{k:"streaming"}, "hulu":{k:"streaming"}, "disney+":{k:"streaming"}, "youtube tv":{k:"streaming"}, "max":{k:"streaming"},
+  "uber":{k:"transit", m:"uber"}, "lyft":{k:"transit", m:"lyft"}, "subway":{k:"transit"}, "parking":{k:"transit"}, "tolls":{k:"transit"}, "train":{k:"transit"},
+  "delta":{k:"flights", m:"delta"}, "united":{k:"flights", m:"united"}, "american airlines":{k:"flights", m:"american"},
+  "southwest":{k:"flights", m:"southwest"}, "alaska airlines":{k:"flights", m:"alaska"}, "jetblue":{k:"flights"}, "flight":{k:"flights"}, "airline":{k:"flights"},
+  "marriott":{k:"hotels", m:"marriott"}, "hilton":{k:"hotels", m:"hilton"}, "hyatt":{k:"hotels", m:"hyatt"}, "ihg":{k:"hotels", m:"ihg"},
+  "holiday inn":{k:"hotels", m:"ihg"}, "airbnb":{k:"hotels"}, "vrbo":{k:"hotels"}, "hotel":{k:"hotels"},
+  "hertz":{k:"car"}, "avis":{k:"car"}, "enterprise":{k:"car"}, "rental car":{k:"car"},
+  "ticketmaster":{k:"ent"}, "stubhub":{k:"ent"}, "movies":{k:"ent"}, "concert":{k:"ent"},
+  "rent":{k:"rent"}, "mortgage":{k:"rent"}, "verizon":{k:"phone"}, "t-mobile":{k:"phone"}, "at&t":{k:"phone"}, "comcast":{k:"phone"}, "electric bill":{k:"phone"}
+};
+/* Rotating 5% categories (activation required, $1,500/quarter cap). Verified Nov 2026:
+   media.chase.com Q4 2026 + doctorofcredit Q1 2027; doctorofcredit/nerdwallet Discover Q4 2026. */
+const ROTATING = {
+  "2026-Q4": { cff:{ks:["groceries","dining"], text:"grocery stores (not Walmart/Target), dining & Red Cross"},
+               "discover-it":{ks:["phone","dining","ent"], text:"utilities, restaurants & entertainment"} },
+  "2027-Q1": { cff:{ks:["groceries","streaming"], text:"grocery stores & streaming"} }
+};
+
 /* =============== state =============== */
 const LS_KEY = "perksLedger.v1";
 const store = (()=>{ try{ const t="__plt"; localStorage.setItem(t,"1"); localStorage.removeItem(t); return localStorage; }catch(e){ return null; } })();
 function seedState(){
-  try{
-    const v = JSON.parse(document.getElementById("seedState").textContent);
-    return (v && Array.isArray(v.cards))? v : null;
-  }catch(e){ return null; }
+  try{ return normalizeState(JSON.parse(document.getElementById("seedState").textContent)); }
+  catch(e){ return null; }
 }
-let state = load() || seedState() || { cards:[], usage:{}, seq:1,
-  ui:{ group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null } };
-if(!state.ui) state.ui = { group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null };
-if(!state.usage) state.usage = {};
-if(!state.seq) state.seq = 1000;
-if(!Array.isArray(state.subs)) state.subs = [];
-if(!Array.isArray(state.bonuses)) state.bonuses = [];
+const UI_DEFAULTS = { group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null };
+function emptyState(){ return { cards:[], usage:{}, seq:1, subs:[], bonuses:[], offers:[], apps:[], pins:{}, cpp:{}, ui:{...UI_DEFAULTS, cats:[]} }; }
+/* Every state that enters the app (localStorage, baked-in seed, import) passes through here:
+   wrong types are dropped and anything later written into HTML attributes is pattern-checked. */
+const ID_RE = /^[\w-]{1,40}$/, HEX_RE = /^#[0-9a-fA-F]{3,8}$/, YM_RE = /^\d{4}-(0[1-9]|1[0-2])$/, YMD_RE = /^\d{4}-\d{2}-\d{2}$/;
+const isId = v => (typeof v==="string" || typeof v==="number") && ID_RE.test(String(v));
+const num = (v, d=0)=> (typeof v==="number" && isFinite(v))? v : (typeof v==="string" && v.trim()!=="" && isFinite(+v))? +v : d;
+const str = (v, max=300)=> typeof v==="string"? v.slice(0,max) : "";
+function normPerk(p){
+  if(!p || typeof p!=="object" || !isId(p.id)) return null;
+  return { id:String(p.id), n:str(p.n,120)||"Perk", c: CATS[p.c]? p.c : "oth", f: FREQ[p.f]? p.f : "on",
+    a: Math.max(0,num(p.a)), per:str(p.per,60), d:str(p.d,600), ...(p.e? {e:1}:{}) };
+}
+function normEarn(list){
+  return Array.isArray(list)? list.filter(r=> r && EARN_CATS[r.k] && num(r.x)>0).map(r=>({k:r.k, x:num(r.x)})).slice(0,20) : [];
+}
+function normCard(e, used){
+  if(!e || typeof e!=="object") return null;
+  let iid = String(e.iid||"");
+  if(!ID_RE.test(iid) || used.has(iid)) iid = "i"+Math.random().toString(36).slice(2,9);
+  used.add(iid);
+  const out = { iid, hidden: Array.isArray(e.hidden)? e.hidden.filter(x=>isId(x)).map(String) : [],
+    custom: Array.isArray(e.custom)? e.custom.map(normPerk).filter(Boolean) : [] };
+  if(typeof e.ref==="string" && DB.some(c=>c.id===e.ref)) out.ref = e.ref;
+  else {
+    out.name = str(e.name,80)||"Custom card"; out.issuer = str(e.issuer,60)||"Custom"; out.fee = Math.max(0,num(e.fee));
+    if(e.feeNote) out.feeNote = str(e.feeNote,80);
+    out.art = (Array.isArray(e.art) && e.art.length===2 && e.art.every(x=>HEX_RE.test(x)))? e.art.slice() : SWATCHES[0].slice();
+    out.ink = e.ink==="d"? "d" : "l"; out.rates = str(e.rates,160); out.kind = e.kind==="svc"? "svc" : "card";
+    const earn = normEarn(e.earn); if(earn.length) out.earn = earn;
+    if(e.cur && CUR[e.cur]) out.cur = e.cur;
+    if(e.biz) out.biz = 1;
+  }
+  if(YM_RE.test(e.opened)) out.opened = e.opened;
+  if(num(e.added)>0) out.added = num(e.added);
+  if(e.au) out.au = true;
+  return out;
+}
+function normOffer(o){
+  if(!o || typeof o!=="object" || !isId(o.id) || !isId(o.iid)) return null;
+  return { id:String(o.id), iid:String(o.iid), merchant:str(o.merchant,60)||"Offer", desc:str(o.desc,160),
+    kind: o.kind==="pts"? "pts" : "cash", value:Math.max(0,num(o.value)), minSpend:Math.max(0,num(o.minSpend)),
+    expires: YMD_RE.test(o.expires)? o.expires : "", usedAmt:Math.max(0,num(o.usedAmt)), done:!!o.done,
+    ...(num(o.doneAt)>0? {doneAt:num(o.doneAt)}:{}) };
+}
+function normApp(a){
+  if(!a || typeof a!=="object" || !isId(a.id) || !YM_RE.test(a.opened)) return null;
+  return { id:String(a.id), name:str(a.name,80)||"Card", issuer:str(a.issuer,60), opened:a.opened,
+    ...(a.biz? {biz:1}:{}), ...(a.au? {au:true}:{}), ...(YM_RE.test(a.closed)? {closed:a.closed}:{}) };
+}
+function normalizeState(raw){
+  if(!raw || typeof raw!=="object" || !Array.isArray(raw.cards)) return null;
+  const used = new Set(), s = emptyState();
+  s.cards = raw.cards.map(e=>normCard(e, used)).filter(Boolean);
+  if(raw.usage && typeof raw.usage==="object") for(const [k,v] of Object.entries(raw.usage)) if(v===true && k.length<120) s.usage[k] = true;
+  s.seq = Math.max(1000, Math.floor(num(raw.seq,1000)));
+  s.subs = Array.isArray(raw.subs)? raw.subs.filter(x=>SUBS[x]) : [];
+  s.bonuses = Array.isArray(raw.bonuses)? raw.bonuses.filter(b=>b && isId(b.id) && isId(b.iid)).map(b=>({
+    id:String(b.id), iid:String(b.iid), what:str(b.what,80), target:Math.max(0,num(b.target)), spent:Math.max(0,num(b.spent)),
+    deadline: YMD_RE.test(b.deadline)? b.deadline : new Date().toISOString().slice(0,10) })) : [];
+  s.offers = Array.isArray(raw.offers)? raw.offers.map(normOffer).filter(Boolean) : [];
+  s.apps = Array.isArray(raw.apps)? raw.apps.map(normApp).filter(Boolean) : [];
+  if(raw.pins && typeof raw.pins==="object") for(const [k,v] of Object.entries(raw.pins)) if(EARN_CATS[k] && isId(v)) s.pins[k] = String(v);
+  if(raw.cpp && typeof raw.cpp==="object") for(const [k,v] of Object.entries(raw.cpp)) if(CUR[k] && num(v)>0 && num(v)<10) s.cpp[k] = num(v);
+  const u = raw.ui && typeof raw.ui==="object"? raw.ui : {};
+  s.ui = { group: ["resets","card","cat"].includes(u.group)? u.group : "resets",
+    cats: Array.isArray(u.cats)? u.cats.filter(c=>CATS[c]) : [], q: str(u.q,80),
+    hideDone: !!u.hideDone, dollarOnly: !!u.dollarOnly, focus: isId(u.focus)? String(u.focus) : null };
+  if(s.ui.focus && !s.cards.some(c=>c.iid===s.ui.focus)) s.ui.focus = null;
+  for(const k of ["lastExport","backupSnooze"]) if(num(raw[k])>0) s[k] = num(raw[k]);
+  if(raw.installTipDone) s.installTipDone = true;
+  if(raw.demo) s.demo = true;
+  if(raw.portal) s.portal = true;
+  return s;
+}
+let state = load() || seedState() || emptyState();
 const expanded = new Set();
 
 function load(){
   if(!store) return null;
-  try{ return JSON.parse(store.getItem(LS_KEY)) || null; }catch(e){ return null; }
+  const raw = store.getItem(LS_KEY);
+  if(!raw) return null;
+  try{ return normalizeState(JSON.parse(raw)); }
+  catch(e){
+    /* never silently overwrite data we couldn't parse — park it for recovery */
+    try{ store.setItem(LS_KEY+".bak", raw); }catch(_){}
+    return null;
+  }
 }
 let saveFailed = false;
 function save(){
@@ -1259,29 +1853,58 @@ function periodEndDate(f, d=new Date()){
   if(f==="h") return new Date(m<6? y : y+1, m<6? 6 : 0, 1);
   return new Date(y+1, 0, 1);
 }
-function daysLeft(f){
-  if(f==="o"||f==="on") return null;
-  return Math.max(1, Math.ceil((periodEndDate(f) - new Date())/864e5));
+function periodStartDate(f, d=new Date()){
+  const y = d.getFullYear(), m = d.getMonth();
+  if(f==="m") return new Date(y, m, 1);
+  if(f==="q") return new Date(y, Math.floor(m/3)*3, 1);
+  if(f==="h") return new Date(y, m<6? 0 : 6, 1);
+  return new Date(y, 0, 1);
+}
+/** Anniversary month (0-11) and the year it was opened, from a card's "YYYY-MM" open date. */
+function annivOf(c){ if(!c || !c.opened) return null; const [y,m] = c.opened.split("-").map(Number); return {y, m:m-1}; }
+/** The tracking period a benefit is in on date d. Cardmember-year credits (yr:"cm") follow the
+    card's anniversary month when its open date is known; everything else is calendar-based. */
+function periodFor(c, b, d=new Date()){
+  const an = (b.f==="y" && b.yr==="cm")? annivOf(c) : null;
+  if(an){
+    let start = new Date(d.getFullYear(), an.m, 1);
+    if(start > d) start = new Date(d.getFullYear()-1, an.m, 1);
+    return { key:"A"+start.getFullYear(), start, end:new Date(start.getFullYear()+1, an.m, 1) };
+  }
+  return { key:periodKey(b.f, d), start:periodStartDate(b.f, d), end:periodEndDate(b.f, d) };
+}
+function daysLeft(c, b){
+  if(!PPY[b.f]) return null;
+  return Math.max(1, Math.ceil((periodFor(c,b).end - new Date())/864e5));
+}
+/** Dollar value of one period. `pv` overrides specific months (Uber: $15/mo + $35 in Dec). */
+function perVal(b, key){
+  if(!(b.a>0) || !PPY[b.f]) return 0;
+  if(b.pv && b.f==="m"){
+    const over = Object.entries(b.pv), m = key? +String(key).slice(5) : new Date().getMonth()+1;
+    if(b.pv[m]!=null) return b.pv[m];
+    return (b.a - over.reduce((s,[,v])=>s+v,0)) / (12 - over.length);
+  }
+  return b.a/PPY[b.f];
+}
+/** When tracking starts for a card: the later of when it was added and the month it was opened.
+    Periods that ended before this are never counted as "missed". */
+function trackedFrom(c){
+  let t = c.added || 0;
+  const an = annivOf(c); if(an) t = Math.max(t, new Date(an.y, an.m, 1).getTime());
+  return t;
 }
 function dueSoon(f, dl){
   if(dl==null) return false;
   return dl <= ({m:14, q:21, h:30, y:45}[f] || 14);
 }
 function periodWord(f){ return {m:"this month", q:"this quarter", h:"this half", y:"this year", o:"", on:""}[f]; }
-function yearPeriodKeys(f){
-  const y = new Date().getFullYear();
-  if(f==="m") return Array.from({length:12},(_,i)=> y+"-"+String(i+1).padStart(2,"0"));
-  if(f==="q") return [1,2,3,4].map(i=> y+"-Q"+i);
-  if(f==="h") return [1,2].map(i=> y+"-H"+i);
-  if(f==="y") return [String(y)];
-  return [];
-}
-function elapsedPeriods(f){
-  const m = new Date().getMonth();
-  if(f==="m") return m+1;
-  if(f==="q") return Math.floor(m/3)+1;
-  if(f==="h") return m<6?1:2;
-  return 1;
+/** This year's periods for a benefit, each {key, start, end} (cardmember-year credits: just the current one). */
+function yearPeriods(c, b){
+  if(!PPY[b.f]) return [];
+  if(b.f==="y") return [periodFor(c, b)];
+  const y = new Date().getFullYear(), n = PPY[b.f], step = 12/n;
+  return Array.from({length:n}, (_,i)=> periodFor(c, b, new Date(y, i*step, 1)));
 }
 
 /* =============== derived =============== */
@@ -1290,28 +1913,78 @@ function resolveCard(entry){
     const def = DB.find(c=>c.id===entry.ref);
     if(def) return { iid:entry.iid, def, name:def.name, issuer:def.issuer, fee:def.fee,
       feeNote:def.feeNote, art:def.art, ink:def.ink, rates:def.rates, kind:def.kind||"card",
+      earn:def.earn||[], cur:def.cur||"cash", net:def.net, biz:!!def.biz, down:def.down||[],
+      opened:entry.opened, added:entry.added, au:!!entry.au,
       benefits: def.b.concat(entry.custom||[]), hidden: entry.hidden||[] };
   }
   return { iid:entry.iid, def:null, name:entry.name, issuer:entry.issuer||"Custom", fee:entry.fee||0,
     feeNote:entry.feeNote, art:entry.art||SWATCHES[0], ink:entry.ink||"l", rates:entry.rates||"",
-    kind:entry.kind||"card", benefits: entry.custom||[], hidden: entry.hidden||[] };
+    kind:entry.kind||"card", earn:entry.earn||[], cur:entry.cur||"cash", biz:!!entry.biz, down:[],
+    opened:entry.opened, added:entry.added, au:!!entry.au,
+    benefits: entry.custom||[], hidden: entry.hidden||[] };
 }
 function myCards(){ return state.cards.map(resolveCard); }
-function visibleBenefits(card){ return card.benefits.filter(b=> !card.hidden.includes(b.id)); }
-function ukey(iid, bid, f){ return iid+"|"+bid+"|"+periodKey(f); }
-function isChecked(iid, b){ return !!state.usage[ukey(iid,b.id,b.f)]; }
-function yearStats(iid, b){
-  if(b.f==="o"||b.f==="on") return {used:0, total:0, dollars:0};
-  const keys = yearPeriodKeys(b.f);
-  const used = keys.filter(k=> state.usage[iid+"|"+b.id+"|"+k]).length;
-  return { used, total:keys.length, dollars: used * (b.a/PPY[b.f]) };
+/** Next annual-fee date (the anniversary month) for a card with a fee and a known open date. */
+function feeInfo(c){
+  const an = annivOf(c); if(!an || !(c.fee>0) || c.kind==="svc") return null;
+  const now = new Date();
+  let y = Math.max(now.getFullYear(), an.y+1);
+  let d = new Date(y, an.m, 1);
+  if(d < new Date(now.getFullYear(), now.getMonth(), 1)) d = new Date(y+1, an.m, 1);
+  return { date:d, days: Math.max(0, Math.ceil((d - now)/864e5)) };
+}
+/** Start of the current card year: last anniversary (or Jan 1 if the open date is unknown). */
+function cardYearStart(c, d=new Date()){
+  const an = annivOf(c); if(!an) return new Date(d.getFullYear(), 0, 1);
+  let s0 = new Date(d.getFullYear(), an.m, 1); if(s0 > d) s0 = new Date(d.getFullYear()-1, an.m, 1);
+  return s0;
+}
+/** Distinct periods of a benefit that start within [from, to]. */
+function periodsBetween(c, b, from, to){
+  if(!PPY[b.f]) return [];
+  const step = 12/PPY[b.f], out = [], seen = new Set();
+  for(let d = new Date(from.getFullYear(), from.getMonth(), 1); d <= to; d = new Date(d.getFullYear(), d.getMonth()+step, 1)){
+    const p = periodFor(c, b, d); if(!seen.has(p.key)){ seen.add(p.key); out.push(p); }
+  }
+  return out;
+}
+/** Renewal math for the current card year: what you've redeemed vs. the fee. */
+function renewalStats(c){
+  const from = cardYearStart(c), now = new Date();
+  let redeemed = 0, avail = 0; const unused = [];
+  for(const b of visibleBenefits(c)){
+    if(!(b.a>0) || !PPY[b.f]) continue;
+    for(const p of periodsBetween(c, b, from, now)){
+      const v = perVal(b, p.key); avail += v;
+      if(state.usage[c.iid+"|"+b.id+"|"+p.key]) redeemed += v; else if(p.end > now) unused.push({b, v});
+    }
+  }
+  const fee = c.fee||0, ratio = fee? redeemed/fee : Infinity;
+  const verdict = !fee? "keep" : ratio>=1? "keep" : ratio>=.5? "ask" : "cut";
+  return { from, redeemed, avail, fee, ratio, verdict, unused };
+}
+/** A perk is expired once its `thru` date (M/D/YY) has passed: hidden from totals, graph and nudges. */
+function thruDate(b){
+  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{2,4})$/.exec(b.thru||""); if(!m) return null;
+  const y = +m[3] < 100? 2000 + +m[3] : +m[3];
+  return new Date(y, +m[1]-1, +m[2]+1); /* valid through the end of that day */
+}
+function isExpired(b, d=new Date()){ const t = thruDate(b); return !!t && d >= t; }
+function visibleBenefits(card){ return card.benefits.filter(b=> !card.hidden.includes(b.id) && !isExpired(b)); }
+function curKey(c, b){ return b.f==="o"? "ONCE" : periodFor(c, b).key; }
+function isChecked(c, b){ return !!state.usage[c.iid+"|"+b.id+"|"+curKey(c,b)]; }
+function yearStats(c, b){
+  if(!PPY[b.f]) return {used:0, total:0, dollars:0};
+  const ps = yearPeriods(c, b);
+  const hits = ps.filter(p=> state.usage[c.iid+"|"+b.id+"|"+p.key]);
+  return { used:hits.length, total:ps.length, dollars: hits.reduce((s,p)=>s+perVal(b,p.key),0) };
 }
 function walletTotals(){
   let potential=0, redeemed=0, fees=0;
   for(const c of myCards()){
     fees += c.fee||0;
     for(const b of visibleBenefits(c)){
-      if(b.a>0 && PPY[b.f]){ potential += b.a; redeemed += yearStats(c.iid,b).dollars; }
+      if(b.a>0 && PPY[b.f]){ potential += b.a; redeemed += yearStats(c,b).dollars; }
     }
   }
   return {potential, redeemed, fees};
@@ -1321,9 +1994,9 @@ function openDollarCredits(){
   const items = [];
   for(const c of myCards()){
     for(const b of visibleBenefits(c)){
-      if(!PPY[b.f] || !(b.a>0) || isChecked(c.iid,b)) continue;
-      const dl = daysLeft(b.f);
-      items.push({ c, b, dl, v: b.a/PPY[b.f], row: c.iid+"--"+b.id });
+      if(!PPY[b.f] || !(b.a>0) || isChecked(c,b)) continue;
+      const dl = daysLeft(c,b);
+      items.push({ c, b, dl, v: perVal(b, curKey(c,b)), row: c.iid+"--"+b.id });
     }
   }
   items.sort((x,y)=> x.dl-y.dl || y.v-x.v);
@@ -1344,9 +2017,9 @@ function monthRecapStats(){
   for(const c of myCards()){
     for(const b of visibleBenefits(c)){
       if(b.f!=="m" || !(b.a>0)) continue;
-      const v = b.a/12;
+      const v = perVal(b, curKey(c,b));
       monthAvail += v;
-      if(isChecked(c.iid,b)) monthUsed += v;
+      if(isChecked(c,b)) monthUsed += v;
     }
   }
   const leftTable = missedItems().total;
@@ -1365,44 +2038,90 @@ function matchBenefitQuery(b, q, cat){
   const hay = (b.n+" "+(b.d||"")+" "+(b.per||"")+" "+(CATS[b.c]||"")).toLowerCase();
   return q.split(/\s+/).filter(Boolean).every(w=> hay.includes(w));
 }
-/** Rank cards in the wallet for a purchase intent (credits before earn rates). */
-function bestCardsFor(q, cat){
+/* ---------- best card for a purchase ---------- */
+const EARN_ALIASES = { restaurants:"dining", restaurant:"dining", food:"dining", groceries:"groceries", supermarket:"groceries",
+  gas:"gas", fuel:"gas", ev:"gas", travel:"travel", flights:"flights", airfare:"flights", hotels:"hotels", lodging:"hotels",
+  "car rental":"car", rideshare:"transit", transit:"transit", streaming:"streaming", drugstore:"drugstore", drugstores:"drugstore",
+  online:"online", shopping:"online", "home improvement":"homeimp", entertainment:"ent", tickets:"ent", rent:"rent",
+  utilities:"phone", phone:"phone", internet:"phone", wholesale:"wholesale" };
+/* Earn category → perk categories whose unused credits are worth spending first */
+const EARN_TO_PERK = { dining:["din"], travel:["trv","air"], flights:["trv","air"], hotels:["trv"], car:["trv"],
+  transit:["rid"], streaming:["ent"], ent:["ent"], online:["shp"], amazon:["shp"], wholesale:["shp"], drugstore:["wel"] };
+/** "starbucks" → {k:"dining", name:"starbucks"}; "groceries" → {k:"groceries"}; unknown → null. */
+function parseIntent(q){
+  q = (q||"").trim().toLowerCase(); if(!q) return null;
+  let best = null;
+  for(const [name, v] of Object.entries(MERCHANTS)){
+    const hit = q===name || (q.length>=3 && (name.startsWith(q) || new RegExp("\\b"+name.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+"\\b").test(q)));
+    if(hit && (!best || name.length > best.name.length)) best = {...v, name};
+  }
+  if(best) return best;
+  for(const [w, k] of Object.entries(EARN_ALIASES)) if(q===w || (q.length>=3 && w.startsWith(q))) return {k};
+  return null;
+}
+function quarterKey(d=new Date()){ return d.getFullYear()+"-Q"+(Math.floor(d.getMonth()/3)+1); }
+/** Best earn rate a card gives for a category/merchant: {x, pct, row, rot} (pct = % back at your point values). */
+function earnFor(c, k, m){
+  if(!k) return null;
+  const parent = EARN_CATS[k] && EARN_CATS[k].p;
+  const rows = (c.earn||[]).filter(r=> (state.portal || !r.portal) &&
+    (r.m? r.m===m : (r.k===k || r.k===parent || (m && r.k===m))));
+  const rot = c.def && ROTATING[quarterKey()] && ROTATING[quarterKey()][c.def.id];
+  if(rot && rot.ks.includes(k)) rows.push({k, x:5, cap:"$1,500/qtr · activate: "+rot.text, rot:1});
+  if(!rows.length){ const base = (c.earn||[]).find(r=>r.k==="other" && !r.portal); if(base) rows.push(base); }
+  if(!rows.length) return null;
+  const cpp = cppOf(c.cur);
+  const top = rows.reduce((x,y)=> y.x*cpp > x.x*cpp ? y : x);
+  return { x:top.x, pct: top.x*cpp, row:top, rot:!!top.rot, base: top.k==="other" && k!=="other" };
+}
+function rateLabel(c, e){
+  if(!e) return "";
+  const cur = CUR[c.cur]||CUR.cash;
+  const head = cur.u==="%"? `${e.x}% back` : `${e.x}x ${esc(cur.n)} · ≈${+e.pct.toFixed(1)}% back`;
+  return head + (e.row.portal? " via the card's travel portal" : "") + (e.row.cap? ` <span class="cap">(${esc(e.row.cap)})</span>` : "");
+}
+function liveOffers(){
+  const today = ymdNow();
+  return state.offers.filter(o=> !o.done && (!o.expires || o.expires >= today));
+}
+function offerMatches(o, q, intent){
+  const mer = o.merchant.toLowerCase(); q = (q||"").trim().toLowerCase();
+  return !!q && (mer.includes(q) || q.includes(mer) || (intent && intent.name && mer.includes(intent.name)));
+}
+/** Rank wallet cards for a purchase: pinned → live offer → unused matching credit → best effective return. */
+function bestCardsFor(q, k){
   q = (q||"").trim().toLowerCase();
+  const intent = parseIntent(q) || (k? {k} : null);
+  if(k && intent) intent.k = k;
+  const ek = intent && intent.k, m = intent && intent.m;
+  const perkCats = EARN_TO_PERK[ek] || [];
+  const offers = liveOffers();
   const results = [];
   for(const c of myCards()){
-    if(c.kind==="svc" && !cat && !q) continue;
-    let score = 0;
-    const reasons = [];
+    const reasons = []; let score = 0;
+    const accepted = !(intent && intent.net) || c.kind==="svc" || intent.net.includes(c.net);
+    for(const o of offers) if(o.iid===c.iid && offerMatches(o, q, intent)){
+      score += 1000 + o.value; reasons.push({kind:"offer", o});
+    }
     for(const b of visibleBenefits(c)){
-      if(!matchBenefitQuery(b, q, cat)) continue;
-      if(b.a>0 && PPY[b.f] && !isChecked(c.iid,b)){
-        const v = b.a/PPY[b.f];
-        const dl = daysLeft(b.f);
-        score += 100 + v + (dl!=null && dl<=14? 40 : 0) + (b.e? 5 : 0);
-        reasons.push({ kind:"credit", b, v, dl });
-      } else if(b.f==="on"){
-        score += 18;
-        reasons.push({ kind:"always", b });
-      } else if(b.a>0 && PPY[b.f] && isChecked(c.iid,b)){
-        score += 6;
-        reasons.push({ kind:"used", b });
-      } else {
-        score += 12;
-        reasons.push({ kind:"perk", b });
-      }
+      const textHit = q && matchBenefitQuery(b, q, "");
+      const catHit = !q && perkCats.includes(b.c);
+      if(!textHit && !catHit) continue;
+      if(b.a>0 && PPY[b.f] && !isChecked(c,b)){
+        const v = perVal(b, curKey(c,b)), dl = daysLeft(c,b);
+        score += 400 + v + (dl!=null && dl<=14? 40 : 0);
+        reasons.push({kind:"credit", b, v, dl});
+      } else if(b.f==="on" && textHit){ score += 15; reasons.push({kind:"perk", b}); }
     }
-    if(c.rates){
-      const rates = c.rates.toLowerCase();
-      if(q && rates.includes(q)){ score += 22; reasons.push({ kind:"rate", text:c.rates }); }
-      else if(cat){
-        const catWord = (CATS[cat]||"").toLowerCase().split(/[^a-z]+/)[0];
-        if(catWord && rates.includes(catWord)){ score += 16; reasons.push({ kind:"rate", text:c.rates }); }
-      }
-    }
-    if(score>0) results.push({ c, score, reasons });
+    const e = (c.kind!=="svc" && ek)? earnFor(c, ek, m) : null;
+    if(e){ score += e.pct*10; }
+    if(!accepted) score -= 5000;
+    const pinned = ek && state.pins[ek]===c.iid;
+    if(pinned) score += 100000;
+    if(score>0 || pinned || (e && accepted)) results.push({ c, score, reasons, e, pinned, accepted });
   }
-  results.sort((a,b)=> b.score-a.score);
-  return results;
+  results.sort((x,y)=> y.score-x.score);
+  return { list: results, intent };
 }
 function fmt$(n){ return "$"+Math.round(n).toLocaleString("en-US"); }
 function esc(s){ return String(s??"").replace(/[&<>"']/g, ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch])); }
@@ -1434,7 +2153,7 @@ function renderNudges(){
   el.innerHTML = out.join("");
 }
 function render(){
-  renderEmpty(); renderNudges(); renderWallet(); renderToday(); renderStats(); renderSoon(); renderGraph(); renderBonuses(); renderLedger();
+  renderEmpty(); renderNudges(); renderWallet(); renderToday(); renderStats(); renderSoon(); renderGraph(); renderBonuses(); renderOffers(); renderLedger();
 }
 function renderEmpty(){
   const el = $("#empty");
@@ -1449,7 +2168,7 @@ function renderEmpty(){
     </div>
     <div class="quick-label">Popular right now</div>
     <div class="quick">
-      ${["amex-plat","amex-gold","csr","csp","venture-x","bilt","svc-prime","svc-verizon"].map(id=>{
+      ${["amex-plat","amex-gold","csr","csp","venture-x","bilt-obsidian","robinhood-gold","svc-prime","svc-verizon"].map(id=>{
         const c = DB.find(x=>x.id===id);
         return `<button class="chip" data-act="quick-add" data-id="${id}">${esc(c.name)}</button>`;
       }).join("")}
@@ -1461,7 +2180,7 @@ function renderWallet(){
   if(!state.cards.length){ el.innerHTML=""; return; }
   const plates = myCards().map(c=>{
     let pot=0, red=0;
-    for(const b of visibleBenefits(c)) if(b.a>0 && PPY[b.f]){ pot+=b.a; red+=yearStats(c.iid,b).dollars; }
+    for(const b of visibleBenefits(c)) if(b.a>0 && PPY[b.f]){ pot+=b.a; red+=yearStats(c,b).dollars; }
     const pct = pot? Math.min(100, red/pot*100) : 0;
     const focused = state.ui.focus===c.iid;
     return `
@@ -1476,6 +2195,8 @@ function renderWallet(){
       ${pot? `<div class="bar"><i style="width:${pct}%"></i></div>
       <div class="usage">${fmt$(red)} of ${fmt$(pot)} redeemed in ${new Date().getFullYear()}</div>`
       : `<div class="usage" style="margin-top:6px">${c.kind==="svc"?"member perks":"always-on perks"}</div>`}
+      ${(()=>{ const f = feeInfo(c); return f && f.days<=30? `<div class="feedue">Fee ${fmt$(c.fee)} in ${f.days}d</div>` : ""; })()}
+      <button class="dt" data-act="card-details" data-iid="${c.iid}" aria-label="${esc(c.name)} details, open date and renewal check">⋯</button>
       <button class="x" data-act="ask-remove" data-iid="${c.iid}" aria-label="Remove ${esc(c.name)}">×</button>
     </div>`;
   }).join("");
@@ -1488,8 +2209,11 @@ function renderToday(){
   const el = $("#todaySec");
   if(!state.cards.length){ el.innerHTML=""; return; }
   const week = atRiskThisWeek();
-  const risk$ = week.reduce((s,i)=>s+i.v,0);
-  const clear = !week.length;
+  const offers = liveOffers().filter(o=> o.expires && daysUntil(o.expires) <= 7);
+  const fees = myCards().map(c=>({c, f:feeInfo(c)})).filter(x=> x.f && x.f.days<=30);
+  const risk$ = week.reduce((s,i)=>s+i.v,0) + offers.filter(o=>o.kind==="cash").reduce((s,o)=>s+o.value,0);
+  const n = week.length + offers.length;
+  const clear = !n;
   const next = clear? openDollarCredits()[0] : null;
   el.innerHTML = `
   <div class="today ${clear?"clear":"at-risk"}">
@@ -1498,17 +2222,26 @@ function renderToday(){
         <h2 class="serif">${clear? "This week is clear":"This week"}</h2>
         <div class="risk">${clear
           ? (next? `Next up: <b>${esc(next.b.n)}</b> in ${next.dl}d · ${fmt$(next.v)}` : "<b>Nothing open</b> — enjoy the quiet")
-          : `<b>${fmt$(risk$)}</b> at risk · ${week.length} unused credit${week.length>1?"s":""} reset${week.length>1?"":"s"} within 7 days`}</div>
+          : `<b>${fmt$(risk$)}</b> at risk · ${n} unused credit${n>1?"s or offers":" or offer"} expire${n>1?"":"s"} within 7 days`}</div>
       </div>
       <div class="tact">
         <button class="btn small ${clear?"":"primary"}" data-act="open-best">Which card?</button>
+        <button class="btn small quiet" data-act="open-offer">+ Offer</button>
         <button class="btn small quiet" data-act="share-month">Share ${new Date().toLocaleString("en-US",{month:"short"})} recap ↗</button>
       </div>
     </div>
-    ${week.length? `<div class="chips">${week.slice(0,8).map(i=>`
+    ${(n || fees.length)? `<div class="chips">${week.slice(0,8).map(i=>`
       <button class="todaychip" data-act="jump" data-row="${i.row}">
         <span class="d">${i.dl}d</span> ${esc(i.b.n)}
         <span class="v">${fmt$(i.v)} · ${esc(i.c.name)}${i.b.e?" · enroll":""}</span>
+      </button>`).join("")}${offers.slice(0,6).map(o=>{ const c = myCards().find(x=>x.iid===o.iid); return `
+      <button class="todaychip" data-act="jump-offer" data-row="${o.id}">
+        <span class="d">${daysUntil(o.expires)}d</span> Offer: ${esc(o.merchant)}
+        <span class="v">${offerValueLabel(o)}${c? " · "+esc(c.name):""}</span>
+      </button>`; }).join("")}${fees.map(x=>`
+      <button class="todaychip" data-act="card-details" data-iid="${x.c.iid}">
+        <span class="d">${x.f.days}d</span> Annual fee: ${esc(x.c.name)}
+        <span class="v">${fmt$(x.c.fee)} · keep or cut?</span>
       </button>`).join("")}</div>`:""}
   </div>`;
 }
@@ -1530,7 +2263,7 @@ function renderStats(){
   </div>
   <div class="meter">
     <div class="bar"><i style="width:${Math.min(100,pct)}%"></i></div>
-    <div class="cap" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><span><b>${pct}%</b> of this year's trackable credits redeemed · <b>${fmt$(Math.max(0,t.potential-t.redeemed))}</b> still on the table</span><span style="display:inline-flex;gap:6px;flex-wrap:wrap"><button class="btn small quiet" data-act="share-month" style="padding:2px 10px">Month recap ↗</button><button class="btn small quiet" data-act="share-card" style="padding:2px 10px">Share savings ↗</button></span></div>
+    <div class="cap" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><span><b>${pct}%</b> of this year's trackable credits redeemed · <b>${fmt$(Math.max(0,t.potential-t.redeemed))}</b> still on the table</span><span style="display:inline-flex;gap:6px;flex-wrap:wrap">${allApps().length? `<button class="btn small quiet" data-act="open-apps" style="padding:2px 10px">5/24: ${chase524().n}</button>`:""}<button class="btn small quiet" data-act="share-month" style="padding:2px 10px">Month recap ↗</button><button class="btn small quiet" data-act="share-card" style="padding:2px 10px">Share savings ↗</button></span></div>
   </div>
   ${missedHtml()}`;
 }
@@ -1554,7 +2287,7 @@ function collectSources(){
   for(const c of myCards()){
     for(const b of visibleBenefits(c)){
       for(const s of (b.covers||[])) (map[s]=map[s]||[]).push({c,b,type:"covers"});
-      for(const s of (b.deals||[])) (map[s]=map[s]||[]).push({c,b,type:"deals",pm:b.dealPm});
+      for(const s of (b.deals||[])) (map[s]=map[s]||[]).push({c,b,type:"deals",pm: (b.dealPm && typeof b.dealPm==="object")? b.dealPm[s] : b.dealPm});
     }
   }
   return map;
@@ -1632,8 +2365,9 @@ function renderBonuses(){
     const c = myCards().find(x=>x.iid===bn.iid);
     const pct = bn.target? Math.min(100, bn.spent/bn.target*100) : 0;
     const done = bn.spent >= bn.target;
-    const dl = Math.ceil((new Date(bn.deadline+"T23:59:59") - new Date())/864e5);
-    const late = !done && dl < 0;
+    const endMs = new Date(bn.deadline+"T23:59:59").getTime();
+    const dl = Math.max(0, Math.ceil((endMs - Date.now())/864e5));
+    const late = !done && Date.now() > endMs;
     const perDay = (!done && dl>0)? (bn.target-bn.spent)/dl : 0;
     const id = bn.id;
     return `
@@ -1666,19 +2400,104 @@ function renderBonuses(){
     <div class="glist">${rows}</div>
   </div>`;
 }
+/* ---------- card-linked offers (Amex Offers, Chase Offers, …) ---------- */
+function daysUntil(ymd){ return Math.ceil((new Date(ymd+"T23:59:59") - new Date())/864e5); }
+function offerValueLabel(o){ return o.kind==="pts"? Math.round(o.value).toLocaleString("en-US")+" pts" : fmt$(o.value); }
+function offersRedeemedThisYear(){
+  const y = new Date().getFullYear();
+  return state.offers.filter(o=>o.done && o.kind==="cash" && o.doneAt && new Date(o.doneAt).getFullYear()===y).reduce((s2,o)=>s2+o.value,0);
+}
+function renderOffers(){
+  const el = $("#offersSec");
+  if(!state.offers.length){ el.innerHTML=""; return; }
+  const today = ymdNow();
+  const live = liveOffers().sort((a,b)=> (a.expires||"9999") < (b.expires||"9999")? -1 : 1);
+  const expired = state.offers.filter(o=>!o.done && o.expires && o.expires < today);
+  const doneN = state.offers.filter(o=>o.done).length;
+  const rows = live.map(o=>{
+    const c = myCards().find(x=>x.iid===o.iid);
+    const dl = o.expires? daysUntil(o.expires) : null;
+    const pct = o.minSpend? Math.min(100, o.usedAmt/o.minSpend*100) : 0;
+    const id = o.id;
+    return `
+    <div class="bonus offer ${expanded.has(id)?"expanded":""}">
+      <div class="main" data-act="bexpand" data-row="${id}" role="button" tabindex="0" aria-expanded="${expanded.has(id)}">
+        <div>
+          <div class="bnm">${esc(o.merchant)} — ${offerValueLabel(o)} back</div>
+          <div class="bmeta">
+            ${c? `<span class="cardtag"><i style="background:linear-gradient(118deg,${c.art[0]},${c.art[1]})"></i>${esc(c.name)}</span>` : "<span>card removed</span>"}
+            ${o.minSpend? `<span>spend ${fmt$(o.minSpend)}</span>`:""}
+            ${dl!=null? `<span class="pill ${dl<=7?"due":"ok"}">${dl}d left</span>` : `<span class="pill ok">no expiry</span>`}
+          </div>
+        </div>
+        <div class="bright"><div class="bpace">${o.minSpend? `<b>${fmt$(Math.max(0,o.minSpend-o.usedAmt))}</b> to go` : "Use it, then mark done"}</div></div>
+        ${o.minSpend? `<div class="bbar"><i style="width:${pct}%"></i></div>`:""}
+      </div>
+      <div class="detail">
+        ${o.desc? `<div style="margin-bottom:8px">${esc(o.desc)}</div>`:""}
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          ${o.minSpend? `<span style="font-size:12.5px;font-weight:600;color:var(--muted)">Spent so far $</span>
+          <input type="number" class="mini" id="oused-${id}" value="${o.usedAmt}" min="0" step="1" aria-label="Spent so far toward this offer">
+          <button class="btn small" data-act="offer-save" data-id="${id}">Save</button>`:""}
+          <button class="btn small primary" data-act="offer-done" data-id="${id}">Mark redeemed</button>
+          <button class="btn small danger" data-act="offer-del" data-id="${id}">Remove</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+  const got = offersRedeemedThisYear();
+  el.innerHTML = `<div class="bonuses">
+    <div class="ghd"><h3 class="serif">Card offers</h3><span style="font-size:12.5px;color:var(--faint)">${live.length} live${got? ` · ${fmt$(got)} earned from offers in ${new Date().getFullYear()}`:""}${doneN? ` · ${doneN} redeemed`:""}</span>
+      <button class="btn small quiet" data-act="open-offer" style="margin-left:auto">+ Offer</button></div>
+    ${rows? `<div class="glist">${rows}</div>` : `<div class="nores" style="padding:12px 4px">No live offers — add the ones you've activated in your issuer's app so you don't forget them.</div>`}
+    ${expired.length? `<div style="font-size:12.5px;color:var(--faint);margin-top:8px">${expired.length} expired offer${expired.length>1?"s":""} unused · <button class="linkbtn" data-act="offers-clear-expired">clear</button></div>`:""}
+  </div>`;
+}
+function offerModal(){
+  if(!state.cards.length){ toast("Add a card first"); return; }
+  const opts = myCards().filter(c=>c.kind!=="svc").map(c=>`<option value="${c.iid}">${esc(c.name)}</option>`).join("");
+  const def = new Date(Date.now()+30*864e5).toISOString().slice(0,10);
+  openModal(`
+    <div class="shd"><h2 class="serif">Track a card offer</h2><button class="xbtn" data-act="close">✕</button></div>
+    <p style="margin:0 0 10px;font-size:13px;color:var(--muted)">Activated an Amex Offer, Chase Offer or similar? Log it so it shows up in “Which card?” and reminds you before it expires.</p>
+    <form class="form" id="ofForm">
+      <div class="cols">
+        <label>Card<select id="ofCard">${opts}</select></label>
+        <label>Merchant<input type="text" id="ofMerchant" required maxlength="60" placeholder="e.g. Best Buy"></label>
+      </div>
+      <div class="cols">
+        <label>You get<span style="display:flex;gap:6px"><input type="number" id="ofValue" required min="1" step="1" placeholder="50" style="flex:1"><select id="ofKind"><option value="cash">$ back</option><option value="pts">points</option></select></span></label>
+        <label>When you spend ($)<input type="number" id="ofMin" min="0" step="1" placeholder="250 (optional)"></label>
+      </div>
+      <div class="cols">
+        <label>Expires<input type="date" id="ofExp" value="${def}"></label>
+        <label>Note<input type="text" id="ofDesc" maxlength="160" placeholder="e.g. online only, once"></label>
+      </div>
+      <div class="fRow"><button type="button" class="btn quiet" data-act="close">Cancel</button>
+      <button type="submit" class="btn primary">Save offer</button></div>
+    </form>
+  `);
+  $("#ofForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    const o = normOffer({ id:"of"+(state.seq++), iid:$("#ofCard").value, merchant:$("#ofMerchant").value.trim(),
+      desc:$("#ofDesc").value.trim(), kind:$("#ofKind").value, value:+$("#ofValue").value, minSpend:+$("#ofMin").value||0,
+      expires:$("#ofExp").value, usedAmt:0 });
+    if(!o) return;
+    state.offers.push(o); save(); closeModal(); render(); toast("Offer saved");
+  });
+  $("#ofMerchant").focus();
+}
 /* ---------- money left behind ---------- */
 function missedItems(){
-  const m = new Date().getMonth(), y = new Date().getFullYear();
+  const now = Date.now();
   const out = []; let total = 0;
   for(const c of myCards()) for(const b of visibleBenefits(c)){
-    if(!(b.a>0) || !PPY[b.f]) continue;
-    let keys = [];
-    if(b.f==="m"){ for(let i=1;i<=m;i++) keys.push(y+"-"+String(i).padStart(2,"0")); }
-    else if(b.f==="q"){ for(let i=1;i<=Math.floor(m/3);i++) keys.push(y+"-Q"+i); }
-    else if(b.f==="h"){ if(m>=6) keys.push(y+"-H1"); }
-    else continue;
-    const miss = keys.filter(k=>!state.usage[c.iid+"|"+b.id+"|"+k]).length;
-    if(miss){ const amt = miss*(b.a/PPY[b.f]); total += amt; out.push({c, b, miss, amt}); }
+    if(!(b.a>0) || !PPY[b.f] || b.f==="y") continue;
+    const from = trackedFrom(c);
+    /* only periods that already ended, and only those after the card was in the wallet */
+    const ended = yearPeriods(c, b).filter(p=> p.end.getTime() <= now && p.end.getTime() > from);
+    const missed = ended.filter(p=> !state.usage[c.iid+"|"+b.id+"|"+p.key]);
+    if(missed.length){ const amt = missed.reduce((s2,p)=>s2+perVal(b,p.key),0); total += amt; out.push({c, b, miss:missed.length, amt}); }
   }
   out.sort((a,b2)=>b2.amt-a.amt);
   return {out, total};
@@ -1697,7 +2516,7 @@ function buildRows(){
   for(const c of myCards()){
     if(state.ui.focus && c.iid!==state.ui.focus) continue;
     for(const b of visibleBenefits(c)){
-      rows.push({c, b, checked: (PPY[b.f]||b.f==="o")? isChecked(c.iid,b): false, dl: daysLeft(b.f)});
+      rows.push({c, b, checked: (PPY[b.f]||b.f==="o")? isChecked(c,b): false, dl: daysLeft(c,b)});
     }
   }
   const q = state.ui.q.trim().toLowerCase();
@@ -1713,7 +2532,7 @@ function perkRow(r){
   const {c, b} = r;
   const trackable = !!PPY[b.f] || b.f==="o";
   const checked = r.checked;
-  const ys = yearStats(c.iid, b);
+  const ys = yearStats(c, b);
   const dl = r.dl;
   const id = c.iid+"--"+b.id;
   const isCustom = String(b.id).startsWith("cx");
@@ -1723,11 +2542,12 @@ function perkRow(r){
   else if(checked) pillHtml = `<span class="pill done">✓ ${periodWord(b.f)}</span>`;
   else pillHtml = `<span class="pill ${dueSoon(b.f,dl)?"due":"ok"}">${dl}d left</span>`;
   const punch = (PPY[b.f] && PPY[b.f]>1) ? (()=>{
-    const keys = yearPeriodKeys(b.f);
-    const nowKey = periodKey(b.f);
-    const elapsed = elapsedPeriods(b.f);
-    return `<div class="punch" aria-label="${ys.used} of ${keys.length} periods used this year — click a dot to toggle past periods">
-      ${keys.map((k,i)=>`<span class="pd ${state.usage[c.iid+"|"+b.id+"|"+k]?"hit":""} ${k===nowKey?"now":""} ${i<elapsed?"clickable":"future"}" data-act="dot" data-iid="${c.iid}" data-bid="${b.id}" data-k="${k}" title="${k}${i<elapsed?" — click to toggle":""}"></span>`).join("")}
+    const ps = yearPeriods(c, b), now = Date.now(), from = trackedFrom(c);
+    const nowKey = curKey(c, b);
+    const elapsed = ps.filter(p=> p.start.getTime() <= now).length;
+    return `<div class="punch" aria-label="${ys.used} of ${ps.length} periods used this year — click a dot to toggle past periods">
+      ${ps.map(p=>{ const k = p.key, past = p.start.getTime() <= now, pre = p.end.getTime() <= from;
+        return `<span class="pd ${state.usage[c.iid+"|"+b.id+"|"+k]?"hit":""} ${k===nowKey?"now":""} ${past?"clickable":"future"} ${pre?"pre":""}" data-act="dot" data-iid="${c.iid}" data-bid="${b.id}" data-k="${k}" title="${k}${pre?" — before you added this card":""}${past?" — click to toggle":""}"></span>`; }).join("")}
       <span class="plabel">${ys.used}/${elapsed} so far in ${new Date().getFullYear()}${b.a>0? " · "+fmt$(ys.dollars)+" redeemed":""}</span>
     </div>`;
   })() : "";
@@ -1736,7 +2556,7 @@ function perkRow(r){
     <div class="main" data-act="expand" data-row="${id}" role="button" tabindex="0" aria-expanded="${expanded.has(id)}">
       ${trackable? `
       <label class="ck" data-stop="1" title="Mark used ${periodWord(b.f)}">
-        <input type="checkbox" data-act="check" data-iid="${c.iid}" data-bid="${b.id}" data-f="${b.f}" ${checked?"checked":""}
+        <input type="checkbox" data-act="check" data-iid="${c.iid}" data-bid="${b.id}" data-k="${curKey(c,b)}" ${checked?"checked":""}
           aria-label="Mark ${esc(b.n)} used ${periodWord(b.f)}">
         <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </label>` : `<span class="ck ongoing"><span></span></span>`}
@@ -1825,7 +2645,7 @@ function renderLedger(){
   </section>`;
   const gHtml = groups.map(g=>{
     let avail=0, red=0;
-    for(const r of g.rows) if(r.b.a>0 && PPY[r.b.f]){ avail+=r.b.a; red+=yearStats(r.c.iid,r.b).dollars; }
+    for(const r of g.rows) if(r.b.a>0 && PPY[r.b.f]){ avail+=r.b.a; red+=yearStats(r.c,r.b).dollars; }
     return `
     <section class="group">
       <div class="ghd"><h3 class="serif">${esc(g.title)}</h3>
@@ -1851,6 +2671,7 @@ function renderLedger(){
       <label class="tgl"><input type="checkbox" data-act="tgl-dollar" ${ui.dollarOnly?"checked":""}>$ credits only</label>
       <span style="margin-left:auto;display:inline-flex;gap:4px">
         <button class="btn small quiet" data-act="open-bonus">+ Bonus</button>
+        <button class="btn small quiet" data-act="open-offer">+ Offer</button>
         <button class="btn small quiet" data-act="open-custom-perk">+ Custom perk</button>
       </span>
     </div>
@@ -1876,8 +2697,31 @@ function rerenderLedgerOnly(){
 }
 
 /* =============== modals =============== */
-function openModal(html){ $("#sheet").innerHTML = html; $("#overlay").classList.add("open"); }
-function closeModal(){ $("#overlay").classList.remove("open"); }
+let modalReturnFocus = null;
+function openModal(html){
+  if(!$("#overlay").classList.contains("open")) modalReturnFocus = document.activeElement;
+  $("#sheet").innerHTML = html; $("#overlay").classList.add("open");
+}
+function closeModal(){
+  if(!$("#overlay").classList.contains("open")) return;
+  $("#overlay").classList.remove("open");
+  const back = modalReturnFocus; modalReturnFocus = null;
+  if(back && document.contains(back)) back.focus({preventScroll:true});
+}
+/* Re-renders replace innerHTML, which drops keyboard focus to <body>. Remember what was focused
+   (by its data-* identity) and put focus back on the re-rendered twin. */
+function focusSelector(el){
+  if(!el || el===document.body || !el.dataset || !el.dataset.act) return null;
+  return "[data-act='"+el.dataset.act+"']"+["row","iid","bid","id","v","k"].filter(k=>el.dataset[k]!=null)
+    .map(k=>"[data-"+k+"='"+CSS.escape(el.dataset[k])+"']").join("");
+}
+function restoreFocusSoon(sel){
+  if(!sel) return;
+  setTimeout(()=>{
+    if(document.activeElement && document.activeElement!==document.body) return;
+    const t = document.querySelector(sel); if(t) t.focus({preventScroll:true});
+  }, 0);
+}
 
 function addCardModal(){
   const rows = (q)=>{
@@ -1933,6 +2777,11 @@ function customCardModal(){
         <label>Issuer / provider<input type="text" id="ccIssuer" placeholder="e.g. Navy Federal, AAA"></label>
         <label>Annual fee ($)<input type="number" id="ccFee" min="0" step="1" value="0"></label>
       </div>
+      <div class="cols" id="ccEarnRow">
+        <label>Base cash back (%)<input type="number" id="ccBase" min="0" max="10" step="0.25" placeholder="e.g. 1.5"></label>
+        <label>Bonus category<span style="display:flex;gap:6px"><select id="ccBonusK" style="flex:1"><option value="">none</option>${Object.entries(EARN_CATS).filter(([x])=>x!=="other").map(([x,v])=>`<option value="${x}">${esc(v.n)}</option>`).join("")}</select>
+          <input type="number" id="ccBonusX" min="0" max="20" step="0.5" placeholder="%" style="width:70px" aria-label="Bonus category rate"></span></label>
+      </div>
       <label>Card color
         <div class="swatches" id="ccSwatches">
           ${SWATCHES.map((s,i)=>`<button type="button" class="${i===0?"on":""}" data-i="${i}" style="background:linear-gradient(118deg,${s[0]},${s[1]})" aria-label="color ${i+1}"></button>`).join("")}
@@ -1955,7 +2804,9 @@ function customCardModal(){
     const iid = "i"+(state.seq++);
     state.cards.push({ iid, ref:null, name, issuer:$("#ccIssuer").value.trim()||"Custom",
       fee:+$("#ccFee").value||0, art, ink: (swatch===5?"d":"l"), kind:$("#ccKind").value,
-      hidden:[], custom:[] });
+      earn: [ ...(+$("#ccBonusX").value>0 && $("#ccBonusK").value? [{k:$("#ccBonusK").value, x:+$("#ccBonusX").value}] : []),
+              ...(+$("#ccBase").value>0? [{k:"other", x:+$("#ccBase").value}] : []) ],
+      cur:"cash", hidden:[], custom:[], added:Date.now() });
     save(); closeModal(); render(); toast(name+" added — now add its perks with “+ Custom perk”");
   });
   $("#ccName").focus();
@@ -2034,11 +2885,152 @@ function bonusModal(){
   });
   $("#bnWhat").focus();
 }
+function monthYear(d){ return d.toLocaleString("en-US",{month:"short", year:"numeric"}); }
+function cardDetailsModal(iid){
+  const entry = state.cards.find(x=>x.iid===iid); if(!entry) return;
+  const c = resolveCard(entry);
+  const r = renewalStats(c), f = feeInfo(c);
+  const cm = c.benefits.filter(b=>b.yr==="cm");
+  const vt = {keep:"Keep it", ask:"Ask for a retention offer", cut:"Downgrade or cancel"}[r.verdict];
+  const downs = (c.down||[]).map(id=>DB.find(x=>x.id===id)).filter(Boolean);
+  const losing = visibleBenefits(c).filter(b=>b.f==="on" && b.c!=="prt").slice(0,5);
+  openModal(`
+    <div class="shd"><h2 class="serif">${esc(c.name)}</h2><button class="xbtn" data-act="close">✕</button></div>
+    <form class="form" id="cdForm">
+      <div class="cols">
+        <label>Opened (month)<input type="month" id="cdOpened" value="${esc(entry.opened||"")}" max="${ymNow()}" placeholder="YYYY-MM"></label>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:22px"><input type="checkbox" id="cdAu" ${entry.au?"checked":""}> Authorized user</label>
+      </div>
+      <p style="margin:2px 0 0;font-size:12.5px;color:var(--faint)">Used for anniversary-year credits${cm.length? ` (${cm.map(b=>esc(b.n)).slice(0,3).join(", ")})`:""}, fee reminders, renewal math and your 5/24 count. Stays on this device.</p>
+      <div class="fRow"><button type="submit" class="btn primary">Save</button></div>
+    </form>
+    ${c.kind==="svc"? "" : `
+    <div class="verdict ${r.verdict}">
+      <div class="vt">${c.fee? vt : "No annual fee — keep it open"}</div>
+      <div class="kv"><span>Card year so far</span><span>since ${monthYear(r.from)}${c.opened?"":" (calendar year — set the open date)"}</span></div>
+      <div class="kv"><span>Credits redeemed</span><b>${fmt$(r.redeemed)}</b></div>
+      <div class="kv"><span>Annual fee</span><span>${fmt$(r.fee)}${f? ` · next ${monthYear(f.date)} (${f.days}d)`:""}</span></div>
+      ${r.unused.length? `<div class="kv"><span>Still claimable before reset</span><span>${fmt$(r.unused.reduce((s2,u)=>s2+u.v,0))}</span></div>`:""}
+      ${c.fee && r.verdict!=="keep"? `<ul>
+        <li>Call or chat before the fee posts and ask what retention offers are available.</li>
+        ${downs.length? `<li>Product-change options: ${downs.map(d=>esc(d.name)+(d.fee? " ("+fmt$(d.fee)+")":" (no fee)")).join(", ")} — keeps your credit history.</li>`:""}
+        ${losing.length? `<li>You'd lose: ${losing.map(b=>esc(b.n)).join(", ")}.</li>`:""}
+      </ul>`:""}
+      <div style="font-size:11.5px;color:var(--faint);margin-top:8px">Counts only credits you've checked off. Lounge access, status and protections have value too — that's your call.</div>
+    </div>`}
+  `);
+  $("#cdForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    const v = $("#cdOpened").value;
+    if(YM_RE.test(v) && v > ymNow()){ toast("Pick the month you opened it — that one is in the future"); return; }
+    const oldCard = resolveCard(entry);
+    const oldKeys = {}; for(const b of oldCard.benefits) if(b.yr==="cm") oldKeys[b.id] = curKey(oldCard, b);
+    if(YM_RE.test(v)) entry.opened = v; else delete entry.opened;
+    if($("#cdAu").checked) entry.au = true; else delete entry.au;
+    /* carry this year's check-offs of anniversary-year credits over to the new period key */
+    const nc = resolveCard(entry);
+    for(const b of nc.benefits) if(b.yr==="cm"){
+      const nk = curKey(nc, b);
+      for(const ok of [oldKeys[b.id], String(new Date().getFullYear())]){
+        const from = iid+"|"+b.id+"|"+ok, to = iid+"|"+b.id+"|"+nk;
+        if(ok && ok!==nk && state.usage[from]){ state.usage[to] = true; delete state.usage[from]; }
+      }
+    }
+    save(); render(); cardDetailsModal(iid); toast("Saved");
+  });
+}
+/* ---------- applications & Chase 5/24 ---------- */
+function ymNow(){ const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth()+1).padStart(2,"0"); }
+function ymdNow(){ const d = new Date(); return ymNow() + "-" + String(d.getDate()).padStart(2,"0"); }
+function addMonths(ym, n){ const [y,m] = ym.split("-").map(Number); const d = new Date(y, m-1+n, 1); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"); }
+function ymLabel(ym){ const [y,m] = ym.split("-").map(Number); return new Date(y, m-1, 1).toLocaleString("en-US",{month:"short", year:"numeric"}); }
+/** Every card you've opened: wallet cards with an open date + the history log (closed/past cards). */
+function allApps(){
+  const fromWallet = myCards().filter(c=>c.kind!=="svc" && c.opened)
+    .map(c=>({ id:c.iid, name:c.name, issuer:c.issuer, opened:c.opened, biz:c.biz, au:c.au, wallet:true }));
+  return fromWallet.concat(state.apps.map(a=>({...a}))).sort((a,b)=> a.opened < b.opened? 1 : -1);
+}
+/* Chase 5/24: personal cards from any issuer opened in the last 24 months. Business cards don't add to the
+   count — except issuers that report them to personal credit (Capital One, Discover, per community data points).
+   AU cards show on your report and usually count (Chase recon sometimes excludes them). */
+function counts524(a){ return !a.biz || ["Capital One","Discover"].includes(a.issuer); }
+function chase524(){
+  const now = ymNow(), from = addMonths(now, -24);
+  const list = allApps().filter(a=> a.opened > from && counts524(a)).sort((a,b)=> a.opened < b.opened? -1 : 1);
+  const drops = list.map(a=>({ a, when:addMonths(a.opened, 24) })); /* stops counting once it is 24 months old */
+  const under = list.length < 5;
+  const nextUnder = under? null : drops[list.length-5].when;
+  return { n:list.length, list, drops, under, nextUnder };
+}
+function appsModal(){
+  const r = chase524();
+  const apps = allApps();
+  openModal(`
+    <div class="shd"><h2 class="serif">Applications &amp; 5/24</h2><button class="xbtn" data-act="close">✕</button></div>
+    <div class="verdict ${r.under? "keep" : "cut"}">
+      <div class="vt">Chase 5/24 count: ${r.n} · ${r.under? `under 5/24 (${5-r.n} to spare)` : `at/over 5/24 — under again around ${ymLabel(r.nextUnder)}`}</div>
+      ${r.drops.length? `<ul>${r.drops.map(d=>`<li>${esc(d.a.name)} (${ymLabel(d.a.opened)}) drops off ${ymLabel(d.when)}</li>`).join("")}</ul>` : `<div style="font-size:13px;color:var(--muted);margin-top:6px">No counting cards in the last 24 months${apps.length? "":" — set open dates on your cards (⋯ on each card) or add past cards below"}.</div>`}
+    </div>
+    <div class="dsec"><h3>Your cards</h3>
+      ${apps.length? apps.map(a=>`<div class="kv"><span>${esc(a.name)} <span style="color:var(--faint)">${esc(a.issuer||"")}${a.biz?" · business":""}${a.au?" · AU":""}${a.closed? " · closed "+ymLabel(a.closed):""}${a.wallet?" · in wallet":""}</span></span>
+        <span>${ymLabel(a.opened)} ${a.wallet? "" : `<button class="linkbtn" data-act="app-del" data-id="${a.id}" aria-label="Remove ${esc(a.name)} from history">remove</button>`}</span></div>`).join("")
+      : `<p>Nothing yet.</p>`}
+    </div>
+    <form class="form dsec" id="apForm">
+      <h3>Add a past or closed card</h3>
+      <div class="cols">
+        <label>Card<input type="text" id="apName" list="apList" required maxlength="80" placeholder="e.g. Sapphire Preferred"></label>
+        <label>Issuer<input type="text" id="apIssuer" maxlength="60" placeholder="e.g. Chase"></label>
+      </div>
+      <datalist id="apList">${DB.filter(c=>c.kind!=="svc").map(c=>`<option value="${esc(c.name)}">${esc(c.issuer)}</option>`).join("")}</datalist>
+      <div class="cols">
+        <label>Opened<input type="month" id="apOpened" required max="${ymNow()}"></label>
+        <label>Closed (optional)<input type="month" id="apClosed" max="${ymNow()}"></label>
+      </div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px">
+        <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="apBiz"> Business card</label>
+        <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="apAu"> Authorized user</label>
+      </div>
+      <div class="fRow"><button type="submit" class="btn primary">Add to history</button></div>
+    </form>
+    <div class="dsec"><h3>Rules of thumb</h3>
+      <ul style="margin:0;padding-left:18px;font-size:13px;color:var(--muted);line-height:1.55">
+        <li><b>Chase 5/24:</b> most Chase cards decline you with 5+ new personal cards (any bank) in 24 months. Chase business cards check it but don't add to it.</li>
+        <li><b>Amex:</b> a welcome bonus is generally once per card per lifetime (some offers say “no lifetime language”), and about 5 credit cards at a time (charge cards like Platinum don't count).</li>
+        <li><b>Citi:</b> about one application per 8 days and two per 65 days; bonus windows are 24 or 48 months depending on the card family.</li>
+        <li><b>Chase bonuses:</b> eligibility windows vary by card now — read the offer's terms.</li>
+      </ul>
+      <p style="font-size:11.5px;color:var(--faint);margin-top:6px">These are community data points, not official policy, and they change — always read the application terms.</p>
+    </div>
+  `);
+  $("#apName").addEventListener("change", e=>{ const d = DB.find(c=>c.name===e.target.value); if(d){ $("#apIssuer").value = d.issuer; $("#apBiz").checked = !!d.biz; } });
+  $("#apForm").addEventListener("submit", e=>{
+    e.preventDefault();
+    const a = normApp({ id:"ap"+(state.seq++), name:$("#apName").value.trim(), issuer:$("#apIssuer").value.trim(),
+      opened:$("#apOpened").value, closed:$("#apClosed").value, biz:$("#apBiz").checked, au:$("#apAu").checked });
+    if(!a){ toast("Add the month it was opened"); return; }
+    if(a.opened > ymNow()){ toast("That month is in the future"); return; }
+    state.apps.push(a); save(); appsModal(); toast("Added to your history");
+  });
+}
 function icsEscape(s){ return String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n"); }
+/** RFC 5545 line folding: max 75 octets per line, continuation lines start with a space. */
+function icsFold(line){
+  const enc = new TextEncoder(); const out = []; let cur = "", bytes = 0;
+  for(const ch of line){
+    const n = enc.encode(ch).length;
+    if(bytes + n > (out.length? 74 : 75)){ out.push(cur); cur = ""; bytes = 0; }
+    cur += ch; bytes += n;
+  }
+  out.push(cur);
+  return out.join("\r\n ");
+}
 function buildICS(){
   const groups = {m:[],q:[],h:[],y:[]}, sums = {m:0,q:0,h:0,y:0};
+  const anniv = [];
   for(const c of myCards()) for(const b of visibleBenefits(c)){
     if(!(b.a>0) || !PPY[b.f]) continue;
+    if(b.yr==="cm" && annivOf(c)){ anniv.push({c, b}); continue; }
     groups[b.f].push(`${b.n} — ${c.name} (${b.per||fmt$(b.a)+"/yr"})`);
     sums[b.f] += b.a/PPY[b.f];
   }
@@ -2053,42 +3045,63 @@ function buildICS(){
     }
     return now;
   };
+  const ev = (uid, start, summary, desc, rrule)=>[
+    "BEGIN:VEVENT", `UID:${uid}@perksledger.local`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${dstr(start)}`,
+    ...(rrule? [`RRULE:${rrule}`] : []), `SUMMARY:${icsEscape(summary)}`, `DESCRIPTION:${icsEscape(desc)}`, "END:VEVENT"
+  ].map(icsFold).join("\r\n");
   const defs = [
     {f:"m", months:[0,1,2,3,4,5,6,7,8,9,10,11], day:25, rrule:"FREQ=MONTHLY;BYMONTHDAY=25", label:"Monthly credits reset in ~1 week"},
     {f:"q", months:[2,5,8,11], day:20, rrule:"FREQ=YEARLY;BYMONTH=3,6,9,12;BYMONTHDAY=20", label:"Quarterly credits reset soon"},
     {f:"h", months:[5,11], day:15, rrule:"FREQ=YEARLY;BYMONTH=6,12;BYMONTHDAY=15", label:"Half-year credits reset soon"},
     {f:"y", months:[11], day:1, rrule:"FREQ=YEARLY;BYMONTH=12;BYMONTHDAY=1", label:"Yearly credits — last call"}
   ];
-  const events = defs.filter(d=>groups[d.f].length).map(d=>[
-    "BEGIN:VEVENT",
-    `UID:perksledger-${d.f}@perksledger.local`,
-    `DTSTAMP:${stamp}`,
-    `DTSTART;VALUE=DATE:${dstr(nextDate(d.months, d.day))}`,
-    `RRULE:${d.rrule}`,
-    `SUMMARY:${icsEscape(`Perks: ${d.label} (~${fmt$(sums[d.f])} on the line)`)}`,
-    `DESCRIPTION:${icsEscape(groups[d.f].join("\n"))}`,
-    "END:VEVENT"
-  ].join("\r\n"));
+  const events = defs.filter(d=>groups[d.f].length).map(d=>
+    ev(`perksledger-${d.f}`, nextDate(d.months, d.day), `Perks: ${d.label} (~${fmt$(sums[d.f])} on the line)`, groups[d.f].join("\n"), d.rrule));
+  /* anniversary-year credits: a nudge on the 1st of the month before each card's anniversary */
+  const byCard = {};
+  for(const x of anniv) (byCard[x.c.iid] = byCard[x.c.iid] || {c:x.c, items:[]}).items.push(x.b);
+  for(const {c, items} of Object.values(byCard)){
+    const an = annivOf(c), m = (an.m+11)%12;
+    events.push(ev(`perksledger-anniv-${c.iid}`, nextDate([m], 1), `Perks: ${c.name} anniversary credits reset next month`,
+      items.map(b=>`${b.n} (${b.per||fmt$(b.a)+"/yr"})`).join("\n"), `FREQ=YEARLY;BYMONTH=${m+1};BYMONTHDAY=1`));
+  }
+  /* annual fees: two weeks before the anniversary month — time to keep, call retention, or downgrade */
+  for(const c of myCards()){
+    const f = feeInfo(c); if(!f) continue;
+    let start = new Date(f.date.getTime() - 14*864e5);
+    if(start <= now) start = new Date(start.getFullYear()+1, start.getMonth(), start.getDate()); /* this year's is in the Today strip */
+    events.push(ev(`perksledger-fee-${c.iid}`, start, `Perks: ${c.name} annual fee (${fmt$(c.fee)}) posts soon`,
+      "Open Perks Ledger → card ⋯ → renewal check: keep, ask for a retention offer, or downgrade.", `FREQ=YEARLY;BYMONTH=${start.getMonth()+1};BYMONTHDAY=${start.getDate()}`));
+  }
+  /* live offers: one-off reminder 3 days before expiry */
+  for(const o of liveOffers()){
+    if(!o.expires) continue;
+    const exp = new Date(o.expires+"T00:00:00"), start = new Date(exp.getTime() - 3*864e5);
+    const c = myCards().find(x=>x.iid===o.iid);
+    events.push(ev(`perksledger-offer-${o.id}`, start > now? start : now, `Perks: ${o.merchant} offer (${offerValueLabel(o)}) ends ${o.expires}`,
+      `${c? c.name+" · ":""}${o.minSpend? "Spend "+fmt$(o.minSpend)+" · ":""}${o.desc||""}`));
+  }
   return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Perks Ledger//EN","CALSCALE:GREGORIAN",...events,"END:VCALENDAR"].join("\r\n");
 }
 function diagBlob(){
-  return { app:"Perks Ledger v0.5 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
+  return { app:"Perks Ledger v0.6 beta", verified:DATA_VERIFIED, ua:navigator.userAgent,
     standalone:isStandalone(), cards:myCards().map(c=>c.name), perksChecked:Object.keys(state.usage).length,
     subs:state.subs, storage:!!store };
 }
 function copyText(txt, okMsg){
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(txt).then(()=>toast(okMsg||"Copied"));
-      return;
-    }
-  }catch(e){}
-  try{
+  const legacy = ()=>{ try{
     const ta = document.createElement("textarea");
     ta.value = txt; ta.style.position = "fixed"; ta.style.left = "-9999px";
     document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove();
     toast(okMsg||"Copied");
-  }catch(err){ toast("Copy failed — long-press to select instead"); }
+  }catch(err){ toast("Copy failed — long-press to select instead"); } };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(()=>toast(okMsg||"Copied"), legacy);
+      return;
+    }
+  }catch(e){}
+  legacy();
 }
 function dataModal(){
   const json = JSON.stringify(state, null, 2);
@@ -2103,6 +3116,17 @@ function dataModal(){
       <h3>Calendar reminders</h3>
       <p>Recurring events for Google, Apple, or Outlook Calendar: a nudge a few days before your monthly, quarterly, half-year, and year-end credits reset — with the amounts on the line.</p>
       <div class="rowbtns"><button class="btn small" data-act="download-ics">Download reminders (.ics)</button></div>
+    </div>
+    <div class="dsec">
+      <h3>Applications &amp; 5/24</h3>
+      <p>Your card-opening history, Chase 5/24 count and other issuer rules of thumb.</p>
+      <div class="rowbtns"><button class="btn small" data-act="open-apps">Open application log</button></div>
+    </div>
+    <div class="dsec">
+      <h3>Point values</h3>
+      <p>Cents per point used by “Which card?” to compare 4x points against 2% cash. Defaults are deliberately conservative; set what <em>you</em> actually get.</p>
+      <div class="cppgrid">${Object.entries(CUR).filter(([k])=>k!=="cash").map(([k,v])=>`<label>${esc(v.n)}<input type="number" class="mini" min="0.1" max="5" step="0.05" data-act="cpp" data-v="${k}" value="${cppOf(k)}"></label>`).join("")}</div>
+      <div class="rowbtns"><button class="btn small quiet" data-act="cpp-reset">Reset to defaults</button></div>
     </div>
     <div class="dsec">
       <h3>Export (backup)</h3>
@@ -2174,19 +3198,22 @@ function loadDemo(){
   usage["d1|resy|"+y+"-Q"+(Math.floor(m/3)+1)] = true;
   if(m>=6){ usage["d1|hotel|"+y+"-H1"] = true; usage["d2|edit|"+y+"-H1"] = true; }
   usage["d1|clear|"+y] = true;
-  usage["d2|travel|"+y] = true;
+  const csrOpened = (y-2)+"-03", csrKey = "A"+(m>=2? y : y-1);
+  usage["d2|travel|"+csrKey] = true;
   usage["d2|dd|"+mk(m)] = true;
   usage["d4|gaming|"+mk(m)] = true;
   const dl = new Date(Date.now()+40*864e5).toISOString().slice(0,10);
-  state = { cards:[
-      {iid:"d1", ref:"amex-plat", hidden:[], custom:[]},
-      {iid:"d2", ref:"csr", hidden:[], custom:[]},
+  const offExp = new Date(Date.now()+5*864e5).toISOString().slice(0,10);
+  state = normalizeState({ cards:[
+      {iid:"d1", ref:"amex-plat", hidden:[], custom:[], opened:(y-1)+"-"+String(((m+1)%12)+1).padStart(2,"0")},
+      {iid:"d2", ref:"csr", hidden:[], custom:[], opened:csrOpened},
+      {iid:"d5", ref:"citi-doublecash", hidden:[], custom:[], opened:(y-1)+"-06"},
       {iid:"d3", ref:"svc-tmobile", hidden:[], custom:[]},
       {iid:"d4", ref:"svc-prime", hidden:[], custom:[]}],
     usage, subs:["netflix","paramountplus","spotify"],
     bonuses:[{id:"bnD", iid:"d2", what:"100,000 points", target:6000, spent:3400, deadline:dl}],
-    seq:100, demo:true,
-    ui:{ group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null } };
+    offers:[{id:"ofD", iid:"d1", merchant:"Best Buy", desc:"Amex Offer — spend $250, get $50 back", kind:"cash", value:50, minSpend:250, expires:offExp, usedAmt:120}],
+    seq:100, demo:true });
   save(); render(); toast("Sample wallet loaded — everything is clickable");
 }
 /* =============== share card =============== */
@@ -2304,64 +3331,68 @@ async function shareMonthRecap(){
     : `Used ${fmt$(used)} in credits · ${fmt$(s.leftTable)} left on the table this year. Tracking with Perks Ledger.`;
   await exportSharePng(cv, "perks-ledger-month-recap.png", blurb+" perksledger.vercel.app");
 }
-function bestCardModal(preCat){
+function bestCardModal(preK){
   if(!state.cards.length){ toast("Add a card first"); return; }
-  let cat = preCat||"";
-  let q = "";
+  let k = preK||"", q = "";
   const paint = ()=>{
-    const list = bestCardsFor(q, cat);
-    const box = $("#bcResults");
-    if(!box) return;
-    if(!q && !cat){
-      box.innerHTML = `<div class="nores" style="padding:18px 4px">Pick a category or type something like <b>Uber</b>, <b>dining</b>, or <b>hotel</b>. We rank <em>your</em> cards — unused credits first, then matching perks.</div>`;
+    const box = $("#bcResults"); if(!box) return;
+    if(!q && !k){
+      box.innerHTML = `<div class="nores" style="padding:18px 4px">Type a store like <b>Starbucks</b>, <b>Costco</b> or <b>Uber</b> — or pick a category. We rank <em>your</em> cards: live offers and unused credits first, then the best return at your point values.</div>`;
       return;
     }
-    if(!list.length){
-      box.innerHTML = `<div class="nores" style="padding:18px 4px">No strong match in this wallet. Try another category, or add the card that should win.</div>`;
-      return;
-    }
-    box.innerHTML = `<div class="bcr">${list.slice(0,6).map((r,i)=>{
-      const credit = r.reasons.find(x=>x.kind==="credit");
-      const rate = r.reasons.find(x=>x.kind==="rate");
-      const always = r.reasons.find(x=>x.kind==="always"||x.kind==="perk");
-      let why = "";
-      if(credit) why = `<b>Use ${esc(credit.b.n)} first</b> — ${fmt$(credit.v)} left${credit.dl!=null? ` · ${credit.dl}d to reset`:""}${credit.b.e?" · enroll required":""}`;
-      else if(rate) why = `Earn rates: ${esc(rate.text)}`;
-      else if(always) why = `${esc(always.b.n)}${always.b.d? " — "+esc(always.b.d.slice(0,90)):""}`;
-      else why = r.reasons.slice(0,2).map(x=>esc(x.b? x.b.n : "")).filter(Boolean).join(" · ");
-      const extra = r.reasons.filter(x=>x.kind==="credit").slice(credit?1:0,3)
-        .map(x=>`${esc(x.b.n)} (${fmt$(x.v)})`).join(" · ");
+    const {list, intent} = bestCardsFor(q, k);
+    const ek = intent && intent.k;
+    const head = intent? `<div class="bchint">${intent.name? `<b>${esc(intent.name)}</b> → `:""}${esc(EARN_CATS[ek]? EARN_CATS[ek].n : "")}${intent.note? ` · ${esc(intent.note)}`:""}</div>` : "";
+    if(!list.length){ box.innerHTML = head + `<div class="nores" style="padding:18px 4px">No match in this wallet. Try a category chip.</div>`; return; }
+    box.innerHTML = head + `<div class="bcr">${list.slice(0,6).map((r,i)=>{
+      const offer = r.reasons.find(x=>x.kind==="offer"), credit = r.reasons.find(x=>x.kind==="credit"), perk = r.reasons.find(x=>x.kind==="perk");
+      const lines = [];
+      if(!r.accepted) lines.push(`<span style="color:var(--red)">Probably not accepted here (${esc((r.c.net||"").toUpperCase())})</span>`);
+      if(offer) lines.push(`<b>Offer:</b> ${esc(offer.o.desc || offer.o.merchant)}${offer.o.expires? ` · ends ${esc(offer.o.expires)}`:""}`);
+      if(credit) lines.push(`<b>Use ${esc(credit.b.n)} first</b> — ${fmt$(credit.v)} left${credit.dl!=null? ` · ${credit.dl}d to reset`:""}${credit.b.e?" · enroll required":""}`);
+      if(r.e) lines.push(`${r.e.rot? "<b>5% rotating category</b> · " : ""}${rateLabel(r.c, r.e)}${r.e.base? " — base rate":""}`);
+      else if(perk) lines.push(`${esc(perk.b.n)}${perk.b.d? " — "+esc(perk.b.d.slice(0,90)):""}`);
+      const extra = r.reasons.filter(x=>x.kind==="credit").slice(1,3).map(x=>`${esc(x.b.n)} (${fmt$(x.v)})`).join(" · ");
       return `<div class="bcrow ${i===0?"top":""}">
         <div class="bcrank">${i+1}</div>
         <div class="bcbody">
-          <div class="bcname">${esc(r.c.name)}</div>
-          <div class="bcreason">${why}</div>
+          <div class="bcname">${esc(r.c.name)}${r.pinned? ` <span class="pill ok">pinned</span>`:""}</div>
+          <div class="bcreason">${lines.join("<br>")}</div>
           ${extra? `<div class="bcwhy">Also: ${extra}</div>`:""}
         </div>
+        ${ek && r.c.kind!=="svc"? `<button class="btn small quiet" data-act="bc-pin" data-iid="${r.c.iid}" data-k="${ek}" aria-label="${r.pinned?"Unpin":"Pin"} ${esc(r.c.name)} for ${esc(EARN_CATS[ek].n)}">${r.pinned?"Unpin":"Pin"}</button>`:""}
       </div>`;
     }).join("")}</div>`;
   };
   openModal(`
     <div class="shd"><h2 class="serif">Which card?</h2><button class="xbtn" data-act="close">✕</button></div>
-    <p style="margin:0 0 12px;font-size:13px;color:var(--muted)">We prioritize <b>unused statement credits</b> in your wallet over raw earn rates — so you stop leaving money on the table.</p>
     <div class="pick-search">
       <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.8"/><path d="M11 11l3.4 3.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <input id="bcSearch" type="text" placeholder="Uber, Resy, groceries, hotel…" aria-label="What are you buying">
+      <input id="bcSearch" type="text" placeholder="Starbucks, Costco, Uber, groceries…" aria-label="Where are you buying">
     </div>
     <div class="row2" style="margin:10px 0 4px;display:flex;flex-wrap:wrap;gap:6px" id="bcCats">
-      ${Object.entries(CATS).map(([k,v])=>`<button type="button" class="chip ${cat===k?"on":""}" data-act="bc-cat" data-v="${k}">${esc(v)}</button>`).join("")}
-      <button type="button" class="chip ${!cat?"on":""}" data-act="bc-cat" data-v="">Any</button>
+      ${Object.entries(EARN_CATS).filter(([x])=>x!=="other"&&x!=="amazon").map(([x,v])=>`<button type="button" class="chip ${k===x?"on":""}" data-act="bc-cat" data-v="${x}">${esc(v.n)}</button>`).join("")}
     </div>
+    <label class="tgl" style="display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--muted);margin:6px 0 2px">
+      <input type="checkbox" id="bcPortal" ${state.portal?"checked":""}> Booking through the card's travel portal (counts portal-only rates)</label>
     <div id="bcResults"></div>
+    <div style="font-size:11.5px;color:var(--faint);margin-top:10px">Point values: ${["UR","MR","TYP","C1"].map(x=>x+" "+cppOf(x)+"¢").join(" · ")} — change them in Data → Point values. ${ROTATING[quarterKey()]? "Rotating 5% categories for "+quarterKey()+" included." : ""}</div>
   `);
   const inp = $("#bcSearch");
-  inp.addEventListener("input", ()=>{ q = inp.value; paint(); });
+  inp.addEventListener("input", ()=>{ q = inp.value; if(q) { k = ""; $("#bcCats").querySelectorAll(".chip").forEach(c=>c.classList.remove("on")); } paint(); });
   $("#bcCats").addEventListener("click", e=>{
-    const b = e.target.closest("[data-act='bc-cat']");
-    if(!b) return;
-    cat = b.dataset.v||"";
-    $("#bcCats").querySelectorAll(".chip").forEach(c=> c.classList.toggle("on", (c.dataset.v||"")===cat));
+    const b = e.target.closest("[data-act='bc-cat']"); if(!b) return;
+    k = k===b.dataset.v? "" : b.dataset.v; q = ""; inp.value = "";
+    $("#bcCats").querySelectorAll(".chip").forEach(c=> c.classList.toggle("on", c.dataset.v===k));
     paint();
+  });
+  $("#bcPortal").addEventListener("change", e=>{ state.portal = e.target.checked; save(); paint(); });
+  $("#bcResults").addEventListener("click", e=>{
+    const b = e.target.closest("[data-act='bc-pin']"); if(!b) return;
+    e.stopPropagation();
+    const key = b.dataset.k;
+    if(state.pins[key]===b.dataset.iid) delete state.pins[key]; else state.pins[key] = b.dataset.iid;
+    save(); paint();
   });
   paint();
   setTimeout(()=>inp?.focus(), 0);
@@ -2379,6 +3410,7 @@ document.addEventListener("click", e=>{
   if(!el) return;
   const act = el.dataset.act;
   if(act==="check") return; /* handled on change */
+  restoreFocusSoon(focusSelector(el));
   if(act==="open-add") addCardModal();
   else if(act==="close") closeModal();
   else if(act==="open-best") bestCardModal();
@@ -2387,12 +3419,13 @@ document.addEventListener("click", e=>{
   else if(act==="quick-add"||act==="add-card"){
     const id = el.dataset.id;
     const iid = "i"+(state.seq++);
-    state.cards.push({ iid, ref:id, hidden:[], custom:[] });
+    state.cards.push({ iid, ref:id, hidden:[], custom:[], added:Date.now() });
     save(); closeModal(); render();
     const def = DB.find(c=>c.id===id);
     toast((def?def.name:"Card")+" added");
   }
   else if(act==="open-custom-card") customCardModal();
+  else if(act==="card-details"){ e.stopPropagation(); cardDetailsModal(el.dataset.iid); }
   else if(act==="open-custom-perk") customPerkModal();
   else if(act==="nudge-backup-export"){
     try{
@@ -2425,8 +3458,7 @@ document.addEventListener("click", e=>{
   }
   else if(act==="demo-load") loadDemo();
   else if(act==="demo-clear"){
-    state = { cards:[], usage:{}, seq:1, subs:[], bonuses:[],
-      ui:{ group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null } };
+    state = emptyState();
     save(); render(); toast("Fresh start — add your cards");
   }
   else if(act==="share-card") shareCard();
@@ -2434,6 +3466,7 @@ document.addEventListener("click", e=>{
     e.stopPropagation();
     const iid = el.dataset.iid;
     const plate = el.closest(".plate");
+    if(plate.querySelector(".confirm")) return;
     const c = myCards().find(x=>x.iid===iid);
     const conf = document.createElement("div");
     conf.className = "confirm";
@@ -2444,14 +3477,19 @@ document.addEventListener("click", e=>{
   }
   else if(act==="do-remove"){
     const iid = el.dataset.iid;
+    const gone = state.cards.find(c=>c.iid===iid);
+    if(gone && gone.opened){
+      const rc = resolveCard(gone);
+      if(rc.kind!=="svc") state.apps.push({ id:"ap"+(state.seq++), name:rc.name, issuer:rc.issuer, opened:gone.opened, closed:ymNow(), ...(rc.biz?{biz:1}:{}), ...(gone.au?{au:true}:{}) });
+    }
     state.cards = state.cards.filter(c=>c.iid!==iid);
     for(const k of Object.keys(state.usage)) if(k.startsWith(iid+"|")) delete state.usage[k];
     if(state.ui.focus===iid) state.ui.focus=null;
-    save(); render(); toast("Card removed");
+    save(); render(); toast(gone && gone.opened? "Card removed — kept in your application history for 5/24" : "Card removed");
   }
   else if(act==="cancel-remove"){ el.closest(".confirm")?.remove(); }
   else if(act==="focus"){
-    if(e.target.closest("[data-act='ask-remove'],[data-act='do-remove'],[data-act='cancel-remove']")) return;
+    if(e.target.closest("[data-act='ask-remove'],[data-act='do-remove'],[data-act='cancel-remove'],[data-act='card-details']")) return;
     const iid = el.dataset.iid;
     state.ui.focus = state.ui.focus===iid? null : iid;
     save(); render();
@@ -2473,6 +3511,10 @@ document.addEventListener("click", e=>{
     const id = el.dataset.row;
     expanded.add(id);
     renderLedger();
+    if(!document.getElementById("row-"+id)){
+      state.ui = {...state.ui, cats:[], q:"", hideDone:false, dollarOnly:false, focus:null};
+      save(); render();
+    }
     const row = document.getElementById("row-"+id);
     if(row){ row.scrollIntoView({behavior:"smooth", block:"center"}); }
   }
@@ -2481,8 +3523,8 @@ document.addEventListener("click", e=>{
     if(!entry) return;
     const card = resolveCard(entry);
     const b = card.benefits.find(x=>x.id===el.dataset.bid);
-    const per = (b && b.a>0 && PPY[b.f])? b.a/PPY[b.f] : 0;
-    const soon = b && PPY[b.f] && dueSoon(b.f, daysLeft(b.f)) && !isChecked(entry.iid, b);
+    const per = b? perVal(b, curKey(card,b)) : 0;
+    const soon = b && PPY[b.f] && dueSoon(b.f, daysLeft(card,b)) && !isChecked(card, b);
     if(per>0 && soon && !el.dataset.armed){
       el.dataset.armed = "1";
       el.style.color = "var(--amber)";
@@ -2510,9 +3552,9 @@ document.addEventListener("click", e=>{
   else if(act==="tgl-done"||act==="tgl-dollar") return; /* change handler */
   else if(act==="copy-export"){
     const ta = $("#exportTa"); ta.select();
-    try{ navigator.clipboard.writeText(ta.value).then(()=>toast("Copied")); }
-    catch(err){ document.execCommand("copy"); toast("Copied"); }
-    state.lastExport = Date.now(); save(); renderNudges();
+    const ok = ()=>{ toast("Copied"); state.lastExport = Date.now(); save(); renderNudges(); };
+    const fallback = ()=>{ try{ if(document.execCommand("copy")) return ok(); }catch(_){} toast("Couldn't copy — select the text and copy it manually"); };
+    try{ navigator.clipboard.writeText(ta.value).then(ok, fallback); }catch(err){ fallback(); }
   }
   else if(act==="download-export"){
     state.lastExport = Date.now(); save(); renderNudges();
@@ -2533,10 +3575,28 @@ document.addEventListener("click", e=>{
     save(); renderGraph();
   }
   else if(act==="open-bonus") bonusModal();
+  else if(act==="open-offer") offerModal();
+  else if(act==="jump-offer"){
+    expanded.add(el.dataset.row); renderOffers();
+    $("#offersSec")?.scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  else if(act==="offer-save"){
+    const o = state.offers.find(x=>x.id===el.dataset.id), inp = document.getElementById("oused-"+el.dataset.id);
+    if(o && inp){ o.usedAmt = Math.max(0,+inp.value||0); save(); renderOffers(); toast("Updated"); }
+  }
+  else if(act==="offer-done"){
+    const o = state.offers.find(x=>x.id===el.dataset.id);
+    if(o){ o.done = true; o.doneAt = Date.now(); save(); render(); toast(o.kind==="cash"? fmt$(o.value)+" offer redeemed" : "Offer redeemed"); }
+  }
+  else if(act==="offer-del"){ state.offers = state.offers.filter(x=>x.id!==el.dataset.id); save(); render(); }
+  else if(act==="offers-clear-expired"){
+    const t = new Date().toISOString().slice(0,10);
+    state.offers = state.offers.filter(o=> o.done || !o.expires || o.expires >= t); save(); render();
+  }
   else if(act==="bexpand"){
     const id = el.dataset.row;
     expanded.has(id)? expanded.delete(id) : expanded.add(id);
-    renderBonuses();
+    renderBonuses(); renderOffers();
   }
   else if(act==="bonus-save"){
     const bn = state.bonuses.find(b=>b.id===el.dataset.id);
@@ -2588,35 +3648,39 @@ document.addEventListener("click", e=>{
       return;
     }
     try{
-      const obj = JSON.parse($("#importTa").value);
-      if(!obj || !Array.isArray(obj.cards)) throw new Error("bad");
+      const obj = normalizeState(JSON.parse($("#importTa").value));
+      if(!obj) throw new Error("bad");
+      const prev = state;
       state = obj;
-      if(!state.ui) state.ui = { group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null };
-      if(!state.usage) state.usage = {};
-      if(!state.seq) state.seq = 1000;
-      if(!Array.isArray(state.subs)) state.subs = [];
-      if(!Array.isArray(state.bonuses)) state.bonuses = [];
-      save(); closeModal(); render(); toast("Imported");
+      try{ render(); }catch(renderErr){ state = prev; render(); throw renderErr; }
+      save(); closeModal(); toast("Imported");
     }catch(err){ toast("That doesn't look like a Perks Ledger export"); }
   }
   else if(act==="reset-all"){
     if(el.dataset.armed){
-      state = { cards:[], usage:{}, seq:1, subs:[], bonuses:[],
-        ui:{ group:"resets", cats:[], q:"", hideDone:false, dollarOnly:false, focus:null } };
+      state = emptyState();
       save(); closeModal(); render(); toast("Fresh start");
     } else {
       el.dataset.armed = "1"; el.textContent = "Click again to erase";
     }
   }
   else if(act==="data") dataModal();
+  else if(act==="cpp-reset"){ state.cpp = {}; save(); dataModal(); toast("Point values reset"); }
+  else if(act==="open-apps") appsModal();
+  else if(act==="app-del"){ state.apps = state.apps.filter(a=>a.id!==el.dataset.id); save(); appsModal(); }
 });
 document.addEventListener("change", e=>{
   const el = e.target.closest("[data-act]");
   if(!el) return;
+  restoreFocusSoon(focusSelector(el));
   if(el.dataset.act==="check"){
-    const key = ukey(el.dataset.iid, el.dataset.bid, el.dataset.f);
+    const key = el.dataset.iid+"|"+el.dataset.bid+"|"+el.dataset.k;
     if(el.checked) state.usage[key] = true; else delete state.usage[key];
     save(); renderWallet(); renderToday(); renderStats(); renderSoon(); renderLedger();
+  }
+  else if(el.dataset.act==="cpp"){
+    const v = +el.value, k = el.dataset.v;
+    if(CUR[k] && v>0 && v<10){ if(v===CUR[k].cpp) delete state.cpp[k]; else state.cpp[k] = v; save(); toast("Point value saved"); }
   }
   else if(el.dataset.act==="tgl-done"){ state.ui.hideDone = el.checked; save(); renderLedger(); }
   else if(el.dataset.act==="tgl-dollar"){ state.ui.dollarOnly = el.checked; save(); renderLedger(); }
@@ -2645,11 +3709,30 @@ document.addEventListener("change", e=>{
 });
 document.addEventListener("keydown", e=>{
   if(e.key==="Escape") closeModal();
+  if(e.key==="Tab" && $("#overlay").classList.contains("open")){ /* keep Tab inside the open sheet */
+    const f = [...$("#sheet").querySelectorAll("button,a[href],input,select,textarea,[tabindex]:not([tabindex='-1'])")].filter(x=>!x.disabled && x.offsetParent!==null);
+    if(f.length){
+      const first = f[0], last = f[f.length-1];
+      if(!$("#sheet").contains(document.activeElement)){ e.preventDefault(); first.focus(); }
+      else if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+  }
   if((e.key==="Enter"||e.key===" ") && e.target.matches?.("[role='button']")){
     e.preventDefault(); e.target.click();
   }
 });
 $("#overlay").addEventListener("mousedown", e=>{ if(e.target===e.currentTarget) closeModal(); });
+/* another tab/installed app saved — adopt its state instead of overwriting it on our next save */
+window.addEventListener("storage", e=>{
+  if(e.key!==LS_KEY || !e.newValue) return;
+  try{ const s2 = normalizeState(JSON.parse(e.newValue)); if(s2){ state = s2; render(); } }catch(_){}
+});
+/* app left open across midnight / month end: re-render so checkboxes and countdowns match today */
+let renderedDay = new Date().toDateString();
+function refreshIfStale(){ const d = new Date().toDateString(); if(d!==renderedDay){ renderedDay = d; render(); } }
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) refreshIfStale(); });
+setInterval(refreshIfStale, 60e3);
 $("#addBtn").addEventListener("click", addCardModal);
 $("#dataBtn").addEventListener("click", dataModal);
 $("#bestBtn").addEventListener("click", ()=> bestCardModal());

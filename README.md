@@ -33,7 +33,11 @@ Perks Ledger is the antidote: add what's in your wallet, and every credit, perk,
 
 | | |
 |---|---|
-| 💳 **Built-in database** | 41 popular U.S. credit cards + Verizon, T-Mobile, Xfinity Rewards, Amazon Prime, Walmart+, and Costco — benefit values verified **July 2026**, including the 2025–26 refreshes (Amex Platinum $895, CSR $795, CSP June '26, Bilt 2.0) |
+| 💳 **Built-in database** | 60 U.S. credit cards (personal + business, airline and hotel co-brands) + 8 memberships (Verizon, T-Mobile, Xfinity Rewards, Amazon Prime, Walmart+, Costco, Sam's Club Plus, AAA) — benefit values verified **November 2026** |
+| 🧭 **Which card?** | Type a merchant or pick a category → your cards ranked by live offers, unused credits, then real return (points × your own point values), with rotating 5% quarters, network acceptance (Costco = Visa) and per-category pins |
+| 🏷 **Card offers** | Log Amex/Chase/Citi offers (spend $X get $Y), track progress, get nudged before they expire |
+| 🗓 **Anniversary-aware** | Set the month you opened a card → cardmember-year credits reset on your anniversary, fee reminders, and a keep / ask for retention / downgrade verdict |
+| 🧮 **5/24 + application log** | Counts personal cards opened in the last 24 months and shows when each one drops off |
 | ✅ **Set-and-forget tracking** | Check off each perk per period; period-keyed storage means monthly/quarterly/half-year/annual credits reset themselves |
 | ⏳ **Use it or lose it** | Unused dollar credits that reset soon get surfaced before they expire |
 | 🕸 **Perk Graph** | Tell it what you pay for → it flags subscriptions your cards already cover, deals that are cheaper through your plans, and card → membership → subscription chains with one-click unlocks |
@@ -111,7 +115,7 @@ Design notes: warm-paper + banker's-green "ledger" system with a wallet of gradi
 The benefit database is the product — here's how it stays current:
 
 - **`/add-card <name>`** — Claude Code slash command (`.claude/commands/add-card.md`): researches a requested card's *current* perks against issuer pages + guides, adds it following house conventions, tests, builds, and ships.
-- **`/refresh-benefits`** — the quarterly sweep: re-verifies all ~47 entries in parallel, produces a diff table, applies changes, bumps the `DATA_VERIFIED` stamp, and deploys.
+- **`/refresh-benefits`** — the quarterly sweep: re-verifies all ~68 entries in parallel, produces a diff table, applies changes, bumps the `DATA_VERIFIED` stamp, and deploys.
 - **Scheduled reminder** — a GitHub Action opens a `data-refresh` issue every Jan/Apr/Jul/Oct 1 so the sweep never gets forgotten.
 - **User reports** — in-app "Report wrong benefit data" and "Request your card" links feed corrections between sweeps.
 - The app footer always shows when data was last verified (`DATA_VERIFIED` in `index.html`).
@@ -122,17 +126,17 @@ Everything lives in `localStorage` in *your* browser. No sign-up, no backend, no
 
 ## 🗺 Roadmap
 
-- [ ] Monthly recap & wallet score
-- [ ] Best-card-for-this-purchase cheat sheet
+- [x] Monthly recap & wallet score
+- [x] Best-card-for-this-purchase cheat sheet
 - [ ] Push reminders (PWA notifications)
 - [ ] Household / player-2 shared wallets
 - [ ] Community-verified benefit database with freshness dates
-- [ ] Card ROI at renewal: keep / downgrade / cancel
+- [x] Card ROI at renewal: keep / downgrade / cancel
 - [ ] AI concierge over your own wallet
 
 ## ⚠️ A note on the numbers
 
-Benefit values were verified against issuer pages and card guides in early **July 2026**. Issuers change these constantly — treat the app as your checklist and confirm amounts in your card's app before booking. Perks marked *Enroll* need one-time activation with the issuer. This is a tracking tool, not financial advice.
+Benefit values were verified against issuer pages and card guides in **November 2026**. Issuers change these constantly — treat the app as your checklist and confirm amounts in your card's app before booking. Perks marked *Enroll* need one-time activation with the issuer. This is a tracking tool, not financial advice.
 
 ## 📄 License
 

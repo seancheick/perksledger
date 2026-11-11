@@ -8,7 +8,7 @@ current issuer data, then ship the corrections. Run this every quarter
 
 ## Process
 
-1. **Inventory.** Extract every entry from the `DB` array (~47 cards &
+1. **Inventory.** Extract every entry from the `DB` array (~68 cards &
    memberships). Group by issuer.
 
 2. **Research in parallel.** For each issuer group, web-search current
@@ -18,7 +18,10 @@ current issuer data, then ship the corrections. Run this every quarter
    the user opted in) — one per issuer group — to cover all groups
    efficiently. Pay special attention to:
    - refresh announcements (fee changes usually mean benefit changes)
-   - expired `thru:` dates — remove or update those perks
+   - expired `thru:` dates — `node scripts/lint-db.js` lists them
+   - whether yearly credits reset on the calendar or cardmember year (`yr:"cm"`)
+   - `earn` rates, the `ROTATING` 5% quarters (add the next quarter once announced)
+     and `MERCHANTS` acceptance notes
    - limited-time perks that became permanent (or vice versa)
    - the `SUBS` catalog prices (streaming prices move yearly) and
      `COVERS`/`DEALS` mappings still being accurate
@@ -32,7 +35,7 @@ current issuer data, then ship the corrections. Run this every quarter
    - the README's "verified **<date>**" line
    - the footer's static fallback text if the wording changed
 
-5. **Verify & ship:** `node --check` the extracted script; Playwright smoke
+5. **Verify & ship:** `node scripts/lint-db.js` (0 errors); `node --check` the extracted script; Playwright smoke
    test (add 3 changed cards, confirm values render); `node build-pwa.js
    --cdn-font`; commit "Quarterly benefits refresh — <Month Year>" with the
    diff table in the commit body; push to `main` (auto-deploys).
