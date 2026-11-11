@@ -8,9 +8,9 @@
 
 Every credit, perk, offer and welcome bonus across your credit cards and memberships, in one private checklist that knows when each one resets.
 
-[![Live app](https://img.shields.io/badge/▶_open_the_app-perksledger.vercel.app-136147?style=for-the-badge)](https://perksledger.vercel.app)
+[![Live app](https://img.shields.io/badge/▶_open_the_app-perksledger.vercel.app-76561F?style=for-the-badge)](https://perksledger.vercel.app)
 
-[![Version](https://img.shields.io/badge/version-0.6_beta-136147)](#-changelog)
+[![Version](https://img.shields.io/badge/version-0.6_beta-76561F)](#-changelog)
 [![Data verified](https://img.shields.io/badge/data_verified-Nov_2026-2e8a6d)](#-keeping-the-data-honest)
 [![Single file](https://img.shields.io/badge/app-one_HTML_file-1c4f8f)](index.html)
 [![Zero dependencies](https://img.shields.io/badge/dependencies-0-5a2a63)](build-pwa.js)

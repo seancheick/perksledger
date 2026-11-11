@@ -12,7 +12,10 @@
 <meta property="og:description" content="Every card credit, every reset, tracked privately on your own device.">
 <meta property="og:url" content="https://perksledger.vercel.app/welcome.html">
 <meta property="og:image" content="https://perksledger.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://perksledger.vercel.app/og.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preload" href="fonts/sentient-300.woff2" as="font" type="font/woff2" crossorigin>
@@ -28,7 +31,7 @@
   </a>
   <nav class="nav-links" aria-label="Site">
     <a class="link hide-sm" href="privacy.html">Privacy</a>
-    <a class="btn line" href="#access">Get access</a>
+    <a class="btn line" href="#access">Open the ledger</a>
   </nav>
 </header>
 
@@ -41,45 +44,111 @@
         <label class="visually-hidden" for="email-1">Email address</label>
         <div class="field">
           <input id="email-1" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
-          <button class="btn" type="submit">Get access</button>
+          <button class="btn" type="submit">Open the ledger</button>
         </div>
         <div class="hp" aria-hidden="true"><label>Company<input name="company" tabindex="-1" autocomplete="off"></label></div>
         <p class="msg" role="alert" aria-live="polite"></p>
-        <p class="note">Free during the beta. We email you at launch, nothing else. <a class="link" href="privacy.html">Privacy</a></p>
+        <p class="note">Free during the beta. Your email is the only thing we keep. <a class="link" href="privacy.html">Privacy</a></p>
       </form>
     </div>
 
     <div class="stage" aria-hidden="true">
-      <figure class="photo" data-slot="cards" data-alt="Three blank metal cards, silver, black and brass, fanned on linen">
-        <img src="site/cards.jpg" width="1024" height="1024" alt="" fetchpriority="high" decoding="async">
+      <figure class="photo">
+        <img src="site/cards-1024.webp" srcset="site/cards-720.webp 720w, site/cards-1024.webp 1024w" sizes="(max-width: 60rem) 90vw, 540px" width="1024" height="1024" alt="" fetchpriority="high">
       </figure>
-      <div class="slip">
-        <div class="slip-row">
-          <span class="tick"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <div>
-            <p class="title">Uber Cash</p>
-            <p class="from">The Platinum Card, monthly</p>
+      <div class="slip" data-slip>
+        <div class="slip-bar"><i></i></div>
+        <div class="slides">
+          <div class="slide is-on">
+            <div class="slip-row">
+              <span class="tick"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><p class="title">Uber Cash</p><p class="from">The Platinum Card, monthly</p></div>
+              <span class="amt">$15</span>
+            </div>
+            <div class="viz dots"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on now"></i><i class="later"></i></div>
+            <p class="foot">Resets December 1, with $35 in December</p>
           </div>
-          <span class="amt">$15</span>
+          <div class="slide">
+            <div class="slip-row">
+              <span class="tick open"></span>
+              <div><p class="title">Resy dining credit</p><p class="from">The Platinum Card, quarterly</p></div>
+              <span class="amt">$100</span>
+            </div>
+            <div class="viz dots q"><span><i class="on"></i>Q1</span><span><i class="on"></i>Q2</span><span><i></i>Q3</span><span><i class="now"></i>Q4</span></div>
+            <p class="foot">$100 left before December 31</p>
+          </div>
+          <div class="slide">
+            <div class="slip-row">
+              <span class="tick open"></span>
+              <div><p class="title">Best Buy offer</p><p class="from">Spend $250, get $50 back</p></div>
+              <span class="amt">$50</span>
+            </div>
+            <div class="viz meter" style="--v:.8"><i></i></div>
+            <p class="foot">Expires November 17</p>
+          </div>
+          <div class="slide">
+            <div class="slip-row">
+              <span class="tick"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><p class="title">Walmart+</p><p class="from">Paid by your Platinum Card credit</p></div>
+              <span class="amt">$12.95</span>
+            </div>
+            <p class="foot">Covered monthly, Paramount+ included</p>
+          </div>
+          <div class="slide">
+            <div class="slip-row">
+              <span class="tick"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+              <div><p class="title">The Platinum Card</p><p class="from">$1,334 used against an $895 fee</p></div>
+              <span class="amt"><span class="verdict-tag">Keep</span></span>
+            </div>
+            <div class="viz meter" style="--v:1"><i></i></div>
+            <p class="foot">Credits beat the fee by $439</p>
+          </div>
         </div>
-        <div class="dots"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on now"></i><i class="later"></i></div>
-        <p class="foot">Resets December 1</p>
       </div>
     </div>
   </section>
 
   <section class="container" aria-labelledby="resets-title">
-    <div class="split rule-top" style="padding-top: var(--space-xl)">
+    <div class="split rule-top">
       <div>
         <h2 id="resets-title">Every reset, on one page.</h2>
-        <p>Monthly, quarterly, half-year and anniversary credits each roll over on their own date. Perks Ledger lines them up, counts what you used, and warns you before one lapses.</p>
+        <p>Monthly, quarterly, half-year and card-year credits each roll over on their own date. Perks Ledger lines them up, counts what you used, and warns you before one lapses.</p>
       </div>
-      <figure class="print">
-        <div class="frame" data-slot="ledger" data-alt="The Perks Ledger monthly credits list with checked perks and period dots">
-          <img src="site/app-ledger.jpg" width="1600" height="878" alt="The Perks Ledger monthly credits list with checked perks and period dots" loading="lazy" decoding="async">
+      <div class="ledger" role="group" aria-label="A sample ledger">
+        <h3>Monthly</h3>
+        <div class="lrow">
+          <span class="tick done"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div><b>DoorDash promos</b><span class="card">Sapphire Reserve</span>
+            <div class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on now"></i><i class="later"></i></div></div>
+          <span class="val">$35<small>used this month</small></span>
         </div>
-        <figcaption><span>The ledger, sample wallet</span><span>Perks Ledger 0.7</span></figcaption>
-      </figure>
+        <div class="lrow">
+          <span class="tick"></span>
+          <div><b>Digital entertainment credit</b><span class="card">The Platinum Card</span>
+            <div class="dots" aria-hidden="true"><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="now"></i><i class="later"></i></div></div>
+          <span class="val">$25<small>resets December 1</small></span>
+        </div>
+        <h3>Quarterly</h3>
+        <div class="lrow">
+          <span class="tick"></span>
+          <div><b>Resy dining credit</b><span class="card">The Platinum Card</span>
+            <div class="dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i class="now"></i></div></div>
+          <span class="val">$100<small>resets January 1</small></span>
+        </div>
+        <h3>Half-year</h3>
+        <div class="lrow">
+          <span class="tick done"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <div><b>Resy dining credit</b><span class="card">American Express Gold</span>
+            <div class="dots" aria-hidden="true"><i class="on"></i><i class="on now"></i></div></div>
+          <span class="val">$50<small>used this half</small></span>
+        </div>
+        <h3>Card year</h3>
+        <div class="lrow">
+          <span class="tick"></span>
+          <div><b>Capital One Travel credit</b><span class="card">Venture X</span></div>
+          <span class="val">$300<small>resets on your card anniversary</small></span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -95,26 +164,36 @@
   </section>
 
   <section class="container" aria-labelledby="chain-title">
-    <div class="split rule-top" style="padding-top: var(--space-xl)">
+    <div class="split rule-top">
       <h2 id="chain-title">It sees what you pay for twice.</h2>
-      <div>
-        <p style="margin-top:0">Tell it your subscriptions. It follows each card through the memberships it pays for, and flags what your wallet already covers.</p>
-        <div class="chain" aria-label="Example: The Platinum Card covers Walmart+, which includes Paramount+">
-          <span class="node"><b>The Platinum Card</b><span>$12.95 a month credit</span></span>
-          <span class="join">covers</span>
-          <span class="node"><b>Walmart+</b><span>membership</span></span>
-          <span class="join">includes</span>
-          <span class="node"><b>Paramount+</b><span>no longer paid twice</span></span>
-        </div>
-      </div>
+      <p>Say you pay $8.99 a month for Paramount+. Walmart+ already includes it, and The Platinum Card already pays for Walmart+. Perks Ledger follows the chain and tells you which bill to cancel.</p>
     </div>
+    <div class="chain" role="list" aria-label="How one card covers a streaming bill">
+      <div class="node" role="listitem"><b>The Platinum Card</b><span class="what">Walmart+ credit, every month</span><span class="price num">$12.95 <small>a month</small></span></div>
+      <div class="join" aria-hidden="true">
+        <svg class="across" viewBox="0 0 64 12" fill="none"><path d="M0 6h60M55 1.5L60.5 6 55 10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="down" viewBox="0 0 12 28" fill="none"><path d="M6 0v24M1.5 19.5L6 25l4.5-5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>pays for</span>
+      </div>
+      <div class="node" role="listitem"><b>Walmart+</b><span class="what">Monthly membership</span><span class="price num">$0 <small>to you</small></span></div>
+      <div class="join" aria-hidden="true">
+        <svg class="across" viewBox="0 0 64 12" fill="none"><path d="M0 6h60M55 1.5L60.5 6 55 10.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <svg class="down" viewBox="0 0 12 28" fill="none"><path d="M6 0v24M1.5 19.5L6 25l4.5-5.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>includes</span>
+      </div>
+      <div class="node is-dup" role="listitem"><b>Paramount+ Essential</b><span class="what">Which you are also paying for</span><span class="price num">$8.99 <small>a month</small></span></div>
+    </div>
+    <div class="verdict">
+      <p>Cancel the separate Paramount+ and keep watching through Walmart+.</p>
+      <p class="save num">$107.88 <span>a year back</span></p>
+    </div>
+    <p class="fine">Walmart+ lets you pick Paramount+ Essential or Peacock, and switch every 90 days. Prices as of November 2026.</p>
   </section>
 
   <section class="container" aria-labelledby="privacy-title">
     <div class="split privacy">
-      <figure class="print" data-slot="wallet" data-alt="A leather wallet holding a brass and a black card beside a phone lying face down">
-        <div class="frame wide"><img src="site/wallet.jpg" width="1536" height="1024" alt="A leather wallet holding a brass and a black card beside a phone lying face down" loading="lazy" decoding="async"></div>
-        <figcaption><span>Kept on the device</span><span>No bank logins</span></figcaption>
+      <figure class="print">
+        <div class="frame"><img src="site/wallet-1536.webp" srcset="site/wallet-800.webp 800w, site/wallet-1536.webp 1536w" sizes="(max-width: 60rem) 92vw, 680px" width="1536" height="1024" alt="A leather wallet holding a brass and a black card beside a phone lying face down" loading="lazy" decoding="async"></div>
       </figure>
       <div>
         <h2 class="statement" id="privacy-title">No bank logins. No passwords. Your wallet stays on your phone.</h2>
@@ -130,11 +209,11 @@
         <label class="visually-hidden" for="email-2">Email address</label>
         <div class="field">
           <input id="email-2" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required>
-          <button class="btn" type="submit">Get access</button>
+          <button class="btn" type="submit">Open the ledger</button>
         </div>
         <div class="hp" aria-hidden="true"><label>Company<input name="company" tabindex="-1" autocomplete="off"></label></div>
         <p class="msg" role="alert" aria-live="polite"></p>
-        <p class="note">Free during the beta. Unsubscribe from any email in one click.</p>
+        <p class="note">Free during the beta. Cards and check-offs stay on this device.</p>
       </form>
     </div>
   </section>
@@ -159,6 +238,7 @@
   document.querySelectorAll("[data-form]").forEach(function (form) {
     var input = form.querySelector('input[name="email"]');
     var btn = form.querySelector('button[type="submit"]');
+    var label = btn.textContent;
     var msg = form.querySelector(".msg");
     var field = form.querySelector(".field");
     input.addEventListener("input", function () { field.classList.remove("is-error"); msg.textContent = ""; });
@@ -173,7 +253,7 @@
       fetch("api/subscribe", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ email: email, company: hp }) })
         .then(function (r) {
           if (r.status === 400) {
-            btn.disabled = false; btn.removeAttribute("aria-busy"); btn.textContent = "Get access";
+            btn.disabled = false; btn.removeAttribute("aria-busy"); btn.textContent = label;
             field.classList.add("is-error"); msg.textContent = "That address was rejected. Check it and try again."; input.focus(); return;
           }
           remember(email, r.ok); enter();
@@ -181,9 +261,30 @@
         .catch(function () { remember(email, false); enter(); });
     });
   });
+
+  var still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* the slip turns to the next thing the ledger catches; the brass line along its top is the clock */
+  var slip = document.querySelector("[data-slip]");
+  if (slip) {
+    var slides = slip.querySelectorAll(".slide"), bar = slip.querySelector(".slip-bar i"), at = 0;
+    slip.setAttribute("data-js", "");
+    var show = function (n) {
+      slides[at].classList.remove("is-on");
+      at = (n + slides.length) % slides.length;
+      slides[at].classList.add("is-on");
+    };
+    var run = function () { slip.classList.remove("is-running"); void bar.offsetWidth; slip.classList.add("is-running"); };
+    slip.addEventListener("click", function () { slip.classList.add("is-cycled"); show(at + 1); if (!still) run(); });
+    if (!still) {
+      bar.addEventListener("animationend", function () { slip.classList.add("is-cycled"); show(at + 1); run(); });
+      setTimeout(run, 1600);
+    }
+  }
+
   /* the photograph leans gently toward the pointer */
   var stage = document.querySelector(".stage"), fan = document.querySelector(".stage .photo");
-  if (stage && fan && matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
+  if (stage && fan && !still && matchMedia("(hover: hover)").matches) {
     addEventListener("pointermove", function (e) {
       var b = stage.getBoundingClientRect();
       var x = (e.clientX - (b.left + b.width / 2)) / innerWidth, y = (e.clientY - (b.top + b.height / 2)) / innerHeight;

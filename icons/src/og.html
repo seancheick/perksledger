@@ -1,0 +1,35 @@
+<!doctype html><html><head><style>
+@font-face{font-family:S;font-weight:300;src:url(../../fonts/sentient-300.woff2)}
+@font-face{font-family:S;font-weight:400;src:url(../../fonts/sentient-400.woff2)}
+@font-face{font-family:H;font-weight:100 900;src:url(../../fonts/hanken.woff2)}
+html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{background:#F4F1EA;color:#141414;font-family:H;position:relative}
+body:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.18;mix-blend-mode:multiply;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .3  0 0 0 0 .26  0 0 0 0 .2  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.l{position:absolute;left:80px;top:72px;width:560px}
+.wm{display:flex;align-items:center;gap:14px;font:400 30px/1 S;letter-spacing:-.01em}
+.wm svg{width:34px;height:34px;color:#141414}
+h1{font:300 80px/1.02 S;letter-spacing:-.022em;margin:62px 0 24px}
+p{font-size:25px;line-height:1.45;color:#4A4741;margin:0;max-width:470px}
+.foot{display:flex;gap:28px;margin-top:22px;font-size:19px;color:#6B6760;white-space:nowrap}
+.foot b{font-weight:500;color:#76561F}
+.print{position:absolute;right:72px;top:60px;width:430px;height:470px;border-radius:22px;overflow:hidden;box-shadow:0 0 0 1px rgba(60,45,25,.06),1px 2px 2px rgba(60,45,25,.08),6px 16px 28px -10px rgba(60,45,25,.2),24px 60px 90px -40px rgba(60,45,25,.38)}
+.print img{width:100%;height:100%;object-fit:cover;object-position:40% 45%;display:block}
+.slip{position:absolute;right:296px;bottom:54px;width:300px;border-radius:16px;background:#FBF9F4;padding:20px 22px;box-shadow:0 0 0 1px rgba(60,45,25,.07),2px 6px 10px -4px rgba(60,45,25,.18),12px 30px 50px -22px rgba(60,45,25,.4)}
+.row{display:flex;align-items:center;gap:14px}
+.tick{width:28px;height:28px;border-radius:7px;background:#A8834A;display:grid;place-items:center}
+.t{font:400 25px/1.1 S}.f{font-size:14px;color:#6B6760;margin-top:3px}
+.amt{margin-left:auto;font:400 30px/1 S;color:#76561F}
+.dots{display:flex;gap:6px;margin-top:16px}
+.dots i{width:11px;height:11px;border-radius:50%;border:1.5px solid #CFC8BA;box-sizing:border-box}
+.dots i.on{background:#A8834A;border-color:#A8834A}.dots i.now{box-shadow:0 0 0 2px #FBF9F4,0 0 0 3.5px #A8834A}
+</style></head><body>
+<div class="l">
+ <div class="wm"><svg viewBox="0 0 24 24" fill="none"><rect x="2.5" y="5" width="19" height="14" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 9.5h19" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 14.5l1.6 1.6 3.2-3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Perks Ledger</div>
+ <h1>Your cards owe you money.</h1>
+ <p>Every credit, every reset, tracked privately on your own device.</p>
+<div class="foot"><span><b>Free</b> during the beta</span><span>No bank logins</span></div>
+</div>
+<figure class="print" style="margin:0"><img src="../../site/cards.jpg"></figure>
+<div class="slip"><div class="row"><span class="tick"><svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M2 7.5l3.4 3.4L12 3.6" stroke="#141414" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span><div><div class="t">Uber Cash</div><div class="f">The Platinum Card, monthly</div></div><span class="amt">$15</span></div>
+<div class="dots"><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on now"></i><i></i></div></div>
+</body></html>
